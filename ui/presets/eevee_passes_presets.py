@@ -9,7 +9,7 @@ from bl_ui.properties_view_layer import (
 VIEWLAYER_PT_layer_passes, 
 VIEWLAYER_PT_layer_passes_aov, 
 VIEWLAYER_PT_layer_passes_cryptomatte, 
-VIEWLAYER_PT_layer, 
+# VIEWLAYER_PT_layer, 
 VIEWLAYER_PT_eevee_layer_passes_data, 
 VIEWLAYER_PT_eevee_layer_passes_light, 
 VIEWLAYER_PT_eevee_layer_passes_effects, 

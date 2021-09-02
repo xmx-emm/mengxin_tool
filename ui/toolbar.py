@@ -160,7 +160,6 @@ def register():
     ###bc
 
 def unregister():
-    debug = True
     for lis in lists:
         li = lists.get(lis)
         try:

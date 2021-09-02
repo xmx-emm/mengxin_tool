@@ -4,7 +4,6 @@ from . utils.registration import get_core, get_tools, get_pie_menus
 from . ui.restore_ui import restore_ui, rewrite_ui  # 重置UI，将一些添加在UI里面的内容删掉
 from . ui.panel import EMM_VIEW3D_PT_N_Panel
 from . preferences import EMMSculptProperty, EMMObjectProperty, EMMSceneProperty, EMMUvProperty
-from . preferences import AddonPreferences
 
 
 import bpy
@@ -62,13 +61,17 @@ def register():
             register_class(EMM_VIEW3D_PT_N_Panel)
 
     rewrite_ui()    #最后更改面板
-
+    from . utils.update import register as update
+    update()
 
     get_emm_prefs().maximize_prefs = False  # 在注册类后设置这个最大化偏好设置
     get_emm_prefs().auto_run_script = False  # 自动重载脚本控制，启动插件默认关闭
 
     print(f"自动注册完成  Registered {bl_info['name']} {'.'.join([str(i) for i in bl_info['version']])} with {tool_count} {'tool' if tool_count == 1 else 'tools'}, {pie_count} pie {'menu' if pie_count == 1 else 'menus'}")
 def unregister():
+    from . utils.update import unregister as update
+    update()
+
     restore_ui()    #先重置那些预设面板
 
     global classes, keymaps, modify_key

@@ -19,9 +19,13 @@ def get_all_activate_addon():
     return list(used_ext)
 
 
+# bcprefs = get_addon_prefs('BoxCutter')
+
+# bcprefs.behavior.orient_method = 'LOCAL'
 
 # a = get_addon('3D Navigation')
 # print(a[3])
+
 def get_addon(addon, debug=False):
     import addon_utils
 
@@ -44,9 +48,6 @@ def get_addon(addon, debug=False):
             return enabled, foldername, version, path
     return False, None, None, None
 
-# bcprefs = get_addon_prefs('BoxCutter')
-
-# bcprefs.behavior.orient_method = 'LOCAL'
 def get_addon_prefs(addon):
     _, foldername, _, _ = get_addon(addon)
     return bpy.context.preferences.addons.get(foldername).preferences
