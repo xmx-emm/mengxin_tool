@@ -445,15 +445,17 @@ class Pie_C_pie(Menu):
                 if Co.mode == "EDIT":
                     #左
                     # pie.
+                    try:
+                        pie.operator("mesh.merge",text='首选点').type = 'FIRST'
+                    except TypeError:
+                        pass
 
-                    pie.operator_context = 'EXEC_DEFAULT'
-                    p1 = pie.operator("mesh.merge",text='首选点')
-                    p1.type = 'FIRST'
-                    # p1.
 
                     # 右
-                    p2 = pie.operator("mesh.merge",text = '末选点')
-                    p2.type = 'LAST'
+                    try:
+                        pie.operator("mesh.merge",text = '末选点').type = 'LAST'
+                    except Exception:
+                        pass
 
                     # 底
                     p3 = pie.operator("mesh.merge",text='中心').type = 'CENTER'
