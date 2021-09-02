@@ -65,9 +65,13 @@ def draw_keymap_items(kc, name, keylist, layout):
     return drawn
 
 
+icons = None
+
+
 def get_icon(name):
     global icons
 
     if not icons:
-        from ..assets import icons
+        from .. import icons
+
     return icons[name].icon_id

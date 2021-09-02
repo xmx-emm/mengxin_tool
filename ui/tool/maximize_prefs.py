@@ -3,7 +3,7 @@ import os
 import addon_utils
 from bl_ui.space_userpref import USERPREF_PT_addons
 from ...utils.blender_class import  USERPREF
-from ...utils.registration import get_emm_prefs, get_emm_name
+from ...utils.registration import get_prefs, get_emm_name
 # from ...utils.folder_file import open_folder
 from bpy.props import BoolProperty
 
@@ -307,7 +307,7 @@ def draw_emm(self, context):
 
 def maximize():
 
-    if get_emm_prefs().maximize_prefs:
+    if get_prefs().maximize_prefs:
         # print(f'开启插件{module_name}最大化显示')
 
         # print('mengxin_tool')
@@ -318,7 +318,7 @@ def maximize():
     else:
         # print(f'关闭插件{module_name}最大化显示')
         # print(US.draw)
-        if get_emm_prefs().prefs_draw_emm:
+        if get_prefs().prefs_draw_emm:
             try:
                 bpy.types.USERPREF_PT_addons.draw = draw_emm
             except Exception as e:

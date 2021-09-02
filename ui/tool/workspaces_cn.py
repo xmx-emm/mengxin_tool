@@ -1,5 +1,5 @@
 import bpy
-from ...utils.registration import get_emm_prefs
+from ...utils.registration import get_prefs
 
 a = {
     "Animation": '动画',
@@ -16,7 +16,7 @@ a = {
 }
 
 def workspaces_cn():
-    ok = get_emm_prefs().activate_workspaces_cn
+    ok = get_prefs().activate_workspaces_cn
 
     for i in bpy.data.workspaces:
         wk = i.name_full  # get 场景内的wp名称

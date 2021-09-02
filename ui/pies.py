@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import Menu
-from ..utils.registration import get_emm_prefs
+from ..utils.registration import get_prefs
 from .presets.object_display_presets import OBJECT_PT_display_presets
 class PieModes_pie(Menu):
     bl_idname = "EMMMMM_MT_modes_pie"
@@ -478,7 +478,7 @@ class Pie_C_pie(Menu):
                     p6
 
                     #右下
-                    p8 = pie.operator("mesh.remove_doubles").threshold = get_emm_prefs().remove_doubles_threshold
+                    p8 = pie.operator("mesh.remove_doubles").threshold = get_prefs().remove_doubles_threshold
                     p8
 
                 else:

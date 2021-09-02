@@ -1,4 +1,4 @@
-from .registration import get_emm_prefs
+from .registration import get_prefs
 from bpy.types import Operator as OPS
 from bpy.props import EnumProperty
 import bpy
@@ -49,18 +49,18 @@ class Updaet_Keymaps(OPS):
                         name = item[1]                      # 切片出来 快捷键 properties的name项.name
 
                         if name == 'VIEW3D_MT_shading_pie':
-                            if get_emm_prefs().activate_views_pie:
+                            if get_prefs().activate_views_pie:
                                 kmi.active = False
                             else:
                                 kmi.active = True
 
                 if kmi.idname == 'wm.search_menu':
-                    if get_emm_prefs().activate_space_pie and preferences.spacebar_action == 'SEARCH':
+                    if get_prefs().activate_space_pie and preferences.spacebar_action == 'SEARCH':
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
                 if kmi.idname == 'wm.toolbar':
-                    if get_emm_prefs().activate_space_pie and preferences.spacebar_action == 'TOOL':
+                    if get_prefs().activate_space_pie and preferences.spacebar_action == 'TOOL':
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
@@ -74,7 +74,7 @@ class Updaet_Keymaps(OPS):
 
                         if name == 'VIEW3D_MT_shading_ex_pie':
 
-                            if get_emm_prefs().activate_views_pie:                        
+                            if get_prefs().activate_views_pie:                        
                                 kmi.active = False
                             else:
                                 kmi.active = True
@@ -82,13 +82,13 @@ class Updaet_Keymaps(OPS):
                             # kmi.value = 'CLICK_DRAG'
 
                 if kmi.idname == 'view3d.select_circle':
-                    if get_emm_prefs().activate_C_pie:
+                    if get_prefs().activate_C_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
 
                 if kmi.idname == 'view3d.select_box':
-                    if get_emm_prefs().activate_B_pie:
+                    if get_prefs().activate_B_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
@@ -102,19 +102,19 @@ class Updaet_Keymaps(OPS):
 
                         if name == 'VIEW3D_MT_edit_mesh_delete':
 
-                            if get_emm_prefs().activate_delete_pie:
+                            if get_prefs().activate_delete_pie:
                                 kmi.value = 'CLICK'
                             else:
                                 kmi.value = 'PRESS'
 
                 if kmi.idname == 'mesh.select_all':
-                    if get_emm_prefs().activate_select_pie:
+                    if get_prefs().activate_select_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
 
                 if kmi.idname == 'mesh.rip_move':
-                    if get_emm_prefs().activate_select_pie:
+                    if get_prefs().activate_select_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
@@ -122,12 +122,12 @@ class Updaet_Keymaps(OPS):
             km = kc.get('Object Mode')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
                 if kmi.idname == 'object.select_all':
-                    if get_emm_prefs().activate_select_pie:
+                    if get_prefs().activate_select_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
                 if kmi.idname == 'object.delete':
-                    if get_emm_prefs().activate_select_pie:
+                    if get_prefs().activate_select_pie:
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
@@ -135,13 +135,13 @@ class Updaet_Keymaps(OPS):
             km = kc.get('Frames')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
                 if kmi.idname == 'screen.animation_play':
-                    if get_emm_prefs().activate_space_pie and preferences.spacebar_action == 'PLAY':
+                    if get_prefs().activate_space_pie and preferences.spacebar_action == 'PLAY':
                         kmi.value = 'CLICK'
                     else:
                         kmi.value = 'PRESS'
 
                 # if kmi.idname == 'object.delete':
-                #     if get_emm_prefs().activate_select_pie:
+                #     if get_prefs().activate_select_pie:
                 #         kmi.value = 'CLICK'
                 #     else:
                 #         kmi.value = 'PRESS'

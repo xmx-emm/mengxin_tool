@@ -8,9 +8,10 @@ from bpy.props import (StringProperty,
                        IntProperty,
                        EnumProperty
                        )
+from .utils.ui import get_icon
 
 
-from .utils.registration import activate,get_emm_name,keymaps
+from .utils.registration import activate, get_emm_name, keymaps, get_path
 from .utils.ui import draw_keymap_items
 from .ui.tool.maximize_prefs import maximize
 from .ui.tool.workspaces_cn import workspaces_cn
@@ -54,7 +55,8 @@ class EMMSceneProperty(PropertyGroup):
 
 
 class AddonPreferences(AP):
-    
+    path = get_path()
+
     bl_idname = get_emm_name()
 
     sculpt_switch_rotate_method: BoolProperty(name="自动切换视图旋转方法", default=False,
@@ -465,7 +467,7 @@ class AddonPreferences(AP):
         b = b.box()
         bb = b.row()
         bb.label(text="视图")
-        bb.prop(self,'sculpt_switch_rotate_method')
+        bb.prop(self, 'sculpt_switch_rotate_method', icon_value=get_icon('p1'))
 
     def draw_about(self, box):
         abf = 0.5

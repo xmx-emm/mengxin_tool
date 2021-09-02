@@ -164,33 +164,25 @@ def unregister():
         li = lists.get(lis)
         try:
             if lis in ['EDIT_MESH', 'OBJECT', 'SCULPT']:
-
                 for l in li:
-                    tools = getToolList('VIEW_3D', lis)                    
-                    if debug:print(lis, '_DEL__', li)
+                    tools = getToolList('VIEW_3D', lis)   
                     tools.remove(eval(l))
-                    clear_trailing_separators(tools)
+                    clear_trailing_separators(tools)                 
+                    if debug:print(lis, '_DEL__', li)
                 del tools
                 
-                # for i in li:
-                #     tools = getToolList('VIEW_3D', lis)
-                #     index = tools.index(eval(i)) - 1  # None
-                #     tools.pop(index)
-                #     tools.remove(eval(i))
-                #     if debug:print(lis, '_DEL__', i)
-                # del tools
+            elif lis == 'UV':
+                for l in li:
+                    tools = getToolList('IMAGE_EDITOR', lis)
+                    tools.remove(eval(l))
+                    clear_trailing_separators(tools)
+                    if debug:print(lis, '_DEL__', li)
+                del tools
 
-            # elif lis == 'UV':
-            #     for l in li:               
-            #         if debug:print(lis, '_DEL__', li)
-            #         tools = getToolList('IMAGE_EDITOR', lis)
-            #         index = tools.index(eval(l))
-            #         tools.remove(eval(l))
-            #         tools.pop(index)
-            #         del tools
             else:
                 print(lis,' 未定义')
                 pass
+            
         except Exception as e:
             print('T工具栏删除-- 注销错误!!!  ', lis, '_DEL__', e)
 

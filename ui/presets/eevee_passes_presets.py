@@ -2,7 +2,7 @@
 import bpy
 from bpy.types import Operator, Panel
 from bl_operators.presets import AddPresetBase
-from ...utils.registration import get_emm_prefs
+from ...utils.registration import get_prefs
 from bpy.utils import register_class, unregister_class
 from bl_ui.utils import PresetPanel
 from bl_ui.properties_view_layer import (
@@ -89,14 +89,14 @@ def register():
     try:
         print(bpy.types.VIEWLAYER_PT_layer_passes.draw_header_preset, '重写面板类')
 
-        if get_emm_prefs().render_passes_presets == False:
+        if get_prefs().render_passes_presets == False:
             for i in classes:
                 unregister_class(i)
             del VIEWLAYER_PT_layer_passes.draw_header_preset
             for i in classes:
                 register_class(i)
     except AttributeError:
-        if get_emm_prefs().render_passes_presets:
+        if get_prefs().render_passes_presets:
             for i in classes:
                 unregister_class(i)
             VIEWLAYER_PT_layer_passes.draw_header_preset = display_presets_draw_header_preset

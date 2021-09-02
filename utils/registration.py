@@ -1,10 +1,12 @@
-from bpy.utils import register_class, unregister_class
-import os
 from .. registration import keys as keysdict
 from .. registration import classes as classesdict
-# from ..ui.presets.cycles_passes_presets import cycles_passes_presets
-import bpy
 
+
+from bpy.utils import previews
+from bpy.utils import register_class, unregister_class
+
+import os
+import bpy
 
 """
 工具需要传入布尔属性
@@ -13,18 +15,40 @@ import bpy
 然后在get_tools()或是get_pie_menus内需要有一个类，在启动时注册此快捷键
 """
 
+
 def get_path():
     return os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 def get_emm_name():
     return os.path.basename(get_path())
 
-def get_emm_prefs():
+def get_prefs():
     return bpy.context.preferences.addons[get_emm_name()].preferences
 
 def uprefs():
     return getattr(bpy.context, "user_preferences", None) or \
         getattr(bpy.context, "preferences", None)
+
+
+def register_icons():
+    path = os.path.join(get_prefs().path, "icons")
+    icons = previews.new()
+
+    for i in sorted(os.listdir(path)):
+        if i.endswith(".png"):
+            iconname = i[:-4]
+            filepath = os.path.join(path, i)
+
+            icons.load(iconname, filepath, 'IMAGE')
+
+
+    return icons
+
+
+def unregister_icons(icons):
+    previews.remove(icons)
+
+
 
 def register_classes(classlists, debug=False):
     classes = []
@@ -107,12 +131,12 @@ def register_keymaps(keylists):
                             properties = item.get("properties")
 
                             if properties:
-                                if get_emm_prefs().debug_keymaps:print(f"注册快捷键 __{idname}__{properties}")
+                                if get_prefs().debug_keymaps:print(f"注册快捷键 __{idname}__{properties}")
 
                                 for name, value in properties:
                                     setattr(kmi.properties, name, value)  
                             else:
-                                if get_emm_prefs().debug_keymaps:print("注册快捷键",idname)
+                                if get_prefs().debug_keymaps:print("注册快捷键",idname)
                             keymaps.append((km, kmi))
 
                         except ValueError as e:
@@ -124,7 +148,7 @@ def register_keymaps(keylists):
 
 def unregister_keymaps(keymaps):
     for km, kmi in keymaps:
-        if get_emm_prefs().debug_keymaps:print("注销快捷键", kmi.idname)
+        if get_prefs().debug_keymaps:print("注销快捷键", kmi.idname)
         km.keymap_items.remove(kmi)
 
 def get_keymaps(keylist):
@@ -157,10 +181,10 @@ def get_keymaps(keylist):
 
 def activate(self, register, tool):
     debug = True
-    debug = get_emm_prefs().debug
-    # print(get_emm_prefs().debug, '这是打印的debug')
-    # print(get_emm_prefs().debug_keymaps,'这是打印的debug_keymaps')
-    # print(get_emm_prefs().debug_class,'这是打印的debug_class')
+    debug = get_prefs().debug
+    # print(get_prefs().debug, '这是打印的debug')
+    # print(get_prefs().debug_keymaps,'这是打印的debug_keymaps')
+    # print(get_prefs().debug_class,'这是打印的debug_class')
 
     name = tool.replace("_", " ").title()
 
@@ -293,19 +317,19 @@ def get_pie_menus():
 
 #仅快捷键
 def get_switch_translate(keylists=[], count=0):
-    if get_emm_prefs().activate_switch_translate:
+    if get_prefs().activate_switch_translate:
         keylists.append(keysdict["SWITCH_TRANSLATE"])
         count += 1
 
     return keylists, count
 def get_console_toggle(keylists=[], count=0):
-    if get_emm_prefs().activate_console_toggle:
+    if get_prefs().activate_console_toggle:
         keylists.append(keysdict["CONSOLE_TOGGLE"])
         count += 1
 
     return  keylists, count
 def get_custom_keymap(keylists=[], count=0):
-    if get_emm_prefs().activate_custom_keymap:
+    if get_prefs().activate_custom_keymap:
         keylists.append(keysdict["CUSTOM_KEYMAP"])
         count += 1
 
@@ -315,56 +339,56 @@ def get_custom_keymap(keylists=[], count=0):
 
 #饼菜单
 def get_modes_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_modes_pie:
+    if get_prefs().activate_modes_pie:
         classlists.append(classesdict["MODES_PIE"])
         keylists.append(keysdict["MODES_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_views_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_views_pie:
+    if get_prefs().activate_views_pie:
         classlists.append(classesdict["VIEWS_PIE"])
         keylists.append(keysdict["VIEWS_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_space_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_space_pie:
+    if get_prefs().activate_space_pie:
         classlists.append(classesdict["SPACE_PIE"])
         keylists.append(keysdict["SPACE_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_select_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_select_pie:
+    if get_prefs().activate_select_pie:
         classlists.append(classesdict["SELECT_PIE"])
         keylists.append(keysdict["SELECT_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_delete_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_delete_pie:
+    if get_prefs().activate_delete_pie:
         classlists.append(classesdict["DELETE_PIE"])
         keylists.append(keysdict["DELETE_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_C_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_C_pie:
+    if get_prefs().activate_C_pie:
         classlists.append(classesdict["C_PIE"])
         keylists.append(keysdict["C_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_B_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_B_pie:
+    if get_prefs().activate_B_pie:
         classlists.append(classesdict["B_PIE"])
         keylists.append(keysdict["B_PIE"])
         count += 1
     return classlists, keylists ,count
 
 def get_V_pie(classlists=[],keylists=[],count=0):
-    if get_emm_prefs().activate_V_pie:
+    if get_prefs().activate_V_pie:
         classlists.append(classesdict["V_PIE"])
         keylists.append(keysdict["V_PIE"])
         count += 1

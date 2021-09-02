@@ -1,7 +1,7 @@
 import bpy
 import os
 from bpy.types import Operator as OPS
-# from ..utils.registration import get_emm_prefs
+# from ..utils.registration import get_prefs
 from bpy.utils import register_class, unregister_class
 from ..utils.folder_file import open_folder as of
 pr = False  # print_re_info True or False

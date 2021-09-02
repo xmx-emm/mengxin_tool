@@ -2,7 +2,7 @@
 import bpy
 from bpy.types import Operator, Panel, UILayout
 from bl_operators.presets import AddPresetBase
-from ...utils.registration import get_emm_prefs
+from ...utils.registration import get_prefs
 from bpy.utils import register_class, unregister_class
 from bl_ui.utils import PresetPanel
 from bl_ui.properties_object import OBJECT_PT_display
@@ -57,14 +57,14 @@ def register():
 
         print(bpy.types.OBJECT_PT_display.draw_header_preset, '重写面板类')
 
-        if get_emm_prefs().object_display_presets == False:
+        if get_prefs().object_display_presets == False:
             for i in classes:
                 unregister_class(i)
             del OBJECT_PT_display.draw_header_preset
             for i in classes:
                 register_class(i)
     except AttributeError:
-        if get_emm_prefs().object_display_presets:
+        if get_prefs().object_display_presets:
             for i in classes:
                 unregister_class(i)
             OBJECT_PT_display.draw_header_preset = object_display_preset

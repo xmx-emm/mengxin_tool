@@ -1,4 +1,4 @@
-from ..utils.registration import get_emm_prefs
+from ..utils.registration import get_prefs
 import bpy
 from bpy.props import EnumProperty, BoolProperty, StringProperty
 
@@ -9,25 +9,25 @@ from bpy.props import EnumProperty, BoolProperty, StringProperty
 def append_TOPBAR_MT_editor_menus(self, context):
     layout = self.layout
     row = layout.row(align=True)
-    if get_emm_prefs().restart_blender:
+    if get_prefs().restart_blender:
         a = row.row()
         a.alert = True
         a.operator(operator="emm.restart_blender",
                      text="", emboss=False, icon='QUIT')
 
-    if get_emm_prefs().console_toggle:
+    if get_prefs().console_toggle:
         row.operator(operator="wm.console_toggle",
                      text="", emboss=False, icon='CONSOLE')
 
-    if get_emm_prefs().switch_translate:
+    if get_prefs().switch_translate:
         row.operator(operator="emm.switch_translate", text="",
                      emboss=False, icon='OUTLINER_DATA_FONT')
 
 #文本编辑器底栏
 
 def append_TEXT_HT_header(self, context):
-    if get_emm_prefs().scripting_tool:
-        preference = get_emm_prefs()
+    if get_prefs().scripting_tool:
+        preference = get_prefs()
         layout = self.layout
         row = layout.row(align=True)
         row.prop(preference, 'auto_reload_script', text="",
@@ -46,9 +46,9 @@ def append_TEXT_HT_header(self, context):
 
         
         # t = bpy.context.space_data.text.filepath
-        if get_emm_prefs().auto_reload_script:
+        if get_prefs().auto_reload_script:
             if text and text.is_modified:
-                get_emm_prefs().reload_script = get_emm_prefs().reload_script ^ True
+                get_prefs().reload_script = get_prefs().reload_script ^ True
                 # Text = False
 
         #     else:
