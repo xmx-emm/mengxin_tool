@@ -1,7 +1,6 @@
 import bpy
 from bpy.types import Menu
 from ..utils.registration import get_prefs
-from .presets.object_display_presets import OBJECT_PT_display_presets
 class PieModes_pie(Menu):
     bl_idname = "EMMMMM_MT_modes_pie"
     bl_label = "模式饼菜单"
@@ -344,6 +343,7 @@ class PieDelete_pie(Menu):
         C = context
         Co = C.object
 
+
         active = context.active_object
         shading = C.space_data.shading  # 显示切换 WIREFRAME    MATERIAL    RENDERED    SOLID
         overlay = context.space_data.overlay
@@ -388,16 +388,16 @@ class PieDelete_pie(Menu):
                 if Co.mode == "EDIT":
                     # 左
                     # p1 = pie.prop_enum(shading, "type", value='WIREFRAME')
-                    p1 = pie.operator('mesh.delete',icon='VERTEXSEL').type = 'VERT'
+                    p1 = pie.operator('mesh.delete',icon='VERTEXSEL',text='顶点').type = 'VERT'
                     p1
 
                     # 右
                     # p2 = pie.prop_enum(shading, "type", value='SOLID')
-                    p2 = pie.operator('mesh.delete',icon='EDGESEL').type = 'EDGE'
+                    p2 = pie.operator('mesh.delete',icon='EDGESEL',text='边').type = 'EDGE'
                     p2
 
                     # 底
-                    p3 = pie.operator('mesh.delete',icon='FACESEL').type = 'FACE'
+                    p3 = pie.operator('mesh.delete',icon='FACESEL',text='面').type = 'FACE'
                     p3
 
                     # 顶

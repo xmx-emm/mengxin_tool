@@ -32,6 +32,7 @@ preferences_tabs = [
 
 #雕刻全局属性
 class EMMSculptProperty(PropertyGroup):
+    name = '雕刻属性'
 
 
     rotate_method: BoolProperty(name="自动切换视图旋转方法", default=False, 
@@ -40,20 +41,32 @@ class EMMSculptProperty(PropertyGroup):
         在其它模式自动切换为  转盘''')
 
 class EMMUvProperty(PropertyGroup):
-    pass
-
-class EMMObjectProperty(PropertyGroup):
-
-    rotate_method: BoolProperty(name="自动切换视图旋转方法", default=False,
-                                description='''
-        当在雕刻模式时,将会自动切换视图旋转方法为 轨迹球
-        在其它模式自动切换为  转盘''')
+    name = 'UV属性'
 
 
 class EMMSceneProperty(PropertyGroup):
-    pass
+    name = '场景属性'
 
+    def EMM_object_index():
+        for i, j in enumerate(bpy.data.objects):
+            j.EMM.object_index = i
+            print(i, j.EMM.object_index)
 
+    def EMM_active_object_index():
+        for i, j in enumerate(bpy.data.objects):
+            j.EMM.object_index = i
+            print(i, j.EMM.object_index)
+
+    active_object_index: IntProperty(name='活动物体编号(EMM)', default=0)
+
+class EMMObjectProperty(PropertyGroup):
+    name = '物体属性'
+    object_index: IntProperty(
+        name='物体编号(EMM)', 
+        # default=0, 
+        # updaet=EMMSceneProperty.EMM_object_index()
+        )
+    
 class AddonPreferences(AP):
     path = get_path()
 
@@ -86,7 +99,7 @@ class AddonPreferences(AP):
     remove_doubles_threshold: FloatProperty(name='按间距合并距离',max=114514,min=0.00000001,default=0.00001)
     ##饼菜单
     def update_activate_modes_pie(self,context):
-        
+
         activate(self,register=self.activate_modes_pie,tool='modes_pie')
     def update_activate_views_pie(self, context):
         
@@ -244,6 +257,8 @@ class AddonPreferences(AP):
         column = split.column()
         gt = 0.25   #拆分系数
 
+
+
         # 第一列----------------
         b = column.box()
         b.label(text="Tools")
@@ -252,7 +267,7 @@ class AddonPreferences(AP):
         dgicon = 'FILE_BLEND'
         b = b.box()
         c = b.column()  # 将列之间的间距弄小
-        c.label(text="饼菜单工具     调整功能后需点击右加的更新快捷键按钮，避免键位冲突")
+        c.label(text="饼菜单工具     调整功能后需点击更新快捷键按钮，避免键位冲突")
 
         gtt = 0.75
 
@@ -261,9 +276,19 @@ class AddonPreferences(AP):
         #     e = d.split(factor=gtt, align=True)
         #     e.prop(self, 'activate_modes_pie', toggle=True)
         # else:
+
+        d = c.split(factor=gt)
+        d.scale_y = 1.2
+        d.operator('emm.updaet_keymaps').Updaet_ = 'updaet_keymaps'
+        d.alert = True
+        d.label(text="更改了饼菜单工具后需点击此按钮进行更新")
+
+        c.separator()
+        # c.separator()
+
         d = c.split(factor=gt)
         d.prop(self, 'activate_modes_pie', toggle=True)
-        d.label(text="物体切换 CTRL TAB")
+        d.label(text="物体切换 TAB")
 
         d = c.split(factor=gt)
         d.prop(self, 'activate_views_pie', toggle=True)
@@ -304,28 +329,26 @@ class AddonPreferences(AP):
         b = split.box()
         b.label(text="设置")
 
+
+
+
         d = b.split(factor=gt)
-        d.operator('emm.updaet_keymaps').Updaet_ = 'updaet_keymaps'
-        d.alert = True
-        d.label(text="更改了饼菜单工具后需点击此按钮进行更新")
+        d.prop(self, 'activate_customize', toggle=True,icon = "TRIA_DOWN" \
+            if self.activate_customize else "TRIA_RIGHT", 
+             icon_only = False, emboss = False
+             )
 
+        d.label(text="自定义一些内容")
+        
         if self.activate_customize:
-
-            bb = b.box()
-
-            d = bb.split(factor=gt)
-            d.prop(self, 'activate_customize', toggle=True)
-            d.label(text="自定义一些内容")
-            bs = bb.column()
+            bs = b.box().column()
             # bs.label(text="自定义内容")
             row = bs.row()
-            row.prop(self, "activate_custom_keymap")
-            row.prop(self, "activate_workspaces_cn")
+            row.scale_y = 1.3
+            # row.scale_x = 1
+            row.prop(self, "activate_custom_keymap",icon_value=get_icon('头'))
+            row.prop(self, "activate_workspaces_cn",icon_value=get_icon('翻译'))
 
-        else :
-            d = b.split(factor=gt)
-            d.prop(self, 'activate_customize', toggle=True)
-            d.label(text="自定义一些内容")
 
         if getattr(bpy.types, "EMMMMM_MT_modes_pie", False):
             d = b.box()
@@ -514,4 +537,3 @@ class AddonPreferences(AP):
                     drawn = True
 
         return drawn
-        
