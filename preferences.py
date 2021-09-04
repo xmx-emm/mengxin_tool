@@ -47,16 +47,6 @@ class EMMUvProperty(PropertyGroup):
 class EMMSceneProperty(PropertyGroup):
     name = '场景属性'
 
-    def EMM_object_index():
-        for i, j in enumerate(bpy.data.objects):
-            j.EMM.object_index = i
-            print(i, j.EMM.object_index)
-
-    def EMM_active_object_index():
-        for i, j in enumerate(bpy.data.objects):
-            j.EMM.object_index = i
-            print(i, j.EMM.object_index)
-
     active_object_index: IntProperty(name='活动物体编号(EMM)', default=0)
 
 class EMMObjectProperty(PropertyGroup):

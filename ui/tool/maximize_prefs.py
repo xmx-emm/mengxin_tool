@@ -53,13 +53,26 @@ def draw_emm(self, context):
     prefs = context.preferences
     used_ext = {ext.module for ext in prefs.addons}
 
-    addon_user_dirs = tuple(
-        p for p in (
-            os.path.join(prefs.filepaths.script_directory, "addons"),
-            bpy.utils.user_resource('SCRIPTS', "addons"),
+
+
+    if bpy.app.version >= (2, 94, 0):
+        ## 3.0版本
+        addon_user_dirs = tuple(
+            p for p in (
+                os.path.join(prefs.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', path="addons"),
+            )
+            if p
         )
-        if p
-    )
+    else:
+        ## 2.93版本
+        addon_user_dirs = tuple(
+            p for p in (
+                os.path.join(prefs.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', "addons"),
+            )
+            if p
+        )
 
     # Development option for 2.8x, don't show users bundled addons
     # unless they have been updated for 2.8x.

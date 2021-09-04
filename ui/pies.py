@@ -1,6 +1,7 @@
 import bpy
 from bpy.types import Menu
 from ..utils.registration import get_prefs
+from .presets.object_display_presets import OBJECT_PT_display_presets
 class PieModes_pie(Menu):
     bl_idname = "EMMMMM_MT_modes_pie"
     bl_label = "模式饼菜单"
@@ -635,9 +636,41 @@ class Pie_V_pie(Menu):
         active = context.active_object
         shading = C.space_data.shading  # 显示切换 WIREFRAME    MATERIAL    RENDERED    SOLID
         overlay = context.space_data.overlay
+        display = Co.display
+
         if C.area.type == "VIEW_3D" and active:
                 if Co.mode == "EDIT":
                     pass
+                
+                if Co.mode == "OBJECT":
+                    # 左
+                    b = pie.box()
+                    b = b.column()
+                    b.scale_y = 1.3
+                    b.scale_x = 0.8
+                    # b.ui_units_y = -80
+                    # b.ui_units_x = 10
+                    c = b.split(align=True)
+                    c.prop(Co, 'name',text='')
+                    c.prop_menu_enum(Co, "display_type")
+                    OBJECT_PT_display_presets.draw_panel_header(c)
+
+                    c = b.row(align=True)
+                    c.prop(Co, 'show_name', toggle=True, emboss=True)
+                    c.prop(Co, 'show_axis', toggle=True, emboss=True)
+                    c = b.row(align=True)
+                    c.prop(Co, 'show_wire')
+                    c.prop(Co, 'show_all_edges')
+                    c = b.row(align=True)
+                    c.prop(display, 'show_shadows')
+                    c.prop(Co, 'show_in_front')
+                    c = b.row(align=True)
+                    c.prop(Co, 'color',text='')
+                    c.prop(Co, 'show_bounds',text='',icon='SHADING_BBOX')
+                    c.prop_menu_enum(Co, "display_bounds_type",text='边界类型')
+
+
+
     def obj_display(pie, Co, layout):
         column = layout.column(align=True)
 
