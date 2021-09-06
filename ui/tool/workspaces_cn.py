@@ -13,22 +13,24 @@ a = {
     "Shading": '着色',
     "Texture Paint": '纹理绘制',
     "UV Editing": 'UV编辑',
+    "布局-nonnormal": 'UV编辑',
 }
 
 def workspaces_cn():
     ok = get_prefs().activate_workspaces_cn
 
-    for i in bpy.data.workspaces:
-        wk = i.name_full  # get 场景内的wp名称
-        ln = a.get(i.name_full)  # get 在字典内的中文名，如果没有就反回None
-        av = a.values()
+    for j in bpy.data.workspaces , bpy.data.screens:        
+        for i in j:
+            wk = i.name_full  # get 场景内的wp名称
+            ln = a.get(i.name_full)  # get 在字典内的中文名，如果没有就反回None
+            av = a.values()
 
-        if ok:
-            if ln != None:
-                n = (list(a.keys())[list(a.values()).index(ln)])  # 根据值板回键
-                if wk == n:
-                    i.name = ln
-        else:
-            if wk in av:
-                n = (list(a.keys())[list(a.values()).index(wk)])  # 根据值板回键
-                i.name = n
+            if ok:
+                if ln != None:
+                    n = (list(a.keys())[list(a.values()).index(ln)])  # 根据值板回键
+                    if wk == n:
+                        i.name = ln
+            else:
+                if wk in av:
+                    n = (list(a.keys())[list(a.values()).index(wk)])  # 根据值板回键
+                    i.name = n

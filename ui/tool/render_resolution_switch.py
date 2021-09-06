@@ -34,6 +34,7 @@ class render_resolution_switch(OPS, UIList):
 
     RENDER_PT_DIMENSIONS = RENDER_PT_dimensions
     RENDER_PT_DIMENSIONS.draw_header_preset = DRAW_HEADER_PRESET
+    
     def __del__(self):
         def DRAW_HEADE(self, _context):
             # self.layout.operator(operator="emm.render_resolution_switch", emboss=False,text='',icon='UV_SYNC_SELECT')

@@ -115,7 +115,7 @@ lists = {
 debug = False
 
 EDIT_MESH = getToolList('VIEW_3D', 'OBJECT')
-def register():
+def register_注册工具栏():
 
     ###bc
     bc = None
@@ -159,7 +159,7 @@ def register():
         EDIT_MESH.append(bc)
     ###bc
 
-def unregister():
+def unregister_注销工具栏():
     for lis in lists:
         li = lists.get(lis)
         try:

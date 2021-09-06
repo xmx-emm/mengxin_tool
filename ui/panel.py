@@ -1,11 +1,15 @@
+# import preferences
 import bpy
 from .tool.maximize_prefs import emm
 from bpy.types import Panel, UIList
 from bpy.utils import register_class, unregister_class
-
+from .. utils.registration import get_prefs
+from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
+from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
+TIME_PT_PLAYBACK__DRAW = TIME_PT_PLAYBACK.draw
 class EMM_VIEW3D_PT_N_Panel(Panel):
     bl_idname = "EMM_VIEW3D_PT_N_PANEL"
-    bl_label = "插件预设"
+    bl_label = "EMM_N_面板"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "EMM"
@@ -14,19 +18,30 @@ class EMM_VIEW3D_PT_N_Panel(Panel):
 
 
     def draw(self, context):
+        pass
+class EMM_PT_插件属性(Panel):
+    bl_idname = "EMM_VIEW3D_PT_SHUXING_PANEL"
+    bl_label = "插件属性"
+    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
+    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
         emm(self, context)
 
 
-class EMM_PT_check_slow(Panel):
+class EMM_PT_check_Slow(Panel):
     bl_idname = "EMM_VIEW3D_PT_CHECK_SLOW"
     bl_label = "检查列表"
     bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
     bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
     bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
+    # bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname
     # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
     bl_options = {'DEFAULT_CLOSED'}
-
-    
 
     def draw(self, context):
         layout = self.layout
@@ -49,4 +64,85 @@ class EMM_PT_check_slow(Panel):
         # layout.template_list("OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
 
-# bpy.data.objects["Cube"].active_material_index
+Panel_Class=(
+    EMM_VIEW3D_PT_N_Panel,
+    EMM_PT_check_Slow,
+    EMM_PT_插件属性,
+)
+
+# @classmethod
+def 动画添加项(self,context):    
+    layout = self.layout
+    layout.use_property_split = True
+    layout.use_property_decorate = False
+
+    screen = context.screen
+    scene = context.scene
+    EMM = screen.EMM
+
+    layout.prop(scene, "sync_mode", text="Sync")
+    col = layout.column(heading="Audio")
+    col.prop(scene, "use_audio_scrub", text="Scrubbing")
+    col.prop(scene, "use_audio", text="Mute")
+
+    col = layout.column(heading="Playback")
+    col.prop(scene, "lock_frame_selection_to_range", text="Limit to Frame Range")
+    col.prop(screen, "use_follow", text="Follow Current Frame")
+
+    col.separator(factor=0.5)
+    col.prop(EMM, "循环播放")
+    col.prop(EMM, "回到起始帧")
+
+    col = layout.column(heading="Play In")
+    col.prop(screen, "use_play_top_left_3d_editor", text="Active Editor")
+    col.prop(screen, "use_play_3d_editors", text="3D Viewport")
+    col.prop(screen, "use_play_animation_editors", text="Animation Editors")
+    col.prop(screen, "use_play_image_editors", text="Image Editor")
+    col.prop(screen, "use_play_properties_editors", text="Properties Editor")
+    col.prop(screen, "use_play_clip_editors", text="Movie Clip Editor")
+    col.prop(screen, "use_play_node_editors", text="Node Editors")
+    col.prop(screen, "use_play_sequence_editors", text="Video Sequencer")
+
+    col = layout.column(heading="Show")
+    col.prop(scene, "show_subframe", text="Subframes")
+
+    layout.separator()
+
+    row = layout.row(align=True)
+    row.operator("anim.start_frame_set")
+    row.operator("anim.end_frame_set")
+
+
+## N面板工具箱
+def update_panel_名称(self,context):
+    for panel in Panel_Class:
+        if "bl_rna" in panel.__dict__:
+            bpy.utils.unregister_class(panel)
+    for panel in Panel_Class:
+        panel.bl_category = get_prefs().n_panel_name
+        bpy.utils.register_class(panel)
+
+
+def register_注册面板():
+    for clas in Panel_Class:
+        register_class(clas)
+    
+    unregister_class(TIME_PT_PLAYBACK)
+    TIME_PT_PLAYBACK.draw = 动画添加项
+    register_class(TIME_PT_PLAYBACK)
+
+
+def register_注销面板():
+    for clas in Panel_Class:
+        unregister_class(clas)
+    
+    # bpy.types.TIME_PT_playback.draw = TIME_PT_PLAYBACK动画播放
+    
+    unregister_class(TIME_PT_PLAYBACK)
+    TIME_PT_PLAYBACK.draw = TIME_PT_PLAYBACK动画播放
+    register_class(TIME_PT_PLAYBACK)
+
+# bpy.types.TIME_PT_playback.draw
+
+# #bpy.types.TIME_PT_playback.remove(draw)
+# bpy.types.TIME_PT_playback.append()

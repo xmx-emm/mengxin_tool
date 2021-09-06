@@ -627,6 +627,55 @@ class Pie_V_pie(Menu):
     bl_idname = "EMMMMM_MT_v_pie"
     bl_label = "V键饼菜单"
 
+    def 通用视图绘制(self,pie,Co,display):
+        # 左
+        b = pie.box()
+        b = b.column()
+        b.scale_y = 1.3
+        b.scale_x = 0.8
+        # b.ui_units_y = -80
+        # b.ui_units_x = 10
+        c = b.split(align=True)
+        c.prop(Co, 'name',text='')
+        c.prop_menu_enum(Co, "display_type")
+        OBJECT_PT_display_presets.draw_panel_header(c)
+
+        c = b.split(align=True,factor=0.5)
+        c.prop(Co, 'show_name', toggle=True, emboss=True)
+        c.prop(Co, 'show_axis', toggle=True, emboss=True)
+        c = b.split(align=True,factor=0.5)
+        c.prop(Co, 'show_wire')
+        c.prop(Co, 'show_all_edges')
+        c = b.split(align=True,factor=0.5)
+        c.prop(display, 'show_shadows')
+        c.prop(Co, 'show_in_front')
+        c = b.row(align=True)
+        c.prop(Co, 'color',text='')
+        c.prop(Co, 'show_bounds',text='',icon='SHADING_BBOX')
+        c.prop_menu_enum(Co, "display_bounds_type",text='边界类型')
+
+    def 骨骼_视图切换(self,pie,Co):
+        A_骨架 = bpy.context.active_object.data
+
+        b = pie.box()
+        b = b.column()
+        b.scale_y = 1.3
+        b.scale_x = 0.8
+        # b.ui_units_y = -80
+        # b.ui_units_x = 10
+        b.prop_menu_enum(A_骨架, "display_type")
+        c = b.split(align=True,factor=0.5)
+        c.prop(A_骨架, 'show_names',emboss = True,text='名称')
+        c.prop(A_骨架, 'show_bone_custom_shapes',emboss = True,text='自定义形状')
+        c = b.split(align=True,factor=0.5)
+        c.prop(A_骨架, 'show_group_colors',text='组颜色',emboss = True)
+        c.prop(Co, 'show_in_front',text='在前面',emboss = True)
+        c = b.split(align=True,factor=0.5)
+        c.prop(A_骨架, 'show_axes',emboss = True)
+        c.prop(A_骨架, 'axes_position',emboss = True)
+        
+
+
     def draw(self, context):
         layout = self.layout
         pie = layout.menu_pie()
@@ -637,38 +686,18 @@ class Pie_V_pie(Menu):
         shading = C.space_data.shading  # 显示切换 WIREFRAME    MATERIAL    RENDERED    SOLID
         overlay = context.space_data.overlay
         display = Co.display
+        活动物体类型 = bpy.context.active_object.type
 
         if C.area.type == "VIEW_3D" and active:
                 if Co.mode == "EDIT":
                     pass
                 
                 if Co.mode == "OBJECT":
-                    # 左
-                    b = pie.box()
-                    b = b.column()
-                    b.scale_y = 1.3
-                    b.scale_x = 0.8
-                    # b.ui_units_y = -80
-                    # b.ui_units_x = 10
-                    c = b.split(align=True)
-                    c.prop(Co, 'name',text='')
-                    c.prop_menu_enum(Co, "display_type")
-                    OBJECT_PT_display_presets.draw_panel_header(c)
-
-                    c = b.row(align=True)
-                    c.prop(Co, 'show_name', toggle=True, emboss=True)
-                    c.prop(Co, 'show_axis', toggle=True, emboss=True)
-                    c = b.row(align=True)
-                    c.prop(Co, 'show_wire')
-                    c.prop(Co, 'show_all_edges')
-                    c = b.row(align=True)
-                    c.prop(display, 'show_shadows')
-                    c.prop(Co, 'show_in_front')
-                    c = b.row(align=True)
-                    c.prop(Co, 'color',text='')
-                    c.prop(Co, 'show_bounds',text='',icon='SHADING_BBOX')
-                    c.prop_menu_enum(Co, "display_bounds_type",text='边界类型')
-
+                    if 活动物体类型 == 'MESH':
+                        self.通用视图绘制(pie,Co,display)
+                    if 活动物体类型 == 'ARMATURE':
+                        self.通用视图绘制(pie,Co,display)
+                        self.骨骼_视图切换(pie,Co)
 
 
     def obj_display(pie, Co, layout):

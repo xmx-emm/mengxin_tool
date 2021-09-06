@@ -18,7 +18,7 @@ for A in bpy.data.objects:
 
                     # print(name)
                     if name not in Fmp or Fmp == None:
-                        Fmp.remove(name = name)
+                        Fmp.new(name = name)
                         # print(Fmp)
         print(SeBolis)
 

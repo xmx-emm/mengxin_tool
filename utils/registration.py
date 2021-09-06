@@ -66,8 +66,8 @@ def register_classes(classlists, debug=False):
             print(f"REGISTERING__萌新工具箱__{c}_", )
         try:
             register_class(c)
-        except Exception:
-            print('注册错误——————',c)
+        except Exception as e:
+            print(f'注册错误—类------—{c}—\n———----错误值{e}')
     return classes
 
 def unregister_classes(classes, debug=False):

@@ -1,6 +1,5 @@
 import bpy
 from bpy.types import AddonPreferences as AP
-from bpy.types import PropertyGroup
 from bpy.types import Operator
 from bpy.props import (StringProperty,
                        BoolProperty,
@@ -15,7 +14,7 @@ from .utils.registration import activate, get_emm_name, keymaps, get_path
 from .utils.ui import draw_keymap_items
 from .ui.tool.maximize_prefs import maximize
 from .ui.tool.workspaces_cn import workspaces_cn
-from .ui.panel import EMM_VIEW3D_PT_N_Panel
+from .ui.panel import update_panel_名称
 
 from .ui.presets.object_display_presets import register as object_display_presets
 from .ui.presets.eevee_passes_presets import register as eevee_passes_presets
@@ -30,33 +29,6 @@ preferences_tabs = [
     ("ADDON", "Addon", "一些插件内容"), ]
 
 
-#雕刻全局属性
-class EMMSculptProperty(PropertyGroup):
-    name = '雕刻属性'
-
-
-    rotate_method: BoolProperty(name="自动切换视图旋转方法", default=False, 
-        description='''
-        当在雕刻模式时,将会自动切换视图旋转方法为 轨迹球
-        在其它模式自动切换为  转盘''')
-
-class EMMUvProperty(PropertyGroup):
-    name = 'UV属性'
-
-
-class EMMSceneProperty(PropertyGroup):
-    name = '场景属性'
-
-    active_object_index: IntProperty(name='活动物体编号(EMM)', default=0)
-
-class EMMObjectProperty(PropertyGroup):
-    name = '物体属性'
-    object_index: IntProperty(
-        name='物体编号(EMM)', 
-        # default=0, 
-        # updaet=EMMSceneProperty.EMM_object_index()
-        )
-    
 class AddonPreferences(AP):
     path = get_path()
 
@@ -68,22 +40,10 @@ class AddonPreferences(AP):
         在其它模式自动切换为  转盘''')
     
 
-    #### 面板名称
-    panels = (
-        EMM_VIEW3D_PT_N_Panel,
-            )
-
-    ## N面板工具箱
-    def update_panel(self, context):
-        for panel in self.panels:
-            if "bl_rna" in panel.__dict__:
-                bpy.utils.unregister_class(panel)
-
-        for panel in self.panels:
-            panel.bl_category = self.n_panel_name
-            bpy.utils.register_class(panel)
     n_panel_name: StringProperty(name='插件N面板名称', description='在N面板中的名字啊',
-                                 default='EMM', update=update_panel)
+                                 default='EMM', 
+                                 update=update_panel_名称
+                                 )
 
 
     remove_doubles_threshold: FloatProperty(name='按间距合并距离',max=114514,min=0.00000001,default=0.00001)
@@ -142,7 +102,7 @@ class AddonPreferences(AP):
     switch_translate: BoolProperty(name="切换翻译", default=False)
     console_toggle: BoolProperty(name="控制台切换", default=False)
     restart_blender: BoolProperty(name="重启Bl", default=True)
-    development_options: BoolProperty(name="开发选项", default=False)
+    development_options: BoolProperty(name="开发选项", default=True)
 
     debug_keymaps: BoolProperty(name="快捷键", default=False)
     debug_modify_keymaps: BoolProperty(name="修改键", default=False)
@@ -484,15 +444,10 @@ class AddonPreferences(AP):
 
     def draw_about(self, box):
         abf = 0.5
-        split = box.split(factor=abf, align=True)
-
-        b = split.box()
-
-        bb = b.box()
-        bb.label(text="Tools")
-
-        b.label(text="Activate")
-
+        b = box.column()
+        # b.
+        layout = box.column()
+        label_multiline(layout,text=关于文字)
     def draw_addon(self, box, context):
         adf = 0.5
         split = box.split(factor=0.5, align=False)
@@ -527,3 +482,56 @@ class AddonPreferences(AP):
                     drawn = True
 
         return drawn
+
+关于文字 ='''
+
+emmmmmmmmmmmmmmoeIAWEFAWEFAWUEGHIUAWEHRIGHAWKEJHRGKLJQEARIOUGLKJAWEDRHGJBAKEWGHKAEJHRKGUHALWKEGHKAWHEGIOUHFHOWIEFHO
+
+'''
+
+#多行，直接COPY的KIT的
+def label_multiline(layout, text='', icon='NONE', width=-1, max_lines = 10):
+    '''
+    draw a ui label, but try to split it in multiple lines.
+
+    Parameters
+    ----------
+    layout
+    text
+    icon
+    width width to split by in character count
+    max_lines maximum lines to draw
+
+    Returns
+    -------
+    True if max_lines was overstepped
+    '''
+    if text.strip() == '':
+        return
+    text = text.replace('\r\n','\n')
+    lines = text.split('\n')
+    if width > 0:
+        threshold = int(width / 5.5)
+    else:
+        threshold = 35
+    li = 0
+    for l in lines:
+        # if is_url(l):
+        li+=1
+        while len(l) > threshold:
+            i = l.rfind(' ', 0, threshold)
+            if i < 1:
+                i = threshold
+            l1 = l[:i]
+            layout.label(text=l1, icon=icon)
+            icon = 'NONE'
+            l = l[i:].lstrip()
+            li += 1
+            if li > max_lines:
+                break;
+        if li > max_lines:
+            break;
+        layout.label(text=l, icon=icon)
+        icon = 'NONE'
+    if li>max_lines:
+        return True

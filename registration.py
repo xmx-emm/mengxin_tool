@@ -5,15 +5,12 @@
 classes = {
     'CORE': [
         ('ui.template_list', [('OBJECT_UL_render_check_slow', '')]),  #
-        ('ui.panel', [
-            ('EMM_VIEW3D_PT_N_Panel', ''),
-            ('EMM_PT_check_slow', ''),
-        ]),  #
+        # ('ui.panel', [('EMM_Panel', ''),        ]),  #
         ('preferences', [
-                                ('EMMUvProperty', ''),
-                                ('EMMSculptProperty', ''),
-                                ('EMMObjectProperty', ''),
-                                ('EMMSceneProperty', ''),
+                                # ('EMMUvProperty', ''),  #将属性都加到Property里面注册
+                                # ('EMMSculptProperty', ''),
+                                # ('EMMObjectProperty', ''),
+                                # ('EMMSceneProperty', ''),
                                 ('AddonPreferences', '')]),  # 插件预设面板
         ('utils.modify_keymaps', [('Updaet_Keymaps', '')]),  #
         ('ui.presets.cycles_passes_presets', [('CYCLES_PT_Passes_presets', ''), #cy通道预设类
