@@ -28,6 +28,42 @@ preferences_tabs = [
     ("ABOUT", "About", "关于此插件信息"),
     ("ADDON", "Addon", "一些插件内容"), ]
 
+def 自定义一些偏好设置_属性():
+    A = 偏好设置_属性 = bpy.context.preferences.view
+    S = 系统设置_属性 = bpy.context.preferences.system
+    I = 视图切换 = bpy.context.preferences.inputs
+        
+    import getpass
+    if getpass.getuser() == '32099':
+        A.ui_scale = 1.5    #界面缩放
+        A.language  =  'zh_CN'
+
+
+    A.show_developer_ui = True      #开发选项
+    A.show_tooltips_python = True   #py工具提示
+    A.show_statusbar_memory = True  #内存
+    A.show_statusbar_stats = True   #场景统计
+    A.show_statusbar_version = True #版本
+    A.show_statusbar_vram = True    #显存
+
+
+
+
+    A.use_translate_new_dataname = False    #新建名称
+                                                
+    S.use_edit_mode_smooth_wire = True      #编辑模式品质
+                                                
+                                                
+    I.use_mouse_depth_navigate = True       #自动深度
+    I.use_zoom_to_mouse = True              #缩放至鼠标位置
+
+def 自定义一些快捷键_属性():
+    P = bpy.context.window_manager.keyconfigs['Blender'].preferences
+    P.use_select_all_toggle = True      #使用全选切换
+    P.use_alt_click_leader  = True      #使用ALT点击工具提示
+    P.use_pie_click_drag    = True      #拖动显示饼菜单
+    P.use_use_v3d_shade_ex_pie  = True  #额外着色饼菜单
+    P.use_use_v3d_tab_menu  = True      #饼菜单选项卡
 
 class AddonPreferences(AP):
     path = get_path()
@@ -116,13 +152,21 @@ class AddonPreferences(AP):
     #自定义内容
     def update_activate_custom_keymap(self,context):            
         keymaps(self, register=self.activate_custom_keymap, tool="custom_keymap")
+        自定义一些快捷键_属性()
     activate_custom_keymap: BoolProperty(name="萌新爱用的快捷键", default=True,update=update_activate_custom_keymap,
-        description="""注册以下快捷键:
+        description="""        注册以下快捷键:
         Ctrl Alt U        偏好设置
         Ctrl Shift ~    保存启动文件
         Shift 右键       切换左右区域
         Alt 空格          切换窗口全屏
-        Alt A               运行脚本"""
+        Alt A               运行脚本
+
+        使用全选切换    True
+        使用ALT点击工具提示     True
+        拖动显示饼菜单  True
+        额外着色饼菜单  True
+        饼菜单选项卡    True
+        """
         # Shift 左键双击       选择物体集合
         )
 
@@ -136,6 +180,26 @@ class AddonPreferences(AP):
         Shift 左键       切换左右区域
         Alt 空格          切换窗口全屏
         Alt A               运行脚本"""
+        )
+
+    def update_偏好设置_属性自定义(self,context):            
+        自定义一些偏好设置_属性()
+    偏好设置_属性自定义: BoolProperty(name="萌新爱用的偏好设置_属性", default=True,update=update_偏好设置_属性自定义,
+        description="""
+        无法撤销！！！！！！！！
+
+        开发选项 True
+        PY工具提示 True
+        内存 True
+        场景统计 True
+        版本 True
+        显存 True
+        新建名称 False
+        编辑模式品质 True
+        自动深度 True
+        缩放至鼠标位置 True
+        """
+        # Shift 左键双击       选择物体集合
         )
 
 
@@ -298,6 +362,9 @@ class AddonPreferences(AP):
             # row.scale_x = 1
             row.prop(self, "activate_custom_keymap",icon_value=get_icon('头'))
             row.prop(self, "activate_workspaces_cn",icon_value=get_icon('翻译'))
+
+            row = bs.row()
+            row.prop(self, "偏好设置_属性自定义",icon='ALIGN_LEFT')
 
 
         if getattr(bpy.types, "EMMMMM_MT_modes_pie", False):
