@@ -1,5 +1,7 @@
 # import preferences
 import bpy
+import inspect
+import sys
 from .tool.maximize_prefs import emm
 from bpy.types import Panel, UIList
 from bpy.utils import register_class, unregister_class
@@ -19,6 +21,7 @@ class EMM_VIEW3D_PT_N_Panel(Panel):
 
     def draw(self, context):
         pass
+
 class EMM_PT_插件属性(Panel):
     bl_idname = "EMM_VIEW3D_PT_SHUXING_PANEL"
     bl_label = "插件属性"
@@ -32,6 +35,31 @@ class EMM_PT_插件属性(Panel):
     def draw(self, context):
         emm(self, context)
 
+class EMM_PT_插件属性1(Panel):
+    bl_idname = "EMM_VIEW3D_PT_SHUXING_PANE"
+    bl_label = "模板资产"
+    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
+    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        emm(self, context)
+
+class EMM_PT_插件属性2(Panel):
+    bl_idname = "EMM_VIEW3D_PT_SHUXING_PAN"
+    bl_label = "模板资产"
+    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
+    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        emm(self, context)
 
 class EMM_PT_check_Slow(Panel):
     bl_idname = "EMM_VIEW3D_PT_CHECK_SLOW"
@@ -64,11 +92,7 @@ class EMM_PT_check_Slow(Panel):
         # layout.template_list("OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
 
-Panel_Class=(
-    EMM_VIEW3D_PT_N_Panel,
-    EMM_PT_check_Slow,
-    EMM_PT_插件属性,
-)
+
 
 # @classmethod
 def 动画添加项(self,context):    
@@ -113,36 +137,55 @@ def 动画添加项(self,context):
     row.operator("anim.end_frame_set")
 
 
-## N面板工具箱
-def update_panel_名称(self,context):
-    for panel in Panel_Class:
-        if "bl_rna" in panel.__dict__:
-            bpy.utils.unregister_class(panel)
-    for panel in Panel_Class:
-        panel.bl_category = get_prefs().n_panel_name
-        bpy.utils.register_class(panel)
+排除类列表 = (
+    TIME_PT_PLAYBACK,
+    Panel,
+    UIList,
+)
+
 
 
 def register_注册面板():
-    for clas in Panel_Class:
-        register_class(clas)
     
+    for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+        if class_ not in 排除类列表:
+            register_class(class_)
+            # print(class_)
+
     unregister_class(TIME_PT_PLAYBACK)
     TIME_PT_PLAYBACK.draw = 动画添加项
     register_class(TIME_PT_PLAYBACK)
 
 
-def register_注销面板():
-    for clas in Panel_Class:
-        unregister_class(clas)
-    
-    # bpy.types.TIME_PT_playback.draw = TIME_PT_PLAYBACK动画播放
+def register_注销面板():    
+    for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+        if class_ not in 排除类列表:
+            unregister_class(class_)
     
     unregister_class(TIME_PT_PLAYBACK)
     TIME_PT_PLAYBACK.draw = TIME_PT_PLAYBACK动画播放
     register_class(TIME_PT_PLAYBACK)
 
-# bpy.types.TIME_PT_playback.draw
 
-# #bpy.types.TIME_PT_playback.remove(draw)
-# bpy.types.TIME_PT_playback.append()
+Panel_Class= reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass))
+# (
+#     EMM_VIEW3D_PT_N_Panel,
+#     EMM_PT_插件属性,
+#     EMM_PT_插件属性1,
+#     EMM_PT_插件属性2,
+#     EMM_PT_check_Slow,
+# )
+
+
+## N面板工具箱
+def update_panel_名称(self,context):
+    print('update_panel_名称')
+    for name, panel in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+            if panel not in 排除类列表:
+                print(panel,'__dict__')
+                if "bl_rna" in panel.__dict__:
+                    bpy.utils.unregister_class(panel)
+    for name, panel in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+            if panel not in 排除类列表:
+                panel.bl_category = get_prefs().n_panel_name
+                bpy.utils.register_class(panel)
