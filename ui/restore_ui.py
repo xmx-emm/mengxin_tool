@@ -1,11 +1,11 @@
 import bpy
 from bpy.utils import register_class, unregister_class
 
-from . panel import EMM_VIEW3D_PT_N_Panel,Panel_Class
+from . panel import Panel_Class #EMM_VIEW3D_PT_N_Panel
 from . ui import append_TOPBAR_MT_editor_menus, append_TEXT_HT_header
 from .toolbar import register_注册工具栏,unregister_注销工具栏
 from .. utils.registration import get_prefs
-
+from .tool.render_resolution_switch import render_resolution_switch
 
 def rewrite_ui_更改UI():
     
@@ -33,6 +33,8 @@ def rewrite_ui_更改UI():
     object_display_presets()
     eevee_passes_presets()
 
+    register_class(render_resolution_switch)
+
 # VIEW3D_PT_shading
 # VIEW3D_PT_overlay
 # VIEW3D_PT_gizmo_display
@@ -53,3 +55,5 @@ def restore_ui_恢复UI():
     eevee_passes_presets()
     cycles_passes_presets()
     object_display_presets()
+
+    unregister_class(render_resolution_switch)

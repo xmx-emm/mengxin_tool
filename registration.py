@@ -20,7 +20,7 @@ classes = {
         ('ui.presets.object_display_presets', [('OBJECT_PT_display_presets', ''),  # 物体显示预设类
                                                 ('AddPresetObjectDisplay', '')]),
         ('ui.tool.switch_translate', [('switch_translate', '')]),  # 切换翻译     
-        ('ui.tool.render_resolution_switch', [('render_resolution_switch', '')]),  # 切换翻译     
+        # ('ui.tool.render_resolution_switch', [('render_resolution_switch', '')]),  # 切换分辨率  CYX里面会因为无法导入类而报错   
         ('development.restart_blender', [('Restart_Blender', '')]),  # 重启Bl                                                
         ('development.scripting_tool', [('scripting_tool', '')]),  # 脚本工具                                                   
 

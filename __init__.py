@@ -27,6 +27,8 @@ bl_info = {
     "description": "这是一个萌新工具箱",
     "warning": "",
     "doc_url": "https://space.bilibili.com/231639322",
+    "tracker_url": "https://github.com/1234EMMM/mengxin_tool",
+    "wiki_url": "https://space.bilibili.com/231639322",
     # "category": "3D View"
     }
 

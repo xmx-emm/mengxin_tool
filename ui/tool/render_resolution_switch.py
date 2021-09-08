@@ -1,10 +1,22 @@
 
 import bpy
 from bpy.utils import register_class , unregister_class
-from bl_ui.properties_output import RENDER_PT_dimensions, RENDER_PT_presets
+
+
 from bpy.types import Operator as OPS
-from ...utils.blender_class import RENDER_PT_PRESETS
+from ...utils.blender_class import 渲染预设_PRESETS
 from bpy.types import Menu, Panel, UIList
+
+if  "RENDER_PT_format_presets" in dir(bpy.types):
+    from bl_ui.properties_output import RENDER_PT_format_presets as 渲染预设_PRESETS_界面
+elif  "RENDER_PT_presets" in dir(bpy.types):
+    from bl_ui.properties_output import RENDER_PT_presets as 渲染预设_PRESETS_界面
+
+
+if  "RENDER_PT_dimensions" in dir(bpy.types):
+    from bl_ui.properties_output import RENDER_PT_dimensions as 渲染预设_PRESETS_题头
+elif  "RENDER_PT_format" in dir(bpy.types):
+    from bl_ui.properties_output import RENDER_PT_format as 渲染预设_PRESETS_题头
 
 
 class render_resolution_switch(OPS, UIList):
@@ -29,15 +41,15 @@ class render_resolution_switch(OPS, UIList):
     def DRAW_HEADER_PRESET(self, _context):
         self.layout.operator(operator="emm.render_resolution_switch", emboss=False,text='',icon='UV_SYNC_SELECT')
 
-        RENDER_PT_presets.draw_panel_header(self.layout)
+        渲染预设_PRESETS_界面.draw_panel_header(self.layout)
 
 
-    RENDER_PT_DIMENSIONS = RENDER_PT_dimensions
+    RENDER_PT_DIMENSIONS = 渲染预设_PRESETS_题头
     RENDER_PT_DIMENSIONS.draw_header_preset = DRAW_HEADER_PRESET
     
     def __del__(self):
         def DRAW_HEADE(self, _context):
             # self.layout.operator(operator="emm.render_resolution_switch", emboss=False,text='',icon='UV_SYNC_SELECT')
-            RENDER_PT_presets.draw_panel_header(self.layout)
-        RENDER_PT_DIMENSIONS = RENDER_PT_dimensions
+            渲染预设_PRESETS_界面.draw_panel_header(self.layout)
+        RENDER_PT_DIMENSIONS = 渲染预设_PRESETS_题头
         RENDER_PT_DIMENSIONS.draw_header_preset = DRAW_HEADE

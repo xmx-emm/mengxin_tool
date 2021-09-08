@@ -151,44 +151,47 @@ class AddPresetCycles_Passes(AddPresetBase, Operator):
 def presets_cycles_mt_passes_presets(self, _context):
     CYCLES_PT_Passes_presets.draw_panel_header(self.layout)
 
-
-if bpy.app.version >= (2, 94, 0):
-    ## 3.0版本
-    from cycles.ui import (
-    CYCLES_RENDER_PT_passes,
-    CYCLES_RENDER_PT_passes_data,
-    CYCLES_RENDER_PT_passes_light,
-    CYCLES_RENDER_PT_passes_crypto,
-    # CYCLES_RENDER_PT_passes_debug,
-    CYCLES_RENDER_PT_passes_aov,
-    )
-    classes = (
+try:    #重写面板
+    if bpy.app.version >= (2, 94, 0):
+        ## 3.0版本
+        from cycles.ui import (
         CYCLES_RENDER_PT_passes,
         CYCLES_RENDER_PT_passes_data,
         CYCLES_RENDER_PT_passes_light,
         CYCLES_RENDER_PT_passes_crypto,
         # CYCLES_RENDER_PT_passes_debug,
         CYCLES_RENDER_PT_passes_aov,
-    )
+        )
+        classes = (
+            CYCLES_RENDER_PT_passes,
+            CYCLES_RENDER_PT_passes_data,
+            CYCLES_RENDER_PT_passes_light,
+            CYCLES_RENDER_PT_passes_crypto,
+            # CYCLES_RENDER_PT_passes_debug,
+            CYCLES_RENDER_PT_passes_aov,
+        )
 
-else:
-    ## 2.93版本
-    from cycles.ui import (
-        CYCLES_RENDER_PT_passes,
-        CYCLES_RENDER_PT_passes_data,
-        CYCLES_RENDER_PT_passes_light,
-        CYCLES_RENDER_PT_passes_crypto,
-        CYCLES_RENDER_PT_passes_debug,
-        CYCLES_RENDER_PT_passes_aov,
-    )
-    classes = (
-        CYCLES_RENDER_PT_passes,
-        CYCLES_RENDER_PT_passes_data,
-        CYCLES_RENDER_PT_passes_light,
-        CYCLES_RENDER_PT_passes_crypto,
-        CYCLES_RENDER_PT_passes_debug,
-        CYCLES_RENDER_PT_passes_aov,
-    )
+    else:
+        ## 2.93版本
+        from cycles.ui import (
+            CYCLES_RENDER_PT_passes,
+            CYCLES_RENDER_PT_passes_data,
+            CYCLES_RENDER_PT_passes_light,
+            CYCLES_RENDER_PT_passes_crypto,
+            CYCLES_RENDER_PT_passes_debug,
+            CYCLES_RENDER_PT_passes_aov,
+        )
+        classes = (
+            CYCLES_RENDER_PT_passes,
+            CYCLES_RENDER_PT_passes_data,
+            CYCLES_RENDER_PT_passes_light,
+            CYCLES_RENDER_PT_passes_crypto,
+            CYCLES_RENDER_PT_passes_debug,
+            CYCLES_RENDER_PT_passes_aov,
+        )
+
+except  ValueError as e:
+    print(e.args)
 
 def register():
     try:
