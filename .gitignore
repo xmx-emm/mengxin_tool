@@ -1,7 +1,7 @@
 ICON.blend
 blender_icons_geom.py
-; TEST/
-
+TEST/
+addonTemplates/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
