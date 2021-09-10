@@ -70,11 +70,17 @@ class AddonPreferences(AP):
 
     bl_idname = get_emm_name()
 
-    sculpt_switch_rotate_method: BoolProperty(name="自动切换视图旋转方法", default=False,
+    #雕刻
+    sculpt_switch_rotate_method: BoolProperty(name="自动切换视图旋转方法", default=True,
                                 description='''
         当在雕刻模式时,将会自动切换视图旋转方法为 轨迹球
         在其它模式自动切换为  转盘''')
     
+    雕刻_自动切换模拟3键鼠标: BoolProperty(name="自动切换模拟3键鼠标", default=False,
+                                description='''
+        当在雕刻模式时,将会自动切换模拟3键鼠标为 打开
+        在其它模式自动切换为  关闭''')
+
 
     n_panel_name: StringProperty(name='插件N面板名称', description='在N面板中的名字啊',
                                  default='EMM', 
@@ -216,7 +222,6 @@ class AddonPreferences(AP):
         except:
             print(f'重载脚本{context.space_data.text.name}错误,可能此脚本不存在')
             self.auto_reload_script = False
-
     reload_script: BoolProperty(name="自动重载", default=True,update=update_reload_script) ##重载脚本,作为触发,没在界面上
     auto_run_script: BoolProperty(name="自动运行脚本开关,只有自动重载脚本打开才能运行",options={'SKIP_SAVE'}, default=False)  ##自动运行用,没在界面上
     auto_reload_script: BoolProperty(name="自动重载脚本开关", default=True)
@@ -508,6 +513,9 @@ class AddonPreferences(AP):
         bb = b.row()
         bb.label(text="视图")
         bb.prop(self, 'sculpt_switch_rotate_method', icon_value=get_icon('p1'))
+        bb.prop(self, '雕刻_自动切换模拟3键鼠标', 
+        # icon_value=get_icon('p1')
+        )
 
     def draw_about(self, box):
         abf = 0.5

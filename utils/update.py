@@ -28,6 +28,17 @@ def update_sculpt_switch_rotate_method():
             C.preferences.inputs.view_rotate_method = 'TURNTABLE'
     else:
         C.preferences.inputs.view_rotate_method = 'TURNTABLE'
+def 更新三键模拟():
+    C = bpy.context  # get 物体上下文
+    mode = C.mode  # 物体模式
+
+    if get_prefs().雕刻_自动切换模拟3键鼠标:
+        if mode == 'SCULPT':
+            C.preferences.inputs.use_mouse_emulate_3_button = True
+        else:
+            C.preferences.inputs.use_mouse_emulate_3_button = False
+    # else:
+    #     C.preferences.inputs.use_mouse_emulate_3_button = False
 
 
 
@@ -41,6 +52,7 @@ def 渲染检查():
 
 def 模式切换():
     update_sculpt_switch_rotate_method()        # 更新雕刻旋转方式模块
+    更新三键模拟()
 
 
 def 到结束帧后暂停():
