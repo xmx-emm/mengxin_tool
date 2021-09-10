@@ -2,6 +2,8 @@ import bpy
 from bpy.types import Menu
 from ..utils.registration import get_prefs
 from .presets.object_display_presets import OBJECT_PT_display_presets
+
+
 class PieModes_pie(Menu):
     bl_idname = "EMMMMM_MT_modes_pie"
     bl_label = "模式饼菜单"

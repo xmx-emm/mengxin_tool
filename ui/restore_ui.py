@@ -7,15 +7,6 @@ from .toolbar import register_注册工具栏,unregister_注销工具栏
 from .tool.render_resolution_switch import render_resolution_switch
 
 def rewrite_ui_更改UI():
-    ##IF面板是不是一样的，如果不是一样的就改    通过导入Panel_Class
-    for name,clas in Panel_Class:
-        if clas not in 排除类列表:
-            if getattr(bpy.types, clas.bl_idname, False):
-                if hasattr(clas, 'bl_category') and clas.bl_category and clas.bl_category != 'Tool':
-                    from .. utils.registration import get_prefs #包含在这里面就可以每次更新
-                    unregister_class(clas)
-                    clas.bl_category = get_prefs().n_panel_name
-                    register_class(clas)
 
 
 
@@ -34,6 +25,18 @@ def rewrite_ui_更改UI():
     eevee_passes_presets()
 
     register_class(render_resolution_switch)
+
+
+    ##IF面板是不是一样的，如果不是一样的就改    通过导入Panel_Class
+    for name,clas in Panel_Class:
+        if clas not in 排除类列表:
+            if getattr(bpy.types, clas.bl_idname, False):
+                if hasattr(clas, 'bl_category') and clas.bl_category and clas.bl_category != 'Tool':
+                    from .. utils.registration import get_prefs #包含在这里面就可以每次更新
+                    unregister_class(clas)
+                    clas.bl_category = get_prefs().n_panel_name
+                    register_class(clas)
+
 
 # VIEW3D_PT_shading
 # VIEW3D_PT_overlay

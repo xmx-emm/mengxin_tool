@@ -179,10 +179,10 @@ Panel_Class= reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)
 
 ## N面板工具箱
 def update_panel_名称(self,context):
-    print('update_panel_名称')
+    # print('update_panel_名称')
     for name, panel in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
             if panel not in 排除类列表:
-                print(panel,'__dict__')
+                # print(panel,'__dict__')
                 if "bl_rna" in panel.__dict__:
                     bpy.utils.unregister_class(panel)
     for name, panel in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):

@@ -42,7 +42,7 @@ def register():
     print(f"{bl_info['name']}  启动！！！")
 
     注册属性_Property()
-    register_注册面板() ## 需要先注册面板，不然在插件属性里面更新面板的名称会找不到 Panel_Class 这个列表而报错
+    register_注册面板()## 需要先注册面板，不然在插件属性里面更新面板的名称会找不到 Panel_Class 这个列表而报错
 
 
     global classes, keymaps, modify_key, icons  ##注册激活功能类和快捷键图标啥的
