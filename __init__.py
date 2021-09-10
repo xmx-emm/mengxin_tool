@@ -23,11 +23,11 @@ bl_info = {
     "author": "小萌新",
     "version": (0, 0, 1,5, '萌新工具箱__2021-9-5'),
     "blender": (2, 83, 0),
-    "location": "",
+    "location": "到处都是",
     "description": "这是一个萌新工具箱",
     "warning": "",
     "doc_url": "https://space.bilibili.com/231639322",
-    "tracker_url": "https://github.com/1234EMMM/mengxin_tool",
+    # "tracker_url": "https://github.com/1234EMMM/mengxin_tool",
     "wiki_url": "https://space.bilibili.com/231639322",
     # "category": "3D View"
     }
