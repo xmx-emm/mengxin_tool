@@ -41,7 +41,8 @@ def 更新三键模拟():
     #     C.preferences.inputs.use_mouse_emulate_3_button = False
 
 
-
+def 单位变更():
+    print('单位变更')
 
 def 物体变更():
     print('物体变更')
@@ -105,11 +106,13 @@ def register_msgbus():
     bpy.msgbus.subscribe_rna(key=(bpy.types.LayerCollection, 'hide_viewport'),owner=owner,args=(),notify=渲染检查,)
 
     bpy.msgbus.subscribe_rna(key=(bpy.types.ObjectBase, 'object'),owner=owner,args=(),notify=物体变更,)
+    bpy.msgbus.subscribe_rna(key=(bpy.types.UnitSettings, 'length_unit'),owner=owner,args=(),notify=单位变更,)
+
+
 
 
 def unregister_msgbus():
     bpy.msgbus.clear_by_owner(owner)
-
 
 def reload_msgbus():    #重置
     unregister_msgbus(owner)

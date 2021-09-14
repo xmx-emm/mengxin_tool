@@ -24,9 +24,9 @@ class cl(cb, Panel):
 bpy.types.CYCL
 bpy.types.CYCLES_RENDER_PT_passes_data = cl
 
-# for i in sys.path:
+for i in sys.path:
 
-#     print(i)
+    print(i)
 # C: \Program Files(x86)\Steam\steamapps\common\Blender\2.93\scripts\startup
 # C: \Program Files(x86)\Steam\steamapps\common\Blender\2.93\scripts\modules
 # C: \Program Files(x86)\Steam\steamapps\common\Blender\python39.zip

@@ -241,8 +241,8 @@ class AddonPreferences(AP):
         
         if self.tabs == "UI":row.prop(self, "development_options", expand=True,text="", icon="FILE_SCRIPT")
         
-        if self.maximize_prefs:maximize_prefs_icon = 'FULLSCREEN_EXIT'
-        else:maximize_prefs_icon = 'FULLSCREEN_ENTER'
+        maximize_prefs_icon = 'FULLSCREEN_EXIT' if self.maximize_prefs else 'FULLSCREEN_ENTER'
+        
         row.prop(self, "maximize_prefs", 
         expand=False, 
         emboss=True,

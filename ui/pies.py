@@ -627,7 +627,8 @@ class Pie_B_pie(Menu):
 
 class Pie_V_pie(Menu):
     bl_idname = "EMMMMM_MT_v_pie"
-    bl_label = "V键饼菜单"
+    bl_label = "V键饼菜单"    
+    bl_options = {'REGISTER', 'UNDO'}
 
     def 通用视图绘制(self,pie,Co,display):
         # 左

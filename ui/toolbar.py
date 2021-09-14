@@ -15,6 +15,22 @@ def bc_():
 
     return False
 
+def hops():
+    wm = bpy.context.window_manager
+
+    if hasattr(wm, 'Hard_Ops_folder_name'):
+        return bpy.context.preferences.addons[wm.Hard_Ops_folder_name].preferences
+
+    return False
+
+def kitops():
+    wm = bpy.context.window_manager
+
+    if hasattr(wm, 'kitops'):
+        return bpy.context.preferences.addons[wm.kitops.addon].preferences
+
+    return False
+
 
 def getToolList(spaceType, contextMode):
     from bl_ui.space_toolsystem_common import ToolSelectPanelHelper
@@ -28,6 +44,15 @@ def icons(toolbar):
 
 @ToolDef.from_fn
 def EMM_UV_ObjectEditMode():
+    def draw_settings(context,layout, tooldef):
+        if context.region.type not in {'UI', 'WINDOW'}:
+            row = layout.row(align=True)
+            row.prop(context.region,'type')
+            row.prop(context.region,'type')
+            row.prop(context.region,'type')
+            row.prop(context.region,'type')
+            row.prop(context.region,'type')
+
     return dict(
         idname="emm.uv_edit.edit_mode",
         label="UV工具",
@@ -35,7 +60,7 @@ def EMM_UV_ObjectEditMode():
         icon=icons('UvEdit'),
         widget=None,
         # keymap = "3D视图工具: 编辑模式下的UV工具箱"
-        # ~ draw_settings = drawSettingsFT,
+        draw_settings = draw_settings,
     )
 
 
@@ -124,6 +149,22 @@ def register_注册工具栏():
     else:
         bc = EDIT_MESH.pop()
     ###bc
+    ###ops
+    Hops_ = None
+    if not hops():
+        EDIT_MESH.append(None)
+    else:
+        Hops_ = EDIT_MESH.pop()
+    ###ops
+
+    ###kitops
+    kitops_ = None
+    if not kitops():
+        EDIT_MESH.append(None)
+    else:
+        kitops_ = EDIT_MESH.pop()
+    ###ops
+
 
     for lis in lists:
         li = lists.get(lis)
@@ -158,6 +199,18 @@ def register_注册工具栏():
     if bc_():
         EDIT_MESH.append(bc)
     ###bc
+
+    ###hops
+    if hops():
+        EDIT_MESH.append(Hops_)
+    ###hops
+
+    ###kitops_
+    if kitops():
+        EDIT_MESH.append(kitops_)
+
+    ###kitops_
+
 
 def unregister_注销工具栏():
     for lis in lists:
