@@ -5,7 +5,7 @@ from . ui.restore_ui import rewrite_ui_更改UI,restore_ui_恢复UI
 from . ui.panel import register_注册面板,register_注销面板
 from . utils.update import register_注册更新数据模块,unregister_注销更新数据模块
 from . property import 注册属性_Property,注销属性_Property
-
+from . assets import 资产_register,资产_unregister
 import bpy
 import sys
 import os
@@ -41,6 +41,7 @@ def register():
     if sys.platform == 'win32':os.system('@chcp 65001')
     print(f"{bl_info['name']}  启动！！！")
 
+    资产_register()
     注册属性_Property()
     register_注册面板()## 需要先注册面板，不然在插件属性里面更新面板的名称会找不到 Panel_Class 这个列表而报错
 
@@ -80,7 +81,8 @@ def unregister():
     unregister_keymaps(keymaps)
     unregister_classes(classes)
     注销属性_Property()
-
+    
+    资产_unregister()
 
     unregister_icons(icons)
     print(f"注销完成  Unregistered {bl_info['name']} {'.'.join([str(i) for i in bl_info['version']])}.")

@@ -53,7 +53,7 @@ class NewName_Vertex_Groups(OPS):
         selname = []
         om = self.mode
 
-        # TODO:for all 所选物体
+        # :for all 所选物体
         for i in bpy.context.selected_objects:
 
             # bpy.context.view_layer.objects.active = i   # bpy.context.view_layer.objects.active.name_full,'emmm'  set 活动对象

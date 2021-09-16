@@ -79,7 +79,7 @@ class RENDER_PT_format(RenderOutputButtonsPanel, Panel):
         else:
             fps_rate = round(fps / fps_base, 2)
 
-        # TODO: Change the following to iterate over existing presets
+        # : Change the following to iterate over existing presets
         custom_framerate = (fps_rate not in {23.98, 24, 25, 29.97, 30, 50, 59.94, 60, 120, 240})
 
         if custom_framerate is True:

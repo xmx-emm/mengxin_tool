@@ -397,7 +397,7 @@ def _mouseDown(x, y, button):
     try:
         _sendMouseEvent(EV, x, y)
     except (PermissionError, OSError):
-        # TODO: We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
+        # : We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
         pass
 
 
@@ -425,7 +425,7 @@ def _mouseUp(x, y, button):
 
     try:
         _sendMouseEvent(EV, x, y)
-    except (PermissionError, OSError): # TODO: We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
+    except (PermissionError, OSError): # : We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
         pass
 
 
@@ -454,7 +454,7 @@ def _click(x, y, button):
     try:
         _sendMouseEvent(EV, x, y)
     except (PermissionError, OSError):
-        # TODO: We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
+        # : We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
         pass
 
 
@@ -474,7 +474,7 @@ def _sendMouseEvent(ev, x, y, dwData=0):
       None
     """
     assert x != None and y != None, 'x and y cannot be set to None'
-    # TODO: ARG! For some reason, SendInput isn't working for mouse events. I'm switching to using the older mouse_event win32 function.
+    # : ARG! For some reason, SendInput isn't working for mouse events. I'm switching to using the older mouse_event win32 function.
     #mouseStruct = MOUSEINPUT()
     #mouseStruct.dx = x
     #mouseStruct.dy = y
@@ -486,7 +486,7 @@ def _sendMouseEvent(ev, x, y, dwData=0):
     #inputStruct.type = INPUT_MOUSE
     #ctypes.windll.user32.SendInput(1, ctypes.pointer(inputStruct), ctypes.sizeof(inputStruct))
 
-    # TODO Note: We need to handle additional buttons, which I believe is documented here:
+    #  Note: We need to handle additional buttons, which I believe is documented here:
     # https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-mouse_event
 
     width, height = _size()
@@ -494,7 +494,7 @@ def _sendMouseEvent(ev, x, y, dwData=0):
     convertedY = 65536 * y // height + 1
     ctypes.windll.user32.mouse_event(ev, ctypes.c_long(convertedX), ctypes.c_long(convertedY), dwData, 0)
 
-    # TODO: Too many false positives with this code: See: https://github.com/asweigart/pyautogui/issues/108
+    # : Too many false positives with this code: See: https://github.com/asweigart/pyautogui/issues/108
     #if ctypes.windll.kernel32.GetLastError() != 0:
     #    raise ctypes.WinError()
 
@@ -532,7 +532,7 @@ def _scroll(clicks, x=None, y=None):
 
     try:
         _sendMouseEvent(MOUSEEVENTF_WHEEL, x, y, dwData=clicks)
-    except (PermissionError, OSError): # TODO: We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
+    except (PermissionError, OSError): # : We need to figure out how to prevent these errors, see https://github.com/asweigart/pyautogui/issues/60
             pass
 
 

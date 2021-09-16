@@ -127,9 +127,11 @@ def EMM_Object_EditMode():
 
 
 lists = {
-    'UV': [('EMM_UV_Edit_UVmode'), ],
+    # 'UV': [('EMM_UV_Edit_UVmode'), ],
 
-    'EDIT_MESH': [('EMM_UV_ObjectEditMode'), ('EMM_Object_EditMode')],
+    'EDIT_MESH': [
+        # ('EMM_UV_ObjectEditMode'),
+         ('EMM_Object_EditMode')],
     'OBJECT': [('EMM_Object_ObjMode'), ],
     'SCULPT': [('EMM_Sculpt')],
 }

@@ -4,7 +4,7 @@
 # Al Sweigart al@inventwithpython.com (Send me feedback & suggestions!)
 
 
-# TODO - the following features are half-implemented right now:
+#  - the following features are half-implemented right now:
 # snapshot logging
 # non-qwerty keyboard mapping
 # primary secondary mouse button awareness
@@ -278,7 +278,7 @@ def useImageNotFoundException(value=None):
     """
     if value is None:
         value = True
-    # TODO - this will cause a NameError if PyScreeze couldn't be imported:
+    #  - this will cause a NameError if PyScreeze couldn't be imported:
     try:
         pyscreeze.USE_IMAGE_NOT_FOUND_EXCEPTION = value
     except NameError:
@@ -521,7 +521,7 @@ PRIMARY = "primary"
 SECONDARY = "secondary"
 
 # Different keyboard mappings:
-# TODO - finish this feature.
+#  - finish this feature.
 # NOTE: Eventually, I'd like to come up with a better system than this. For now, this seems like it works.
 QWERTY = r"""`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?"""
 QWERTZ = r"""=1234567890/0qwertzuiop89-asdfghjkl,\yxcvbnm,.7+!@#$%^&*()?)QWERTZUIOP*(_ASDFGHJKL<|YXCVBNM<>&"""
@@ -532,7 +532,7 @@ def isShiftCharacter(character):
     Returns True if the ``character`` is a keyboard key that would require the shift key to be held down, such as
     uppercase letters or the symbols on the keyboard's number row.
     """
-    # NOTE TODO - This will be different for non-qwerty keyboards.
+    # NOTE  - This will be different for non-qwerty keyboards.
     return character.isupper() or character in set('~!@#$%^&*()_+{}|:"<>?')
 
 
@@ -549,7 +549,7 @@ elif platform.system() == "Linux":
 else:
     raise NotImplementedError("Your platform (%s) is not supported by PyAutoGUI." % (platform.system()))
 
-# TODO: Having module-wide user-writable global variables is bad. It makes
+# : Having module-wide user-writable global variables is bad. It makes
 # restructuring the code very difficult. For instance, what if we decide to
 # move the mouse-related functions to a separate file (a submodule)? How that
 # file will access this module vars? It will probably lead to a circular
@@ -559,7 +559,7 @@ else:
 # the mouse.
 MINIMUM_DURATION = 0.1
 # If sleep_amount is less than MINIMUM_DURATION, time.sleep() will be a no-op and the mouse cursor moves there instantly.
-# TODO: This value should vary with the platform. http://stackoverflow.com/q/1133857
+# : This value should vary with the platform. http://stackoverflow.com/q/1133857
 MINIMUM_SLEEP = 0.05
 
 # The number of seconds to pause after EVERY public function call. Useful for debugging:
@@ -567,7 +567,7 @@ PAUSE = 0.1  # Tenth-second pause by default.
 
 # Interface need some catch up time on darwin (macOS) systems. Possible values probably differ based on your system performance.
 # This value affects mouse moveTo, dragTo and key event duration.
-# TODO: Find a dynamic way to let the system catch up instead of blocking with a magic number.
+# : Find a dynamic way to let the system catch up instead of blocking with a magic number.
 DARWIN_CATCH_UP_TIME = 0.01
 
 # If the mouse is over a coordinate in FAILSAFE_POINTS and FAILSAFE is True, the FailSafeException is raised.
@@ -580,7 +580,7 @@ LOG_SCREENSHOTS = False  # If True, save screenshots for clicks and key presses.
 
 # If not None, PyAutoGUI deletes old screenshots when this limit has been reached:
 LOG_SCREENSHOTS_LIMIT = 10
-G_LOG_SCREENSHOTS_FILENAMES = []  # TODO - make this a deque
+G_LOG_SCREENSHOTS_FILENAMES = []  #  - make this a deque
 
 Point = collections.namedtuple("Point", "x y")
 Size = collections.namedtuple("Size", "width height")
@@ -838,8 +838,8 @@ def _normalizeButton(button):
 
     NOTE: Swap detection has not been implemented yet.
     """
-    # TODO - The swap detection hasn't been done yet. For Windows, see https://stackoverflow.com/questions/45627956/check-if-mouse-buttons-are-swapped-or-not-in-c
-    # TODO - We should check the OS settings to see if it's a left-hand setup, where button 1 would be "right".
+    #  - The swap detection hasn't been done yet. For Windows, see https://stackoverflow.com/questions/45627956/check-if-mouse-buttons-are-swapped-or-not-in-c
+    #  - We should check the OS settings to see if it's a left-hand setup, where button 1 would be "right".
 
     # Check that `button` has a valid value:
     button = button.lower()
@@ -856,9 +856,9 @@ def _normalizeButton(button):
                 "button argument must be one of ('left', 'middle', 'right', 'primary', 'secondary', 1, 2, 3)"
             )
 
-    # TODO - Check if the primary/secondary mouse buttons have been swapped:
+    #  - Check if the primary/secondary mouse buttons have been swapped:
     if button in (PRIMARY, SECONDARY):
-        swapped = False  # TODO - Add the operating system-specific code to detect mouse swap later.
+        swapped = False  #  - Add the operating system-specific code to detect mouse swap later.
         if swapped:
             if button == PRIMARY:
                 return RIGHT
@@ -890,7 +890,7 @@ def mouseDown(x=None, y=None, button=PRIMARY, duration=0.0, tween=linear, logScr
         the screen with locateOnScreen() and click the center of.
       y (int, float, None, optional): The y position on the screen where the
         mouse down happens. None by default.
-      button (str, int, optional): The mouse button pressed down. TODO
+      button (str, int, optional): The mouse button pressed down. 
 
     Returns:
       None
@@ -923,7 +923,7 @@ def mouseUp(x=None, y=None, button=PRIMARY, duration=0.0, tween=linear, logScree
         the screen with locateOnScreen() and click the center of.
       y (int, float, None, optional): The y position on the screen where the
         mouse up happens. None by default.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
 
     Returns:
       None
@@ -975,7 +975,7 @@ def click(
     Raises:
       PyAutoGUIException: If button is not one of 'left', 'middle', 'right', 1, 2, 3
     """
-    # TODO: I'm leaving buttons 4, 5, 6, and 7 undocumented for now. I need to understand how they work.
+    # : I'm leaving buttons 4, 5, 6, and 7 undocumented for now. I need to understand how they work.
     button = _normalizeButton(button)
     x, y = _normalizeXYArgs(x, y)
 
@@ -1024,7 +1024,7 @@ def leftClick(x=None, y=None, interval=0.0, duration=0.0, tween=linear, logScree
       None
     """
 
-    # TODO - Do we need the decorator for this function? Should click() handle this? (Also applies to other alias functions.)
+    #  - Do we need the decorator for this function? Should click() handle this? (Also applies to other alias functions.)
     click(x, y, 1, interval, LEFT, duration, tween, logScreenshot, _pause=_pause)
 
 
@@ -1102,7 +1102,7 @@ def doubleClick(x=None, y=None, interval=0.0, button=LEFT, duration=0.0, tween=l
       interval (float, optional): The number of seconds in between each click,
         if the number of clicks is greater than 1. 0.0 by default, for no
         pause in between clicks.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
 
     Returns:
       None
@@ -1145,7 +1145,7 @@ def tripleClick(x=None, y=None, interval=0.0, button=LEFT, duration=0.0, tween=l
       interval (float, optional): The number of seconds in between each click,
         if the number of clicks is greater than 1. 0.0 by default, for no
         pause in between clicks.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
 
     Returns:
       None
@@ -1340,7 +1340,7 @@ def dragTo(
         instantaneously. 0.0 by default.
       tween (func, optional): The tweening function used if the duration is not
         0. A linear tween is used by default.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
       mouseDownUp (True, False): When true, the mouseUp/Down actions are not performed.
         Which allows dragging over multiple (small) actions. 'True' by default.
 
@@ -1379,7 +1379,7 @@ def dragRel(
         instantaneously. 0.0 by default.
       tween (func, optional): The tweening function used if the duration is not
         0. A linear tween is used by default.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
       mouseDownUp (True, False): When true, the mouseUp/Down actions are not performed.
         Which allows dragging over multiple (small) actions. 'True' by default.
 
@@ -1435,7 +1435,7 @@ def _mouseMoveDrag(moveOrDrag, x, y, xOffset, yOffset, duration, tween=linear, b
         instantaneously. 0.0 by default.
       tween (func, optional): The tweening function used if the duration is not
         0. A linear tween is used by default.
-      button (str, int, optional): The mouse button released. TODO
+      button (str, int, optional): The mouse button released. 
 
     Returns:
       None
@@ -1671,7 +1671,7 @@ def typewrite(message, interval=0.0, logScreenshot=None, _pause=True):
     Returns:
       None
     """
-    interval = float(interval)  # TODO - this should be taken out.
+    interval = float(interval)  #  - this should be taken out.
 
     _logScreenshot(logScreenshot, "write", message, folder=".")
     for c in message:
@@ -1702,7 +1702,7 @@ def hotkey(*args, **kwargs):
     Returns:
       None
     """
-    interval = float(kwargs.get("interval", 0.0))  # TODO - this should be taken out.
+    interval = float(kwargs.get("interval", 0.0))  #  - this should be taken out.
 
     _logScreenshot(kwargs.get("logScreenshot"), "hotkey", ",".join(args), folder=".")
     for c in args:
@@ -1765,7 +1765,7 @@ def displayMousePosition(xOffset=0, yOffset=0):
 
 
 def _snapshot(tag, folder=None, region=None, radius=None):
-    # TODO feature not finished
+    #  feature not finished
     if region is not None and radius is not None:
         raise Exception("Either region or radius arguments (or neither) can be passed to snapshot, but not both")
 
@@ -1956,7 +1956,7 @@ def _tokenizeCommandStr(commandStr):
                 num = _getNumberToken(commandStr[i:])
                 i += len(num)  # Increment past the number.
 
-                # TODO - raise an exception if a + or - is in the number.
+                #  - raise an exception if a + or - is in the number.
 
             except PyAutoGUIException as excObj:
                 # Exception message starts with something like "Invalid command at index 0:"
@@ -2115,7 +2115,7 @@ def run(commandStr, _ssCount=None):
     Note that any changes to `PAUSE` with the `p` command will be undone when
     this function returns. The original `PAUSE` setting will be reset.
 
-    TODO - This function is under development.
+     - This function is under development.
     """
 
     # run("ccc")  straight forward
@@ -2125,7 +2125,7 @@ def run(commandStr, _ssCount=None):
     if _ssCount is None:
         _ssCount = [
             0
-        ]  # Setting this to a mutable list so that the callers can read the changed value. TODO improve this comment
+        ]  # Setting this to a mutable list so that the callers can read the changed value.  improve this comment
 
     commandList = _tokenizeCommandStr(commandStr)
 

@@ -17,6 +17,7 @@ except  ValueError as e:
     print(e.args)
 
 
+
 try:    
     if  "RENDER_PT_format_presets" in dir(bpy.types):
         from bl_ui.properties_output import RENDER_PT_format_presets
@@ -28,6 +29,15 @@ try:
 
 except  ValueError as e:
     print(e.args)
+
+
+try:
+    ##预设路径
+    from bpy.utils import preset_paths
+    PRESET_PATHS = preset_paths
+except  ValueError as e:
+    print(e.args)
+
 
 # # 物体显示预设
 # from bl_ui.properties_object import OBJECT_PT_display as OBJECT_PT_display

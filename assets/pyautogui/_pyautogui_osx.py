@@ -162,7 +162,7 @@ keyboardMapping.update({
 })
 
 """
-# TODO - additional key codes to add
+#  - additional key codes to add
   kVK_ANSI_KeypadDecimal        = 0x41,
   kVK_ANSI_KeypadMultiply       = 0x43,
   kVK_ANSI_KeypadPlus           = 0x45,
@@ -255,8 +255,8 @@ def _normalKeyEvent(key, upDown):
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, event)
         time.sleep(pyautogui.DARWIN_CATCH_UP_TIME)
 
-    # TODO - wait, is the shift key's keyup not done?
-    # TODO - get rid of this try-except.
+    #  - wait, is the shift key's keyup not done?
+    #  - get rid of this try-except.
 
     except KeyError:
         raise RuntimeError("Key %s not implemented." % (key))
