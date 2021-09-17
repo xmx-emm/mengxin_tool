@@ -123,7 +123,6 @@ class SelectSideOfPlaneGizmoGroup(GizmoGroup):
         def move_set_cb(value):
             op = SelectSideOfPlaneGizmoGroup.my_target_operator(context)
             op.plane_co = value
-            # XXX, this may change!
             op.execute(context)
 
         gz = self.gizmos.new("GIZMO_GT_move_3d")

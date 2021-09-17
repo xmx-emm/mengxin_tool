@@ -2,13 +2,19 @@
 import bpy
 import inspect
 import sys
-from .tool.maximize_prefs import emm
 from bpy.types import Panel, UIList
 from bpy.utils import register_class, unregister_class
+# from bl_ui.properties_paint_common
+
+from .presets.node_渐变_presets import NODE_PT_ColorRamp_Presets
+from .tool.maximize_prefs import emm
 from .. utils.registration import get_prefs
 from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
 from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
 TIME_PT_PLAYBACK__DRAW = TIME_PT_PLAYBACK.draw
+
+
+###3D视图
 class EMM_VIEW3D_PT_N_Panel(Panel):
     bl_idname = "EMM_VIEW3D_PT_N_PANEL"
     bl_label = "EMM_N_面板"
@@ -92,7 +98,96 @@ class EMM_PT_check_Slow(Panel):
         # layout.template_list("OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
 
+##节点
+class EMM_VIEW3D_NODE_PT_N_PANEL(Panel):
+    bl_idname = "EMM_NODE_PT_N_PANEL_PANEL_PANEL_PANEL_PANEL"
+    bl_label = "EMM_NODE_面板"
+    bl_space_type = 'NODE_EDITOR'
+    bl_region_type = 'UI'
+    bl_category = "EMM"
+    # bl_context = "win"
+    bl_options = {'DEFAULT_CLOSED'}
 
+
+    def draw(self, context):
+        pass
+
+class EMM_NODE_PT_渐变预设(Panel):
+    bl_idname = "EMM_NODE_PT_VALTORGB_PANEL"
+    bl_label = "渐变预设"
+    bl_space_type = EMM_VIEW3D_NODE_PT_N_PANEL.bl_space_type
+    bl_region_type = EMM_VIEW3D_NODE_PT_N_PANEL.bl_region_type
+    bl_category = EMM_VIEW3D_NODE_PT_N_PANEL.bl_category
+    bl_parent_id = EMM_VIEW3D_NODE_PT_N_PANEL.bl_idname
+    # bl_context = EMM_NODE_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    # @classmethod
+    # def poll(self, context):
+            #     AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
+
+    #     return AC.type == 'VALTORGB'
+
+
+    def draw(self, context):
+        layout = self.layout
+        AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
+        if AC.type == 'VALTORGB':
+            AC = AC.color_ramp
+            C = layout.column(align=True)
+            # R = C.row(align=True)
+            C.prop(AC,'interpolation')
+            C.prop(AC,'hue_interpolation')
+            C.prop(AC,'color_mode')
+
+        # emm(self, context)
+
+    # bpy.context.active_object.active_material.node_tree.nodes
+    # bpy.data.materials["Material"].node_tree.nodes["ColorRamp"].color_ramp.interpolation
+    # bpy.context.active_object.active_material.node_tree.nodes[-1].color_ramp.elements
+    # bpy.data.materials["Material"].node_tree.nodes["ColorRamp"].color_ramp.hue_interpolation
+    # bpy.data.materials["Material"].node_tree.nodes["ColorRamp"].color_ramp.color_mode
+
+class EMM_NODE_PT_渐变(Panel):
+    bl_idname = "EMM_NODE_PT_VALTORGB_EMM"
+    bl_label = "渐变信息"
+    bl_space_type = EMM_NODE_PT_渐变预设.bl_space_type
+    bl_region_type = EMM_NODE_PT_渐变预设.bl_region_type
+    bl_category = EMM_NODE_PT_渐变预设.bl_category
+    bl_parent_id = EMM_NODE_PT_渐变预设.bl_idname
+    # bl_context = EMM_NODE_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    @classmethod
+    def poll(self, context):
+        AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
+
+        return AC.type == 'VALTORGB'
+    
+    # TODO 渐变预设
+    # def draw_header_preset(self, _context):
+    #     NODE_PT_ColorRamp_Presets.draw_panel_header(self.layout)
+
+    def draw(self, context):
+        layout = self.layout
+        AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
+        if AC.type == 'VALTORGB':
+            AC = AC.color_ramp
+            for i in AC.elements:
+                C = layout.column(align=True)
+                C = C.row()
+                C.prop(i,'color',text='')
+                C.prop(i,'alpha')
+                C.prop(i,'position')
+
+
+
+## TODO 绘制调色盘
+# settings = self.paint_settings(context)
+
+# layout.template_ID(settings, "palette", new="palette.new")
+# if settings.palette:
+#     layout.template_palette(settings, "palette", color=True)
 
 # @classmethod
 def 动画添加项(self,context):    
@@ -141,16 +236,22 @@ def 动画添加项(self,context):
     TIME_PT_PLAYBACK,
     Panel,
     UIList,
+    NODE_PT_ColorRamp_Presets,
 )
 
 
 
 def register_注册面板():
     
+    ###这个方法需要注意名称的长度，注册的顺序是按名称的长度来的，子面板要后注册
     for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
         if class_ not in 排除类列表:
-            register_class(class_)
-            # print(class_)
+            try:
+                register_class(class_)
+                # print(class_)
+            except Exception as e:
+                print(e.args)
+
 
     unregister_class(TIME_PT_PLAYBACK)
     TIME_PT_PLAYBACK.draw = 动画添加项
@@ -160,7 +261,14 @@ def register_注册面板():
 def register_注销面板():    
     for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
         if class_ not in 排除类列表:
-            unregister_class(class_)
+            
+            try:
+                unregister_class(class_)
+                # print(class_)
+            except Exception as e:
+                print(e.args)
+
+            # unregister_class(class_)
     
     unregister_class(TIME_PT_PLAYBACK)
     TIME_PT_PLAYBACK.draw = TIME_PT_PLAYBACK动画播放

@@ -13,12 +13,12 @@ classes = {
                                 # ('EMMSceneProperty', ''),
                                 ('AddonPreferences', '')]),  # 插件预设面板
         ('utils.modify_keymaps', [('Updaet_Keymaps', '')]),  #
-        ('ui.presets.cycles_passes_presets', [('CYCLES_PT_Passes_presets', ''), #cy通道预设类
-                                                ('AddPresetCycles_Passes', '')]),
-        ('ui.presets.eevee_passes_presets', [('EEVEE_PT_Passes_presets', ''),  # ev通道预设类
-                                                ('AddPresetEEVEE_Passes', '')]),
-        ('ui.presets.object_display_presets', [('OBJECT_PT_display_presets', ''),  # 物体显示预设类
-                                                ('AddPresetObjectDisplay', '')]),
+        # ('ui.presets.cycles_passes_presets', [('CYCLES_PT_Passes_presets', ''), #cy通道预设类
+        #                                         ('AddPresetCycles_Passes', '')]),
+        # ('ui.presets.eevee_passes_presets', [('EEVEE_PT_Passes_presets', ''),  # ev通道预设类
+        #                                         ('AddPresetEEVEE_Passes', '')]),
+        # ('ui.presets.object_display_presets', [('OBJECT_PT_display_presets', ''),  # 物体显示预设类
+        #                                         ('AddPresetObjectDisplay', '')]),
         ('ui.tool.switch_translate', [('switch_translate', '')]),  # 切换翻译     
         # ('ui.tool.render_resolution_switch', [('render_resolution_switch', '')]),  # 切换分辨率  CYX里面会因为无法导入类而报错   
         ('development.restart_blender', [('Restart_Blender', '')]),  # 重启Bl                                                

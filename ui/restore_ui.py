@@ -29,7 +29,7 @@ def rewrite_ui_更改UI():
 
     ##IF面板是不是一样的，如果不是一样的就改    通过导入Panel_Class
     for name,clas in Panel_Class:
-        if clas not in 排除类列表:
+        if clas not in 排除类列表 and clas.bl_idname:
             if getattr(bpy.types, clas.bl_idname, False):
                 if hasattr(clas, 'bl_category') and clas.bl_category and clas.bl_category != 'Tool':
                     from .. utils.registration import get_prefs #包含在这里面就可以每次更新

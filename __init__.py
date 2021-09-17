@@ -6,6 +6,7 @@ from . ui.panel import register_注册面板,register_注销面板
 from . utils.update import register_注册更新数据模块,unregister_注销更新数据模块
 from . property import 注册属性_Property,注销属性_Property
 from . assets import 资产_register,资产_unregister
+from . ui.presets import 注册预设,注销预设
 import bpy
 import sys
 import os
@@ -59,6 +60,7 @@ def register():
 
     icons = register_icons()
 
+    注册预设()  #先注册预设再更改UI,不然改UI没有预设按钮给加上去    这里只管注册，添加到界面让下一个更改UI来做
 
 
     rewrite_ui_更改UI()
@@ -73,9 +75,9 @@ def register():
 
 def unregister():
     unregister_注销更新数据模块()
-    register_注销面板()
+    register_注销面板()    
     restore_ui_恢复UI()
-
+    注销预设()
 
     global classes, keymaps, modify_key , icons
     unregister_keymaps(keymaps)
