@@ -18,7 +18,7 @@ addons = [
 
 
 #   最大化显示插件的模块
-def emm(self, context):
+def 插件面板(self, context):
 
     prefs = context.preferences
 
@@ -324,7 +324,7 @@ def maximize():
         # print(f'开启插件{module_name}最大化显示')
 
         # print('mengxin_tool')
-        bpy.types.USERPREF_PT_addons.draw = emm
+        bpy.types.USERPREF_PT_addons.draw = 插件面板
         # print(f'当前的  {bpy.types.USERPREF_PT_addons.draw}')
         # print(f'用于重写的 {emm}')
 

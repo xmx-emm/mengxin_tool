@@ -6,6 +6,7 @@ from bl_ui.space_toolsystem_toolbar import VIEW3D_PT_tools_active as view3d_tool
 from bl_ui.space_toolsystem_toolbar import IMAGE_PT_tools_active as image_tools
 ###### register 传入同目录的restore_ui里面，再由__init__.py调用
 
+## BUG 每开关一次插件工具栏就会向下移几个像素，不过问题不大，跳过了
 
 def bc_():
     wm = bpy.context.window_manager

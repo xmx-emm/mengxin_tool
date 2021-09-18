@@ -20,6 +20,22 @@ from .ui.presets.object_display_presets import register as object_display_preset
 from .ui.presets.eevee_passes_presets import register as eevee_passes_presets
 from .ui.presets.cycles_passes_presets import register as cycles_passes_presets
 
+from . import 开发者
+
+臭 =             '''
+⬜⬜⬜🏿🏿🏿🏻🏻🏻🏻
+⬜⬜🏿🏿🏾🏾🏿🏻🏻🏻
+⬜⬜🏿🏼🏽🏽🏼🏻🏻🏻
+⬜⬜🏾🏽🏽🏽🏽🏻🏻🏻
+⬜⬜🏾🏼🏽🏽🏼🏻🏻🏻
+⬜⬜⬜🏾🏼🏼🏼🏻🏻🏻
+⬜⬜⬜🏽🏾🏾🏻🏻🏻🏻
+⬜⬜⬜🏼🏼🏽🏻🏻🏻🏻
+⬜🏿🏿🏿🏿🏼🏿🏿🏻🏻
+🏿🏿🏿🏿🏿🏿🏿🏿🏿🏿
+嘤～嘿～嘿～啊啊啊啊啊啊啊啊嗯嗯嗯～额啊啊啊啊啊啊啊啊啊～啊啊啊啊啊啊啊    ～啊～啊～啊～啊啊啊～啊～啊～啊～啊啊啊
+    '''
+
 preferences_tabs = [
     ("GENERAL", "General", "一些功能开启的地方"),
     ("UI", "Ui", "一些UI启用地方"),
@@ -33,10 +49,11 @@ def 自定义一些偏好设置_属性():
     S = 系统设置_属性 = bpy.context.preferences.system
     I = 视图切换 = bpy.context.preferences.inputs
         
-    import getpass
-    if getpass.getuser() == '32099':
+    if 开发者:
         A.ui_scale = 1.5    #界面缩放
-        A.language  =  'zh_CN'
+
+
+    A.language  =  'zh_CN'
 
 
     A.show_developer_ui = True      #开发选项
@@ -141,9 +158,9 @@ class AddonPreferences(AP):
     activate_console_toggle: BoolProperty(name="控制台切换快捷键",     default=True,        update=update_activate_console_toggle)
 
     #开发工具
-    switch_translate: BoolProperty(name="切换翻译", default=False)
+    switch_translate: BoolProperty(name="切换翻译", default=False if 开发者 else True)
     console_toggle: BoolProperty(name="控制台切换", default=False)
-    restart_blender: BoolProperty(name="重启Bl", default=True)
+    restart_blender: BoolProperty(name="重启Bl", default=True if 开发者 else False)
     development_options: BoolProperty(name="开发选项", default=True)
 
     debug_keymaps: BoolProperty(name="快捷键", default=False)
@@ -153,7 +170,7 @@ class AddonPreferences(AP):
     
     def update_maximize_prefs(self, context):maximize()        # print('maximize_prefs')
     maximize_prefs: BoolProperty(name="最大化插件选项", default=False,options={'SKIP_SAVE'}, update=update_maximize_prefs    )
-    prefs_draw_emm: BoolProperty(name="绘制开发插件面板", default=False,update=update_maximize_prefs)
+    prefs_draw_emm: BoolProperty(name="绘制开发插件面板", default=True if 开发者 else False,update=update_maximize_prefs)
 
     #自定义内容
     def update_activate_custom_keymap(self,context):            

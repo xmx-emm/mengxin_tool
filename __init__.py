@@ -1,51 +1,60 @@
-from . utils.registration import register_classes, unregister_classes, register_keymaps, unregister_keymaps, register_icons, unregister_icons
-from . utils.registration import get_prefs
-from . utils.registration import get_core, get_tools, get_pie_menus
-from . ui.restore_ui import rewrite_ui_更改UI,restore_ui_恢复UI
-from . ui.panel import register_注册面板,register_注销面板
-from . utils.update import register_注册更新数据模块,unregister_注销更新数据模块
-from . property import 注册属性_Property,注销属性_Property
-from . assets import 资产_register,资产_unregister
-from . ui.presets import 注册预设,注销预设
-import bpy
-import sys
-import os
-
-"""
-
+'''
 每次更新需检查 
 ui\panel.py 动画添加项
 ui\tool\maximize_prefs.py   def emm(self, context):
 替换自带的面板，避免功能缺失
+'''
 
-"""
+
 bl_info = {
     "name": "萌新工具箱",
     "author": "小萌新",
-    "version": (0, 0, 1,5, '萌新工具箱__2021-9-5'),
+    "version": (0, 1, 0, '2021-9-5'),
     "blender": (2, 83, 0),
     "location": "到处都是",
     "description": "这是一个萌新工具箱",
     "warning": "",
     "doc_url": "https://space.bilibili.com/231639322",
-    # "tracker_url": "https://github.com/1234EMMM/mengxin_tool",
+    "tracker_url": "https://github.com/1234EMMM/mengxin_tool",
     "wiki_url": "https://space.bilibili.com/231639322",
     # "category": "3D View"
     }
+
+
+from . utils.registration import register_classes, unregister_classes, register_keymaps, unregister_keymaps, register_icons, unregister_icons
+from . utils.registration import get_prefs
+from . utils.registration import get_core, get_tools, get_pie_menus
+
+from . ui.restore_ui import rewrite_ui_更改UI,restore_ui_恢复UI
+from . ui import 注册UI,注销UI
+
+from . ops import 注册OPS,注销OPS
+
+from . utils.update import register_注册更新数据模块,unregister_注销更新数据模块
+from . property import 注册属性_Property,注销属性_Property
+from . assets import 资产_register,资产_unregister
+
+import bpy
+import sys
+import os
+import getpass
+
 
 
 # if 'bpy' in locals():
 #     print("这是一个测试")
 
 
+开发者 = True   if getpass.getuser() in ('32099','') else    False  # 如果是萌新的电脑，那么一些属性就会不一样
+
 def register():
     if sys.platform == 'win32':os.system('@chcp 65001')
     print(f"{bl_info['name']}  启动！！！")
 
+    注册UI()
+    注册OPS()
     资产_register()
     注册属性_Property()
-    register_注册面板()## 需要先注册面板，不然在插件属性里面更新面板的名称会找不到 Panel_Class 这个列表而报错
-
 
     global classes, keymaps, modify_key, icons  ##注册激活功能类和快捷键图标啥的
     core_classes = register_classes(get_core())
@@ -60,9 +69,6 @@ def register():
 
     icons = register_icons()
 
-    注册预设()  #先注册预设再更改UI,不然改UI没有预设按钮给加上去    这里只管注册，添加到界面让下一个更改UI来做
-
-
     rewrite_ui_更改UI()
     register_注册更新数据模块()
 
@@ -75,10 +81,10 @@ def register():
 
 def unregister():
     unregister_注销更新数据模块()
-    register_注销面板()    
     restore_ui_恢复UI()
-    注销预设()
-
+    注销OPS()
+    注销UI()
+    
     global classes, keymaps, modify_key , icons
     unregister_keymaps(keymaps)
     unregister_classes(classes)

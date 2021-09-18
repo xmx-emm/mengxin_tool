@@ -1,65 +1,54 @@
 import bpy
+import inspect
+import sys
 
+from bpy.utils import register_class, unregister_class
+from bpy.types import Menu
 
-# 案例1.基本菜单
-class BasicMenu(bpy.types.Menu):
-    bl_idname = "OBJECT_MT_select_test"
-    bl_label = "Select"
-
-    def draw(self, context):
+class EMM_MESH_MT_FACE_MAP(Menu):
+    bl_label = "网格面映射菜单"
+    
+    def draw(self, _context):
         layout = self.layout
-
-        layout.operator("object.select_all",
-                        text="Select/Deselect All").action = 'TOGGLE'
-        layout.operator("object.select_all", text="Inverse").action = 'INVERT'
-        layout.operator("object.select_random", text="Random")
-
-
-bpy.utils.register_class(BasicMenu)
-# 通过代码 调用菜单
-bpy.ops.wm.call_menu(name="OBJECT_MT_select_test")
-
-
-# 案例2.子菜单
-class SubMenu(bpy.types.Menu):
-    bl_idname = "OBJECT_MT_select_submenu"
-    bl_label = "Select"
-
-    def draw(self, context):
-        layout = self.layout
-
-        layout.operator("object.select_all",
-                        text="Select/Deselect All").action = 'TOGGLE'
-        layout.operator("object.select_all", text="Inverse").action = 'INVERT'
-        layout.operator("object.select_random", text="Random")
-
-        # 将操作符作为子菜单访问  access this operator as a submenu
-        layout.operator_menu_enum(
-            "object.select_by_type", "type", text="Select All by Type...")
-
+        layout.operator("object.shape_key_add", icon='ADD', text="New Shape from Mix").from_mix = True
         layout.separator()
-
-        # 将操作符的选项展开到菜单中  expand each operator option into this menu
-        layout.operator_enum("object.light_add", "type")
-
+        layout.operator("object.shape_key_mirror", icon='ARROW_LEFTRIGHT').use_topology = False
+        layout.operator("object.shape_key_mirror", text="Mirror Shape Key (Topology)").use_topology = True
         layout.separator()
-
-        # layout调用已存在的菜单  需要传入 菜单类 的 bl_idname
-        layout.menu("VIEW3D_MT_transform")
-
-
-bpy.utils.register_class(SubMenu)
-bpy.ops.wm.call_menu(name="OBJECT_MT_select_submenu")
-
-
-# 案例3.为文件菜单添加自定义菜单
-
-# TOPBAR_MT_file 为顶栏的文件菜单
-# 定义绘制函数  绘制函数中仍然有 self 和 context 作为两个基本参数
-def menu_draw(self, context):
-    self.layout.operator("wm.save_homefile")
-    self.layout.prop(bpy.context.object, 'name')
+        layout.operator("object.join_shapes")
+        layout.operator("object.shape_key_transfer")
+        layout.separator()
+        layout.operator("object.shape_key_remove", icon='X', text="Delete All Shape Keys").all = True
+        layout.separator()
+        layout.operator("object.shape_key_move", icon='TRIA_UP_BAR', text="Move to Top").type = 'TOP'
+        layout.operator("object.shape_key_move", icon='TRIA_DOWN_BAR', text="Move to Bottom").type = 'BOTTOM'
 
 
-# 将 menu_draw绘制函数 添加到 文件菜单下
-bpy.types.TOPBAR_MT_file.append(menu_draw)
+排除类列表 = (
+    Menu,
+)
+
+def 注册菜单():
+
+    ###这个方法需要注意名称的长度，注册的顺序是按名称的长度来的，子面板要后注册
+    for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+        if class_ not in 排除类列表:
+            try:
+                register_class(class_)
+                # print(class_)
+            except Exception as e:
+                print(e.args)
+
+
+def 注销菜单():
+    for name, class_ in reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass)):
+        if class_ not in 排除类列表:
+            
+            try:
+                unregister_class(class_)
+                # print(class_)
+            except Exception as e:
+                print(e.args)
+
+            # unregister_class(class_)
+    

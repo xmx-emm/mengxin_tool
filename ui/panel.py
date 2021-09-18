@@ -5,76 +5,67 @@ import sys
 from bpy.types import Panel, UIList
 from bpy.utils import register_class, unregister_class
 # from bl_ui.properties_paint_common
-
 from .presets.node_渐变_presets import NODE_PT_ColorRamp_Presets
-from .tool.maximize_prefs import emm
+from .tool.maximize_prefs import 插件面板
 from .. utils.registration import get_prefs
 from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
 from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
 TIME_PT_PLAYBACK__DRAW = TIME_PT_PLAYBACK.draw
 
+from .. import  bl_info
 
-###3D视图
-class EMM_VIEW3D_PT_N_Panel(Panel):
-    bl_idname = "EMM_VIEW3D_PT_N_PANEL"
-    bl_label = "EMM_N_面板"
+"""
+需注意注册顺序
+按EM的顺序来
+EM
+EMM
+EMMM
+依次注册
+"""
+
+#混合面板
+class EM_VIEW3D_PT_N_Panel(Panel):
+    bl_idname = "EMMM_VIEW3D_PT_N_Panel"
+    bl_label = f"萌新工具箱_{bl_info['version'][0]}.{bl_info['version'][1]}.{bl_info['version'][2]}_{bl_info['version'][3]}"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "EMM"
-    # bl_context = "win"
     bl_options = {'DEFAULT_CLOSED'}
 
 
     def draw(self, context):
         pass
 
-class EMM_PT_插件属性(Panel):
-    bl_idname = "EMM_VIEW3D_PT_SHUXING_PANEL"
-    bl_label = "插件属性"
-    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
-    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
-    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
-    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
-    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
+class EM_NODE_PT_N_PANEL(Panel):
+    bl_idname = "EMM_NODE_PT_N_PANEL_PANEL_PANEL_PANEL_PANEL"
+    bl_label = "节点工具"
+    bl_space_type = 'NODE_EDITOR'
+    bl_region_type = 'UI'
+    bl_category = "EMM"
+    bl_options = {'DEFAULT_CLOSED'}
+
+
+    def draw(self, context):
+        pass
+
+class EM_ADDON_PT_N_PANEL(Panel):
+    bl_idname = "EMM_ADDON_PT_N_PANEL"
+    bl_label = "插件管理"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
-        emm(self, context)
 
-class EMM_PT_插件属性1(Panel):
-    bl_idname = "EMM_VIEW3D_PT_SHUXING_PANE"
-    bl_label = "模板资产"
-    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
-    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
-    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
-    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
-    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
-    bl_options = {'DEFAULT_CLOSED'}
+        插件面板(self, context)
 
-    def draw(self, context):
-        emm(self, context)
-
-class EMM_PT_插件属性2(Panel):
-    bl_idname = "EMM_VIEW3D_PT_SHUXING_PAN"
-    bl_label = "模板资产"
-    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
-    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
-    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
-    bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname    
-    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
-    bl_options = {'DEFAULT_CLOSED'}
-
-    def draw(self, context):
-        emm(self, context)
-
-class EMM_PT_check_Slow(Panel):
+class EM_PT_check_Slow(Panel):
     bl_idname = "EMM_VIEW3D_PT_CHECK_SLOW"
     bl_label = "检查列表"
-    bl_space_type = EMM_VIEW3D_PT_N_Panel.bl_space_type
-    bl_region_type = EMM_VIEW3D_PT_N_Panel.bl_region_type
-    bl_category = EMM_VIEW3D_PT_N_Panel.bl_category
-    # bl_parent_id = EMM_VIEW3D_PT_N_Panel.bl_idname
-    # bl_context = EMM_VIEW3D_PT_N_Panel.bl_context
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
@@ -98,27 +89,180 @@ class EMM_PT_check_Slow(Panel):
         # layout.template_list("OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
 
-##节点
-class EMM_VIEW3D_NODE_PT_N_PANEL(Panel):
-    bl_idname = "EMM_NODE_PT_N_PANEL_PANEL_PANEL_PANEL_PANEL"
-    bl_label = "EMM_NODE_面板"
-    bl_space_type = 'NODE_EDITOR'
-    bl_region_type = 'UI'
-    bl_category = "EMM"
-    # bl_context = "win"
+
+##############################      3D视图
+
+#曲线
+class EMM_PT_曲线(Panel):
+    bl_idname = "EMM_VIEW3D_PT_CURVE_TOOL_PANEL"
+    bl_label = "曲线拆分"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_VIEW3D_PT_N_Panel.bl_idname    
     bl_options = {'DEFAULT_CLOSED'}
 
+    @classmethod
+    def poll(cls, context):
+        obj = context.object
+        return (obj and obj.type == 'CURVE')
+
+    def draw(self, context):
+        layout = self.layout
+        C = layout.column(align=True)
+        R = C.row()
+        # R.operator('emm.separate_splines',text='按松散块').mode = '按松散块'
+        # 插件面板(self, context)
+
+#网格
+class EMM_PT_网格工具(Panel):
+    bl_idname = "EMM_VIEW3D_PT_MESH_TOOL_PANE"
+    bl_label = "网格工具"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_VIEW3D_PT_N_Panel.bl_idname    
+    # bl_context = EMMM_VIEW3D_PT_N_Panel.bl_context
+    bl_options = {'DEFAULT_CLOSED'}
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.object
+        return (obj and obj.type == 'MESH')
 
     def draw(self, context):
         pass
 
+class EMM_PT_网格_面映射(Panel):
+    bl_idname = "EMM_VIEW3D_PT_MESH_FACE_MAP_PANEL"
+    bl_label = "面映射"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_VIEW3D_PT_N_Panel.bl_idname    
+    bl_options = {'DEFAULT_CLOSED'}
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.object
+        return (obj and obj.type == 'MESH')
+
+    def draw(self, context):
+
+        layout = self.layout
+
+        ob = context.object
+        facemap = ob.face_maps.active
+
+        rows = 2
+        if facemap:
+            rows = 4
+
+        row = layout.row()
+        row.template_list("MESH_UL_fmaps", "", ob, "face_maps", ob.face_maps, "active_index", rows=rows)
+
+        col = row.column(align=True)
+        col.operator("object.face_map_add", icon='ADD', text="")
+        col.operator("object.face_map_remove", icon='REMOVE', text="")
+
+        col.separator()
+
+        col.menu("EMM_MESH_MT_FACE_MAP", icon='DOWNARROW_HLT', text="")
+
+        if facemap:
+            col.separator()
+            col.operator("object.face_map_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator("object.face_map_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+        if ob.face_maps and (ob.mode == 'EDIT' and ob.type == 'MESH'):
+            row = layout.row()
+
+            sub = row.row(align=True)
+            sub.operator("object.face_map_assign", text="Assign")
+            sub.operator("object.face_map_remove_from", text="Remove")
+
+            sub = row.row(align=True)
+            sub.operator("object.face_map_select", text="Select")
+            sub.operator("object.face_map_deselect", text="Deselect")
+
+#骨骼
+class EMM_PT_骨骼_面映射(Panel):
+    bl_idname = "EMM_VIEW3D_PT_BONE_FACE_MAP_PANEL"
+    bl_label = "面映射"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_VIEW3D_PT_N_Panel.bl_idname    
+    bl_options = {'DEFAULT_CLOSED'}
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.object
+        return (obj and obj.type == 'ARMATURE' 
+        # and obj.mode == 'POSE'
+        )
+
+    def draw(self, context):
+
+        layout = self.layout
+
+        ob = context.object
+        facemap = ob.face_maps.active
+
+        rows = 2
+        if facemap:
+            rows = 4
+
+        row = layout.row()
+        row.template_list("MESH_UL_fmaps", "", ob, "face_maps", ob.face_maps, "active_index", rows=rows)
+
+        col = row.column(align=True)
+        col.operator("object.face_map_add", icon='ADD', text="")
+        col.operator("object.face_map_remove", icon='REMOVE', text="")
+
+        col.separator()
+
+        col.menu("EMM_MESH_MT_FACE_MAP", icon='DOWNARROW_HLT', text="")
+
+        if facemap:
+            col.separator()
+            col.operator("object.face_map_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator("object.face_map_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+        if ob.face_maps and (ob.mode == 'EDIT' and ob.type == 'MESH'):
+            row = layout.row()
+
+            sub = row.row(align=True)
+            sub.operator("object.face_map_assign", text="Assign")
+            sub.operator("object.face_map_remove_from", text="Remove")
+
+            sub = row.row(align=True)
+            sub.operator("object.face_map_select", text="Select")
+            sub.operator("object.face_map_deselect", text="Deselect")
+
+
+
+class EMM_PT_模板资产(Panel):
+    bl_idname = "EMM_VIEW3D_PT_SHUXING_PAN"
+    bl_label = "模板资产"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_PT_check_Slow.bl_idname    
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        插件面板(self, context)
+
+
+##节点
 class EMM_NODE_PT_渐变预设(Panel):
     bl_idname = "EMM_NODE_PT_VALTORGB_PANEL"
     bl_label = "渐变预设"
-    bl_space_type = EMM_VIEW3D_NODE_PT_N_PANEL.bl_space_type
-    bl_region_type = EMM_VIEW3D_NODE_PT_N_PANEL.bl_region_type
-    bl_category = EMM_VIEW3D_NODE_PT_N_PANEL.bl_category
-    bl_parent_id = EMM_VIEW3D_NODE_PT_N_PANEL.bl_idname
+    bl_space_type = EM_NODE_PT_N_PANEL.bl_space_type
+    bl_region_type = EM_NODE_PT_N_PANEL.bl_region_type
+    bl_category = EM_NODE_PT_N_PANEL.bl_category
+    bl_parent_id = EM_NODE_PT_N_PANEL.bl_idname
     # bl_context = EMM_NODE_PT_N_Panel.bl_context
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -277,7 +421,7 @@ def register_注销面板():
 
 Panel_Class= reversed(inspect.getmembers(sys.modules[__name__], inspect.isclass))
 # (
-#     EMM_VIEW3D_PT_N_Panel,
+#     EMMM_VIEW3D_PT_N_Panel,
 #     EMM_PT_插件属性,
 #     EMM_PT_插件属性1,
 #     EMM_PT_插件属性2,

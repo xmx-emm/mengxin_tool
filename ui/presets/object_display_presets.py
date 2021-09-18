@@ -11,7 +11,6 @@ from bl_ui.properties_object import OBJECT_PT_display
 class OBJECT_PT_display_presets(PresetPanel, Panel, UILayout):
     bl_label = "Object Display Presets"
     preset_subdir = "emmmmm/object/display"
-    # preset_subdir = "C:\\Users\\32099\\AppData\\Roaming\\Blender Foundation\\Blender\\2.93\\scripts\\addons\\mengxin_tool\\assets"
     preset_operator = "script.execute_preset"
     preset_add_operator = 'emm.object_display_preset_add'
 
