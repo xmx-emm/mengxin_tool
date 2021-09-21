@@ -2,22 +2,6 @@ import bpy
 from bpy.props import StringProperty
 
 
-def 创建物体(type,subtype,name,data,ver,edge,face):
-
-    type: StringProperty(name='type',default='')
-
-    if type in ('曲线','CURVE',
-                '曲面','SURFACE',
-                '字体','FONT'): #'POLY','NURBS' BEZIER
-        bpy.data.curves.new(name,type)
-        
-        bpy.data.curves[name].splines.new(subtype)
-    
-
-    if type in ('网格','MESH'):
-        bpy.data.meshes.new(name,data)
-
-
 
 
 import bpy
@@ -26,7 +10,7 @@ from bpy.props import StringProperty
 from bpy.utils import register_class, unregister_class
 
 # from ..utils.new_obj import 创建物体
-#DOTO 拆分 按松散块 按材质 按类型
+###TODO 拆分 按松散块 按材质 按类型
 
 
 class 拆分曲线(Operator):

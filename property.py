@@ -37,9 +37,8 @@ class EMMObjectProperty(PropertyGroup):
     name = '物体属性'
     object_index: IntProperty(
         name='物体编号(EMM)', 
-        # default=0, 
-        # updaet=EMMSceneProperty.EMM_object_index()
         )
+    is_join_obj:BoolProperty(name='是合并物体',default=False,description='是子工具大师合并后的物体,顶点组不能丢啊')
 
 class EMM_屏幕_动画相关_Property(PropertyGroup):
     循环播放: BoolProperty(name="循环播放", default=True,description='播放完所有帧后是否从头开始循环播放')

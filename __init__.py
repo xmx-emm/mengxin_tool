@@ -9,7 +9,7 @@ ui\tool\maximize_prefs.py   def emm(self, context):
 bl_info = {
     "name": "萌新工具箱",
     "author": "小萌新",
-    "version": (0, 1, 0, '2021-9-5'),
+    "version": (0, 1, 0, '2021-9-20'),
     "blender": (2, 83, 0),
     "location": "到处都是",
     "description": "这是一个萌新工具箱",
@@ -74,7 +74,7 @@ def register():
 
 
     get_prefs().maximize_prefs = False  # 在注册类后设置这个最大化偏好设置
-    get_prefs().auto_run_script = False  # 自动重载脚本控制，启动插件默认关闭
+    if 开发者 == False:get_prefs().auto_run_script = False  # 自动重载脚本控制，启动插件默认关闭
 
     print(f"自动注册完成  Registered {bl_info['name']} {'.'.join([str(i) for i in bl_info['version']])} with {tool_count} {'tool' if tool_count == 1 else 'tools'}, {pie_count} pie {'menu' if pie_count == 1 else 'menus'}")
 

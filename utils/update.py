@@ -87,6 +87,16 @@ def 窗口矩阵():
 def 当前视图矩阵():
     print('当前视图矩阵')
 
+def 视图层():
+    print('视图层')
+
+
+def 顶点组活动项():
+    if get_prefs().顶点组同步 and  bpy.context.object.mode =='EDIT':
+        bpy.ops.mesh.select_all(action='DESELECT')
+        bpy.ops.object.vertex_group_select()
+    print('顶点组活动项')
+
 # 渲染前
 @persistent
 def render_pre(self,context):
@@ -134,6 +144,10 @@ def register_msgbus():
     bpy.msgbus.subscribe_rna(key=(bpy.types.RegionView3D, 'perspective_matrix'),owner=owner,args=(),notify=透视矩阵,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.RegionView3D, 'window_matrix'),owner=owner,args=(),notify=窗口矩阵,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.RegionView3D, 'view_matrix'),owner=owner,args=(),notify=当前视图矩阵,)
+
+    bpy.msgbus.subscribe_rna(key=(bpy.types.VertexGroups, 'active_index'),owner=owner,args=(),notify=顶点组活动项,)
+
+    bpy.msgbus.subscribe_rna(key=(bpy.types.ViewLayer, 'objects'),owner=owner,args=(),notify=视图层,)
 
 def unregister_msgbus():
     bpy.msgbus.clear_by_owner(owner)

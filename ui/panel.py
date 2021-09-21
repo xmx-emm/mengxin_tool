@@ -113,8 +113,8 @@ class EMM_PT_曲线(Panel):
         R = C.row()
         # R.operator('emm.separate_splines',text='按松散块').mode = '按松散块'
         # 插件面板(self, context)
-
 #网格
+
 class EMM_PT_网格工具(Panel):
     bl_idname = "EMM_VIEW3D_PT_MESH_TOOL_PANE"
     bl_label = "网格工具"
@@ -131,7 +131,14 @@ class EMM_PT_网格工具(Panel):
         return (obj and obj.type == 'MESH')
 
     def draw(self, context):
-        pass
+        act = context.active_object
+        layout = self.layout
+        C = layout.column(align=True)
+        R = C.row()
+
+        G = R.operator('emm.join_mesh')
+        if act.EMM.is_join_obj:G.mode = '拆分'
+        else:G.mode ='合并'
 
 class EMM_PT_网格_面映射(Panel):
     bl_idname = "EMM_VIEW3D_PT_MESH_FACE_MAP_PANEL"
@@ -184,6 +191,73 @@ class EMM_PT_网格_面映射(Panel):
             sub = row.row(align=True)
             sub.operator("object.face_map_select", text="Select")
             sub.operator("object.face_map_deselect", text="Deselect")
+
+class EMM_PT_网格_顶点组(Panel):
+    bl_idname = "EMM_VIEW3D_PT_MESH_VERTEX_GROUPS_PANEL"
+    bl_label = "顶点组"
+    bl_space_type = EM_VIEW3D_PT_N_Panel.bl_space_type
+    bl_region_type = EM_VIEW3D_PT_N_Panel.bl_region_type
+    bl_category = EM_VIEW3D_PT_N_Panel.bl_category
+    bl_parent_id = EM_VIEW3D_PT_N_Panel.bl_idname    
+    bl_options = {'DEFAULT_CLOSED'}
+    
+    @classmethod
+    def poll(cls, context):
+        # engine = context.engine
+        obj = context.object
+        return (obj and obj.type in {'MESH', 'LATTICE'} 
+        # and (engine in cls.COMPAT_ENGINES)
+        )
+    def draw_header_preset(self, _context):
+        layout = self.layout
+
+        layout.prop(get_prefs(),'顶点组同步',icon='UV_SYNC_SELECT',icon_only=True)
+
+    def draw(self, context):
+        layout = self.layout
+
+        ob = context.object
+        group = ob.vertex_groups.active
+
+        rows = 3
+        if group:
+            rows = 5
+
+        row = layout.row()
+        row.template_list("MESH_UL_vgroups", "", ob, "vertex_groups", ob.vertex_groups, "active_index", rows=rows)
+
+        col = row.column(align=True)
+
+        col.operator("object.vertex_group_add", icon='ADD', text="")
+        props = col.operator("object.vertex_group_remove", icon='REMOVE', text="")
+        props.all_unlocked = props.all = False
+
+        col.separator()
+
+        col.menu("MESH_MT_vertex_group_context_menu", icon='DOWNARROW_HLT', text="")
+
+        if group:
+            col.separator()
+            col.operator("object.vertex_group_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator("object.vertex_group_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+        if (
+                ob.vertex_groups and
+                (ob.mode == 'EDIT' or
+                 (ob.mode == 'WEIGHT_PAINT' and ob.type == 'MESH' and ob.data.use_paint_mask_vertex))
+        ):
+            row = layout.row()
+
+            sub = row.row(align=True)
+            sub.operator("object.vertex_group_assign", text="Assign")
+            sub.operator("object.vertex_group_remove_from", text="Remove")
+
+            sub = row.row(align=True)
+            sub.operator("object.vertex_group_select", text="Select")
+            sub.operator("object.vertex_group_deselect", text="Deselect")
+
+            layout.prop(context.tool_settings, "vertex_group_weight", text="Weight")
+
 
 #骨骼
 class EMM_PT_骨骼_面映射(Panel):

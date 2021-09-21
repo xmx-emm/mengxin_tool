@@ -87,6 +87,9 @@ class AddonPreferences(AP):
 
     bl_idname = get_emm_name()
 
+    #网格工具
+    顶点组同步:BoolProperty(name='顶点组同步',default=False)
+
     #雕刻
     sculpt_switch_rotate_method: BoolProperty(name="自动切换视图旋转方法", default=True,
                                 description='''
