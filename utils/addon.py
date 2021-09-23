@@ -1,5 +1,5 @@
 import addon_utils
-import bpy
+import bpy,os
 context = bpy.context
 prefs = context.preferences
 
@@ -52,3 +52,4 @@ def get_addon_prefs(addon):
     _, foldername, _, _ = get_addon(addon)
     return bpy.context.preferences.addons.get(foldername).preferences
 
+path_addons = os.path.normpath(os.path.join((bpy.utils.user_resource('CONFIG', path="locale\zh_CN\LC_MESSAGES", create=False)),'blender.mo'))

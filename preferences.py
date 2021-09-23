@@ -7,11 +7,15 @@ from bpy.props import (StringProperty,
                        IntProperty,
                        EnumProperty
                        )
+
+from . import url
+
+from .utils.registration import activate, get_emm_name, keymaps, get_path
+from .utils.folder_file import BLT全局翻译
+from .utils.ui import draw_keymap_items
 from .utils.ui import get_icon
 
 
-from .utils.registration import activate, get_emm_name, keymaps, get_path
-from .utils.ui import draw_keymap_items
 from .ui.tool.maximize_prefs import maximize
 from .ui.tool.workspaces_cn import workspaces_cn
 from .ui.panel import update_panel_名称
@@ -179,6 +183,17 @@ class AddonPreferences(AP):
     def update_activate_custom_keymap(self,context):            
         keymaps(self, register=self.activate_custom_keymap, tool="custom_keymap")
         自定义一些快捷键_属性()
+
+        kc = context.window_manager.keyconfigs.user.keymaps
+        km = kc.get('Text')  # get 属性keymap快捷键
+        for kmi in km.keymap_items:
+            if kmi.idname == 'text.run_script':
+                if self.activate_custom_keymap:
+                    kmi.type = 'A'
+                else:
+                    kmi.type = 'P'
+                # print(kmi)
+
     activate_custom_keymap: BoolProperty(name="萌新爱用的快捷键", default=True,update=update_activate_custom_keymap,
         description="""        注册以下快捷键:
         Ctrl Alt U        偏好设置
@@ -198,7 +213,7 @@ class AddonPreferences(AP):
 
     def update_activate_workspaces_cn(self,context):
         workspaces_cn()
-    activate_customize: BoolProperty(name="Customize", default=False)
+    # activate_customize: BoolProperty(name="Customize", default=True)
     activate_workspaces_cn:BoolProperty(name="翻译工作区名称", default=False,update=update_activate_workspaces_cn,
         description="""注册以下快捷键:
         Ctrl Alt U        偏好设置
@@ -371,26 +386,30 @@ class AddonPreferences(AP):
 
 
 
-        d = b.split(factor=gt)
-        d.prop(self, 'activate_customize', toggle=True,icon = "TRIA_DOWN" \
-            if self.activate_customize else "TRIA_RIGHT", 
-             icon_only = False, emboss = False
-             )
+        # d = b.split(factor=gt)
+        # d.prop(self, 'activate_customize', toggle=True,icon = "TRIA_DOWN" \
+        #     if self.activate_customize else "TRIA_RIGHT", 
+        #      icon_only = False, emboss = False
+        #      )
+        #         
+        # if self.activate_customize:
 
-        d.label(text="自定义一些内容")
+        bs = b.box().column()
         
-        if self.activate_customize:
-            bs = b.box().column()
-            # bs.label(text="自定义内容")
-            row = bs.row()
-            row.scale_y = 1.3
-            # row.scale_x = 1
-            row.prop(self, "activate_custom_keymap",icon_value=get_icon('头'))
-            row.prop(self, "activate_workspaces_cn",icon_value=get_icon('翻译'))
+        bs.label(text="自定义一些内容")
+        # bs.label(text="自定义内容")
+        row = bs.row()
+        row.scale_y = 1.3
+        # row.scale_x = 1
+        row.prop(self, "activate_custom_keymap",icon_value=get_icon('头'))
+        row.prop(self, "activate_workspaces_cn",icon_value=get_icon('翻译'))
 
-            row = bs.row()
-            row.prop(self, "偏好设置_属性自定义",icon='ALIGN_LEFT')
-
+        row = bs.row()
+        row.prop(self, "偏好设置_属性自定义",icon='ALIGN_LEFT')
+        if BLT全局翻译() == False:
+            row.operator(
+                        "wm.url_open", text="使用BLT完善翻译", icon_value=get_icon('BLT'),
+                    ).url = url.get('BLT')
 
         if getattr(bpy.types, "EMMMMM_MT_modes_pie", False):
             d = b.box()

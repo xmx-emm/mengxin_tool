@@ -22,7 +22,8 @@ class Updaet_Keymaps(OPS):
 
     def execute(self, context):
         preferences = bpy.context.window_manager.keyconfigs['Blender'].preferences
-        
+
+
         if self.Updaet_ == 'updaet_keymaps':
             km = kc.get('Object Non-modal')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
@@ -145,6 +146,22 @@ class Updaet_Keymaps(OPS):
                 #         kmi.value = 'CLICK'
                 #     else:
                 #         kmi.value = 'PRESS'
+            
+            # km = kc.get('Text')  # get 属性keymap快捷键
+            # for kmi in km.keymap_items:
+            #     if kmi.idname == 'text.run_script':
+            #         if get_prefs().activate_space_pie and preferences.spacebar_action == 'PLAY':
+            #             kmi.value = 'CLICK'
+            #         else:
+            #             kmi.value = 'PRESS'
+
+                # if kmi.idname == 'object.delete':
+                #     if get_prefs().activate_select_pie:
+                #         kmi.value = 'CLICK'
+                #     else:
+                #         kmi.value = 'PRESS'
+            
+            
             return {'FINISHED'}
 
         if self.Updaet_ == 'updaet_spacebar':
@@ -161,3 +178,6 @@ class Updaet_Keymaps(OPS):
                     kmi.value = 'PRESS'
 
             return {'FINISHED'}
+
+def modify_keymaps(name):
+    pass

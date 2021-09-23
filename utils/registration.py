@@ -15,7 +15,6 @@ import bpy
 然后在get_tools()或是get_pie_menus内需要有一个类，在启动时注册此快捷键
 """
 
-
 def get_path():
     return os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
@@ -31,7 +30,7 @@ def uprefs():
 
 
 def register_icons():
-    path = os.path.join(get_prefs().path, "icons")
+    path = os.path.normpath(os.path.join(get_prefs().path, "assets\icons"))
     icons = previews.new()
 
     for i in sorted(os.listdir(path)):
@@ -40,7 +39,6 @@ def register_icons():
             filepath = os.path.join(path, i)
 
             icons.load(iconname, filepath, 'IMAGE')
-
 
     return icons
 

@@ -20,6 +20,9 @@ bl_info = {
     # "category": "3D View"
     }
 
+url = {
+    "BLT":'https://www.yuque.com/blt'
+}
 
 from . utils.registration import register_classes, unregister_classes, register_keymaps, unregister_keymaps, register_icons, unregister_icons
 from . utils.registration import get_prefs
