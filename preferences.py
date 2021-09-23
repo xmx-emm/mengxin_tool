@@ -184,14 +184,14 @@ class AddonPreferences(AP):
         keymaps(self, register=self.activate_custom_keymap, tool="custom_keymap")
         自定义一些快捷键_属性()
 
-        kc = context.window_manager.keyconfigs.user.keymaps
-        km = kc.get('Text')  # get 属性keymap快捷键
-        for kmi in km.keymap_items:
-            if kmi.idname == 'text.run_script':
-                if self.activate_custom_keymap:
-                    kmi.type = 'A'
-                else:
-                    kmi.type = 'P'
+        # kc = context.window_manager.keyconfigs.user.keymaps
+        # km = kc.get('Text')  # get 属性keymap快捷键
+        # for kmi in km.keymap_items:
+        #     if kmi.idname == 'text.run_script':
+        #         if self.activate_custom_keymap:
+        #             kmi.type = 'A'
+        #         else:
+        #             kmi.type = 'P'
                 # print(kmi)
 
     activate_custom_keymap: BoolProperty(name="萌新爱用的快捷键", default=True,update=update_activate_custom_keymap,
