@@ -10,11 +10,11 @@ from bpy.props import (StringProperty,
 
 from . import url
 
-from .utils.registration import activate, get_emm_name, keymaps, get_path
+from .utils.registration import activate, get_emm_name, keymaps, get_path,get_prefs
 from .utils.folder_file import BLT全局翻译
 from .utils.ui import draw_keymap_items
 from .utils.ui import get_icon
-
+from .utils.addon import *
 
 from .ui.tool.maximize_prefs import maximize
 from .ui.tool.workspaces_cn import workspaces_cn
@@ -90,36 +90,16 @@ class AddonPreferences(AP):
     path = get_path()
     bl_idname = get_emm_name()
 
-    import addon_utils
 
     #杂项属性
     仅过滤用户插件: BoolProperty(name='仅过滤用户插件',description='只过滤用户的插件，其它自带的插件全部启用',default = False)
-    addon_map = {mod.__name__: mod for mod in addon_utils.modules()}
 
     prefs = bpy.context.preferences
-    import os
-    if bpy.app.version >= (2, 94, 0):
-        ## 3.0版本
-        addon_user_dirs = tuple(
-            p for p in (
-                os.path.join(prefs.filepaths.script_directory, "addons"),
-                bpy.utils.user_resource('SCRIPTS', path="addons"),
-            )
-            if p
-        )
-    else:
-        ## 2.93版本
-        addon_user_dirs = tuple(
-            p for p in (
-                os.path.join(prefs.filepaths.script_directory, "addons"),
-                bpy.utils.user_resource('SCRIPTS', "addons"),
-            )
-            if p
-        )
 
+    addon_map = addon_map
     def addon_filter_items(self, _context):
         import addon_utils
-        addon_user_dirs = self.addon_user_dirs
+        addon_user_dirs = get_addon_user_dirs()
 
         items = [
             ('All', "All", "All Add-ons"),
@@ -131,7 +111,10 @@ class AddonPreferences(AP):
         for addon in bpy.context.preferences.addons:
             module = self.addon_map.get(addon.module)
             info = addon_utils.module_bl_info(module)
-            if (module.__file__.startswith(addon_user_dirs)):
+            if get_prefs().仅过滤用户插件:
+                if (module.__file__.startswith(addon_user_dirs)):
+                    items_unique.add(info["category"])
+            else:
                 items_unique.add(info["category"])
 
         items.extend([(cat, cat, "") for cat in sorted(items_unique)])        

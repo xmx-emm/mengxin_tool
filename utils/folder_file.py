@@ -14,6 +14,7 @@ def open_folder(path):
 def BLT全局翻译():
     path_addons = os.path.normpath(os.path.join((bpy.utils.user_resource('DATAFILES', path="locale\zh_CN\LC_MESSAGES", create=False)),'blender.mo'))
     return os.path.exists(path_addons)
+# path_addons = os.path.normpath(os.path.join((bpy.utils.user_resource('CONFIG', path="locale\zh_CN\LC_MESSAGES", create=False)),'blender.mo'))
 
 # path_addons = os.path.normpath(os.path.join((bpy.utils.user_resource('DATAFILES', path="locale\zh_CN\LC_MESSAGES", create=False)),'blender.mo'))
 # print(os.path.exists(path_addons))

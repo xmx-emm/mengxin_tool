@@ -4,6 +4,7 @@ import addon_utils
 from bl_ui.space_userpref import USERPREF_PT_addons
 from ...utils.blender_class import  USERPREF
 from ...utils.registration import get_prefs, get_emm_name
+from ...utils.addon import get_addon_user_dirs
 # from ...utils.folder_file import open_folder
 from bpy.props import BoolProperty
 
@@ -53,27 +54,7 @@ def draw_emm(self, context):
     prefs = context.preferences
     used_ext = {ext.module for ext in prefs.addons}
 
-
-
-    if bpy.app.version >= (2, 94, 0):
-        ## 3.0版本
-        addon_user_dirs = tuple(
-            p for p in (
-                os.path.join(prefs.filepaths.script_directory, "addons"),
-                bpy.utils.user_resource('SCRIPTS', path="addons"),
-            )
-            if p
-        )
-    else:
-        ## 2.93版本
-        addon_user_dirs = tuple(
-            p for p in (
-                os.path.join(prefs.filepaths.script_directory, "addons"),
-                bpy.utils.user_resource('SCRIPTS', "addons"),
-            )
-            if p
-        )
-
+    addon_user_dirs = get_addon_user_dirs()
     # Development option for 2.8x, don't show users bundled addons
     # unless they have been updated for 2.8x.
     # Developers can turn them on with '--debug'

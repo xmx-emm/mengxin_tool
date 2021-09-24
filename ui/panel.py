@@ -9,6 +9,7 @@ from .presets.node_渐变_presets import NODE_PT_ColorRamp_Presets
 from .tool.maximize_prefs import 插件面板
 from .. utils.registration import get_prefs,get_emm_name
 from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
+from .. utils.addon import *
 from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
 TIME_PT_PLAYBACK__DRAW = TIME_PT_PLAYBACK.draw
 from bpy.props import   *
@@ -132,27 +133,9 @@ class EMM_WORKSPACE_PT_addons(Panel):
         addon_map = {mod.__name__: mod for mod in addon_utils.modules()}
         owner_ids = {owner_id.name for owner_id in workspace.owner_ids}
         
-        import os
-        if bpy.app.version >= (2, 94, 0):
-            ## 3.0版本
-            addon_user_dirs = tuple(
-                p for p in (
-                    os.path.join(prefs.filepaths.script_directory, "addons"),
-                    bpy.utils.user_resource('SCRIPTS', path="addons"),
-                )
-                if p
-            )
-        else:
-            ## 2.93版本
-            addon_user_dirs = tuple(
-                p for p in (
-                    os.path.join(prefs.filepaths.script_directory, "addons"),
-                    bpy.utils.user_resource('SCRIPTS', "addons"),
-                )
-                if p
-            )
+        addon_user_dirs = get_addon_user_dirs()
 
-        layout = self.layout        
+        layout = self.layout
         col = layout.box().column(align=True)
         row = col.row()
         col.active = workspace.use_filter_by_owner
@@ -180,7 +163,6 @@ class EMM_WORKSPACE_PT_addons(Panel):
 
             is_enabled = module_name in owner_ids
 
-
             if module_name in 跳过插件:
                 if module_name not in owner_ids:
                     bpy.context.workspace.owner_ids.new(module_name)
@@ -191,8 +173,13 @@ class EMM_WORKSPACE_PT_addons(Panel):
 
             if info["support"] not in support and get_prefs().仅过滤用户插件 == False:
                 continue
+
             if get_prefs().仅过滤用户插件:
+                
                 if (module.__file__.startswith(addon_user_dirs)) == False:
+
+                    if module_name not in owner_ids:
+                        bpy.context.workspace.owner_ids.new(module_name)
                     continue
 
             # check if addon should be visible with current filters
@@ -211,6 +198,7 @@ class EMM_WORKSPACE_PT_addons(Panel):
             #     仅用户()
                 # is_visible = is_visible and is_enabled
 
+
             if is_visible:
                 row = col.row()
                 row.alignment = 'LEFT'
@@ -224,11 +212,6 @@ class EMM_WORKSPACE_PT_addons(Panel):
                 if is_enabled:
                     owner_ids.remove(module_name)
 
-            elif is_visible ==False and get_prefs().仅过滤用户插件:
-
-                if module_name not in owner_ids:
-                    # bpy.context.workspace.owner_ids.new(module_name)
-                    print(f'add___{module_name}')
 
         # Detect unused
         # if owner_ids:

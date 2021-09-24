@@ -8,6 +8,29 @@ addons = [
     (mod, addon_utils.module_bl_info(mod))
     for mod in addon_utils.modules(refresh=True)
 ]
+addon_map = {mod.__name__: mod for mod in addon_utils.modules()}
+
+
+def get_addon_user_dirs():
+    if bpy.app.version >= (2, 94, 0):
+        ## 3.0版本
+        addon_user_dirs = tuple(
+            p for p in (
+                os.path.join(prefs.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', path="addons"),
+            )
+            if p
+        )
+    else:
+        ## 2.93版本
+        addon_user_dirs = tuple(
+            p for p in (
+                os.path.join(prefs.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', "addons"),
+            )
+            if p
+        )
+    return addon_user_dirs
 
 def get_all_addon():
     for mod, info in addons:
@@ -18,16 +41,7 @@ def get_all_activate_addon():
     used_ext = {ext.module for ext in prefs.addons}
     return list(used_ext)
 
-
-# bcprefs = get_addon_prefs('BoxCutter')
-
-# bcprefs.behavior.orient_method = 'LOCAL'
-
-# a = get_addon('3D Navigation')
-# print(a[3])
-
 def get_addon(addon, debug=False):
-    import addon_utils
 
     for mod in addon_utils.modules():
         name = mod.bl_info["name"]
@@ -51,5 +65,3 @@ def get_addon(addon, debug=False):
 def get_addon_prefs(addon):
     _, foldername, _, _ = get_addon(addon)
     return bpy.context.preferences.addons.get(foldername).preferences
-
-path_addons = os.path.normpath(os.path.join((bpy.utils.user_resource('CONFIG', path="locale\zh_CN\LC_MESSAGES", create=False)),'blender.mo'))
