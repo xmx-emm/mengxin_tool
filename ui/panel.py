@@ -112,12 +112,6 @@ class EMM_WORKSPACE_PT_addons(Panel):
         prefs = context.preferences
         workspace = context.workspace
 
-        if workspace.use_filter_by_owner:
-            layout.row().prop(get_prefs(), "仅过滤用户插件"
-                            # ,text = '仅用户插件',
-                                                                                # toggle=True
-                                                                                )
-            layout.row().prop(get_prefs(),'addon_filter',text='')
 
     def draw_header(self, context):
         workspace = context.workspace
@@ -135,14 +129,26 @@ class EMM_WORKSPACE_PT_addons(Panel):
         
         addon_user_dirs = get_addon_user_dirs()
 
+
+
         layout = self.layout
+        row = layout.row()
+        # if workspace.use_filter_by_owner:
+        row.prop(get_prefs(), "仅过滤用户插件"
+                        # ,text = '仅用户插件',
+                                                                            # toggle=True
+                                                                            )
+        row.prop(get_prefs(),'addon_filter',text='')
+
+        if get_prefs().仅过滤用户插件 == False:            
+            row = layout.row()
+            row.prop(wm, "addon_support", expand=True)
+
+
         col = layout.box().column(align=True)
         row = col.row()
         col.active = workspace.use_filter_by_owner
-
-
-        if get_prefs().仅过滤用户插件 == False:
-            row.prop(wm, "addon_support", expand=True)
+        row = col.row()
 
 
         self.filter = filter = get_prefs().addon_filter
