@@ -7,11 +7,11 @@ from bpy.utils import register_class, unregister_class
 # from bl_ui.properties_paint_common
 from .presets.node_渐变_presets import NODE_PT_ColorRamp_Presets
 from .tool.maximize_prefs import 插件面板
-from .. utils.registration import get_prefs
+from .. utils.registration import get_prefs,get_emm_name
 from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
 from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
 TIME_PT_PLAYBACK__DRAW = TIME_PT_PLAYBACK.draw
-
+from bpy.props import   *
 from .. import  bl_info
 
 """
@@ -57,8 +57,8 @@ class EM_ADDON_PT_N_PANEL(Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
-
-        插件面板(self, context)
+        pass
+        # 插件面板(self, context)
 
 class EM_PT_check_Slow(Panel):
     bl_idname = "EMM_VIEW3D_PT_CHECK_SLOW"
@@ -91,6 +91,158 @@ class EM_PT_check_Slow(Panel):
 
 
 ##############################      3D视图
+##插件
+
+class EMM_WORKSPACE_PT_addons(Panel):
+    bl_label = "Filter Add-ons"
+    bl_idname = "EMM_VIEW3D_PT_ADDONS"
+
+    bl_space_type = EM_ADDON_PT_N_PANEL.bl_space_type
+    bl_region_type = EM_ADDON_PT_N_PANEL.bl_region_type
+    bl_category = EM_ADDON_PT_N_PANEL.bl_category
+    bl_parent_id = EM_ADDON_PT_N_PANEL.bl_idname
+    bl_options = {'DEFAULT_CLOSED'}
+
+
+
+    def draw_header_preset(self,context):
+        layout = self.layout
+        wm = context.window_manager
+        prefs = context.preferences
+        workspace = context.workspace
+
+        if workspace.use_filter_by_owner:
+            layout.row().prop(get_prefs(), "仅过滤用户插件"
+                            # ,text = '仅用户插件',
+                                                                                # toggle=True
+                                                                                )
+            layout.row().prop(get_prefs(),'addon_filter',text='')
+
+    def draw_header(self, context):
+        workspace = context.workspace
+        self.layout.prop(workspace, "use_filter_by_owner", text="")
+
+    def draw(self, context):
+
+        workspace = context.workspace
+        prefs = context.preferences
+        wm = context.window_manager
+
+        import addon_utils
+        addon_map = {mod.__name__: mod for mod in addon_utils.modules()}
+        owner_ids = {owner_id.name for owner_id in workspace.owner_ids}
+        
+        import os
+        if bpy.app.version >= (2, 94, 0):
+            ## 3.0版本
+            addon_user_dirs = tuple(
+                p for p in (
+                    os.path.join(prefs.filepaths.script_directory, "addons"),
+                    bpy.utils.user_resource('SCRIPTS', path="addons"),
+                )
+                if p
+            )
+        else:
+            ## 2.93版本
+            addon_user_dirs = tuple(
+                p for p in (
+                    os.path.join(prefs.filepaths.script_directory, "addons"),
+                    bpy.utils.user_resource('SCRIPTS', "addons"),
+                )
+                if p
+            )
+
+        layout = self.layout        
+        col = layout.box().column(align=True)
+        row = col.row()
+        col.active = workspace.use_filter_by_owner
+
+
+        if get_prefs().仅过滤用户插件 == False:
+            row.prop(wm, "addon_support", expand=True)
+
+
+        self.filter = filter = get_prefs().addon_filter
+
+        support = wm.addon_support
+
+
+        跳过插件 = [
+            get_emm_name(),
+            'BM_WWYL'
+        ]
+
+        for addon in prefs.addons:
+            module_name = addon.module
+            module = addon_map.get(module_name)
+
+            info = addon_utils.module_bl_info(module)
+
+            is_enabled = module_name in owner_ids
+
+
+            if module_name in 跳过插件:
+                if module_name not in owner_ids:
+                    bpy.context.workspace.owner_ids.new(module_name)
+                continue
+
+            if module is None:
+                continue
+
+            if info["support"] not in support and get_prefs().仅过滤用户插件 == False:
+                continue
+            if get_prefs().仅过滤用户插件:
+                if (module.__file__.startswith(addon_user_dirs)) == False:
+                    continue
+
+            # check if addon should be visible with current filters
+            is_visible = (
+                (filter == "All") or
+                (filter == info["category"]) or
+                (filter == "User" and (module.__file__.startswith(addon_user_dirs)))
+            )
+
+            # def 仅用户():
+            #     get_prefs().addon_filter = 'User'
+            #     # if info["support"] !=
+            #     pass
+
+            # if get_prefs().仅过滤用户插件:
+            #     仅用户()
+                # is_visible = is_visible and is_enabled
+
+            if is_visible:
+                row = col.row()
+                row.alignment = 'LEFT'
+                row.operator(
+                    "wm.owner_disable" if is_enabled else "wm.owner_enable",
+                    icon='CHECKBOX_HLT' if is_enabled else 'CHECKBOX_DEHLT',
+                    text='',
+                    emboss=False,
+                ).owner_id = module_name
+                row.label(text="%s: %s" % (info["category"], info["name"]),)            
+                if is_enabled:
+                    owner_ids.remove(module_name)
+
+            elif is_visible ==False and get_prefs().仅过滤用户插件:
+
+                if module_name not in owner_ids:
+                    # bpy.context.workspace.owner_ids.new(module_name)
+                    print(f'add___{module_name}')
+
+        # Detect unused
+        # if owner_ids:
+        #     layout.label(text="Unknown add-ons", icon='ERROR')
+        #     col = layout.box().column(align=True)
+        #     for module_name in sorted(owner_ids):
+        #         row = col.row()
+        #         row.alignment = 'LEFT'
+        #         row.operator(
+        #             "wm.owner_disable",
+        #             icon='CHECKBOX_HLT',
+        #             text=module_name,
+        #             emboss=False,
+        #         ).owner_id = module_name
 
 #曲线
 class EMM_PT_曲线(Panel):

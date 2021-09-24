@@ -40,39 +40,60 @@ class EMMObjectProperty(PropertyGroup):
         )
     is_join_obj:BoolProperty(name='是合并物体',default=False,description='是子工具大师合并后的物体,顶点组不能丢啊')
 
-class EMM_屏幕_动画相关_Property(PropertyGroup):
+class EMM_屏幕_Property(PropertyGroup):
+
     循环播放: BoolProperty(name="循环播放", default=True,description='播放完所有帧后是否从头开始循环播放')
     回到起始帧: BoolProperty(name="回到起始帧", default=False,description='如果打开循环播放,打开此选项后停止播放动画后时间线回到起始帧')
+
+
+class EMM_Preferences属性_Property(PropertyGroup):
+    循环播放= BoolProperty(name="循环播放", default=True,description='播放完所有帧后是否从头开始循环播放')
+    回到起始帧= BoolProperty(name="回到起始帧", default=False,description='如果打开循环播放,打开此选项后停止播放动画后时间线回到起始帧')
+
 
 
 排除类列表 = (
     PropertyGroup,
 )
+
 def 注册属性_Property():
     for name, class_ in inspect.getmembers(sys.modules[__name__], inspect.isclass):
         if class_ not in 排除类列表:
             register_class(class_)
+            # print(class_)
 
-    bpy.types.Scene.EMM_UV = PointerProperty(type=EMMUvProperty)
-    bpy.types.Scene.EMM_Sculpt = PointerProperty(type=EMMSculptProperty)
-    bpy.types.Scene.EMM = PointerProperty(type=EMMSceneProperty)
+    # bpy.types.Scene.EMM_UV = PointerProperty(type=EMMUvProperty)
+    # bpy.types.Scene.EMM_Sculpt = PointerProperty(type=EMMSculptProperty)
 
-    bpy.types.Object.EMM = PointerProperty(type=EMMObjectProperty)
+    bpy.types.Scene.EMM = PointerProperty(type=EMMSceneProperty,name='萌新工具箱场景属性')
 
-    bpy.types.Screen.EMM = PointerProperty(type=EMM_屏幕_动画相关_Property)
+    bpy.types.Object.EMM = PointerProperty(type=EMMObjectProperty,name='萌新工具箱物体属性')
+
+    bpy.types.Screen.EMM = PointerProperty(type=EMM_屏幕_Property,name='萌新工具箱屏幕属性')
+     
+    # bpy.types.PreferencesView.EMM = BoolProperty(name='仅过滤用户插件',description='只过滤用户的插件，其它自带的插件全部启用',default = False)
+    # bpy.types.WindowManager.
+    # bpy.EMM.仅过滤用户插件= BoolProperty(name='仅过滤用户插件',description='只过滤用户的插件，其它自带的插件全部启用',default = False)
+
+
+
+
 
 def 注销属性_Property():
     for name, class_ in inspect.getmembers(sys.modules[__name__], inspect.isclass):
         if class_ not in 排除类列表:
             unregister_class(class_)
 
-    del bpy.types.Scene.EMM_UV
-    del bpy.types.Scene.EMM_Sculpt
+    # del bpy.types.Scene.EMM_UV
+    # del bpy.types.Scene.EMM_Sculpt
     del bpy.types.Scene.EMM
 
     del bpy.types.Object.EMM
-
     del bpy.types.Screen.EMM
+
+    # del bpy.EMM.仅过滤用户插件
+
+    #插件管理
 
 if __name__ == "__main__":
     注册属性_Property()
