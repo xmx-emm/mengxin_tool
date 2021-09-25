@@ -66,7 +66,7 @@ def 自定义一些偏好设置_属性():
     A.show_statusbar_stats = True   #场景统计
     A.show_statusbar_version = True #版本
     A.show_statusbar_vram = True    #显存
-
+    A.show_splash = False   #启动画面
 
 
 

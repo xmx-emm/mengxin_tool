@@ -126,16 +126,20 @@ ctrl+alt+shift+左键 循环打开bl，爆炸专用"""
             return {'FINISHED'}
 
     def restart(self):
-        self.getpath()
-        a = self.with_restart
-        os.system('@ if not exist "C:/tmp" md "C:/tmp"')
-        with open("C:/tmp\Restart_Blender.cmd", "w") as f:
-            f.write(str(a))
-        # print('restart_blender')
-        # print('exitBledner________')
+        # self.getpath()
+        # a = self.with_restart
+        # os.system('@ if not exist "C:/tmp" md "C:/tmp"')
 
-        os.system('C:/tmp\Restart_Blender.cmd')
-        bpy.ops.wm.quit_blender
+        # with open("C:/tmp\Restart_Blender.cmd", "w") as f:
+        #     f.write(str(a))
+        # # print('restart_blender')
+        # # print('exitBledner________')
+
+        # os.system('C:/tmp\Restart_Blender.cmd')
+        # bpy.ops.wm.quit_blender
+
+        os.system('start blender.exe')
+        bpy.ops.wm.quit_blender()
         return {"FINISHED"}
 
     def Double_open(self):

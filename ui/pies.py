@@ -695,12 +695,12 @@ class Pie_V_pie(Menu):
                 if Co.mode == "EDIT":
                     pass
                 
-                if Co.mode == "OBJECT":
-                    if 活动物体类型 == 'MESH':
-                        self.通用视图绘制(pie,Co,display)
-                    if 活动物体类型 == 'ARMATURE':
-                        self.通用视图绘制(pie,Co,display)
-                        self.骨骼_视图切换(pie,Co)
+                OBJ = (Co.mode == "OBJECT")
+                if 活动物体类型 == 'MESH'and OBJ:
+                    self.通用视图绘制(pie,Co,display)
+                if 活动物体类型 == 'ARMATURE':
+                    self.通用视图绘制(pie,Co,display)
+                    self.骨骼_视图切换(pie,Co)
 
 
     def obj_display(pie, Co, layout):
