@@ -32,8 +32,6 @@ class EM_VIEW3D_PT_N_Panel(Panel):
     bl_region_type = 'UI'
     bl_category = "EMM"
     bl_options = {'DEFAULT_CLOSED'}
-
-
     def draw(self, context):
         pass
 

@@ -153,7 +153,6 @@ class AddonPreferences(AP):
     remove_doubles_threshold: FloatProperty(name='按间距合并距离',max=114514,min=0.00000001,default=0.00001)
     ##饼菜单
     def update_activate_modes_pie(self,context):
-
         activate(self,register=self.activate_modes_pie,tool='modes_pie')
     def update_activate_views_pie(self, context):
         

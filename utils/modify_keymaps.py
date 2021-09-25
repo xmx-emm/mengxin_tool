@@ -32,16 +32,32 @@ class Updaet_Keymaps(OPS):
                     for item in kmi.properties.items():     # 循环 properties的name项
                         name = item[1]                      # 切片出来 快捷键 properties的name项.name
 
-                        if name == 'MACHIN3_MT_modes_pie':
-                            pass
+                        if name == 'MACHIN3_MT_modes_pie':                          
                             
                             # kmi.active = kmi.active ^ True
                             # kmi.value = 'CLICK_DRAG'
-
-                        if name == 'VIEW3D_MT_object_mode_pie':
-                            pass
+                            if getattr(bpy.types, "MACHIN3_MT_modes_pie", False) and get_prefs().activate_modes_pie:
+                                kmi.active = False
+                            else:
+                                kmi.active = True
+                        # if name == 'VIEW3D_MT_object_mode_pie':
+                        #     pass
                             # kmi.active = kmi.active ^ True
                             # kmi.value = 'CLICK_DRAG'
+                        
+                        # print(name)
+                        # if name == 'MACHIN3_MT_modes_pie':
+ 
+
+                        # if name == 'MACHIN3_MT_modes_pie':
+                        #     if getattr(bpy.types, "MACHIN3_MT_modes_pie", False) and get_prefs().activate_modes_pie:
+                        #         kmi.active = False
+                        #     else:
+                        #         kmi.active = True
+
+
+        # 'MODES_PIE': [{'label': '3D View', 'keymap': 'Object Non-modal', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]},
+        #               {'label': 'Image Editor', 'keymap': 'Image', 'space_type': 'IMAGE_EDITOR', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]}],
 
             km = kc.get('Window')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
@@ -66,21 +82,52 @@ class Updaet_Keymaps(OPS):
                     else:
                         kmi.value = 'PRESS'
 
+            km = kc.get('Image')  # get 属性keymap快捷键
+            for kmi in km.keymap_items:
+                if kmi.idname == 'wm.call_menu_pie':
+                    for item in kmi.properties.items():     # 循环 properties的name项
+                        # 切片出来 快捷键 properties的name项.name
+                        name = item[1]              
+                        if name == 'MACHIN3_MT_modes_pie':
+
+                            if getattr(bpy.types, "MACHIN3_MT_modes_pie", False) and get_prefs().activate_modes_pie:
+                                kmi.active = False
+                            else:
+                                kmi.active = True
+                                
+                        # if name == 'VIEW3D_MT_object_mode_pie':
+                        #     pass
+                            # kmi.active = kmi.active ^ True
+                            # kmi.value = 'CLICK_DRAG'
+                        
+                        # print(name)
+                        # if name == 'MACHIN3_MT_modes_pie':
+ 
+
+                        #     if getattr(bpy.types, "MACHIN3_MT_modes_pie", False) and get_prefs().activate_modes_pie:
+                        #         kmi.active = False
+                        #     else:
+                        #         kmi.active = True
+
+
+        # 'MODES_PIE': [{'label': '3D View', 'keymap': 'Object Non-modal', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]},
+        #               {'label': 'Image Editor', 'keymap': 'Image', 'space_type': 'IMAGE_EDITOR', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]}],
+
+
+
             km = kc.get('3D View')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
                 if kmi.idname == 'wm.call_menu_pie':
                     for item in kmi.properties.items():     # 循环 properties的name项
                         # 切片出来 快捷键 properties的name项.name
                         name = item[1]
-
                         if name == 'VIEW3D_MT_shading_ex_pie':
-
                             if get_prefs().activate_views_pie:                        
                                 kmi.active = False
                             else:
                                 kmi.active = True
 
-                            # kmi.value = 'CLICK_DRAG'
+                            # kmi.value = 'CLICK_DRAG'                        
 
                 if kmi.idname == 'view3d.select_circle':
                     if get_prefs().activate_C_pie:

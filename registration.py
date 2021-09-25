@@ -57,13 +57,13 @@ ANY
 """
 
 keys = {
-    'MODES_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'TAB', 'ctrl':True,    'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]}],
+    'MODES_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'TAB', 'ctrl':False,    'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]}],
     'VIEWS_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'Z',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_viewport_pie')]}],
     'SPACE_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'SPACE',   'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_space_pie')]}],
     'SELECT_PIE':  [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'A',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_select_pie')]}],
     'DELETE_PIE':  [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'X',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_delete_pie')]},
                     # {'keymap': 'Object Mode', 'space_type': 'VIEW_3D', 'idname': 'object.delete',    'type': 'X',       'value': 'RELEASE', 'properties': [('confirm', True)]}
-                    ],
+                    ],                    
     'C_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'C',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_c_pie')]}],
     'B_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'B',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_b_pie')]}],
     'V_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'V',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_v_pie')]}],
