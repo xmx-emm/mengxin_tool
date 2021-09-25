@@ -90,6 +90,8 @@ def 当前视图矩阵():
 def 视图层():
     print('视图层')
 
+def 切换翻译():
+    print('切换翻译')
 
 def 顶点组活动项():
     if get_prefs().顶点组同步 and  bpy.context.object.mode =='EDIT':
@@ -148,6 +150,8 @@ def register_msgbus():
     bpy.msgbus.subscribe_rna(key=(bpy.types.VertexGroups, 'active_index'),owner=owner,args=(),notify=顶点组活动项,)
 
     bpy.msgbus.subscribe_rna(key=(bpy.types.ViewLayer, 'objects'),owner=owner,args=(),notify=视图层,)
+
+    bpy.msgbus.subscribe_rna(key=(bpy.types.PreferencesView, 'language'),owner=owner,args=(),notify=切换翻译,)
 
 def unregister_msgbus():
     bpy.msgbus.clear_by_owner(owner)

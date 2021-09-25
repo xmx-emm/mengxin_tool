@@ -411,49 +411,26 @@ class EMM_PT_骨骼_面映射(Panel):
     @classmethod
     def poll(cls, context):
         obj = context.object
-        return (obj and obj.type == 'ARMATURE' 
+        return (obj and obj.type == 'ARMATURE'
         # and obj.mode == 'POSE'
         )
 
     def draw(self, context):
-
         layout = self.layout
-
+        col = layout.column()
         ob = context.object
-        facemap = ob.face_maps.active
 
-        rows = 2
-        if facemap:
-            rows = 4
+        SeBolis = []
+        for A in bpy.data.objects:#被绑定的物体
+            if A.parent == ob and A.type == 'MESH':
+                for i in A.modifiers:
+                    if i.type == 'ARMATURE':
+                        if i.object == ob:
+                            SeBolis.append(A.name)
 
-        row = layout.row()
-        row.template_list("MESH_UL_fmaps", "", ob, "face_maps", ob.face_maps, "active_index", rows=rows)
+        col.label(text = (f"绑定物体:{SeBolis}"))
 
-        col = row.column(align=True)
-        col.operator("object.face_map_add", icon='ADD', text="")
-        col.operator("object.face_map_remove", icon='REMOVE', text="")
-
-        col.separator()
-
-        col.menu("EMM_MESH_MT_FACE_MAP", icon='DOWNARROW_HLT', text="")
-
-        if facemap:
-            col.separator()
-            col.operator("object.face_map_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator("object.face_map_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
-
-        if ob.face_maps and (ob.mode == 'EDIT' and ob.type == 'MESH'):
-            row = layout.row()
-
-            sub = row.row(align=True)
-            sub.operator("object.face_map_assign", text="Assign")
-            sub.operator("object.face_map_remove_from", text="Remove")
-
-            sub = row.row(align=True)
-            sub.operator("object.face_map_select", text="Select")
-            sub.operator("object.face_map_deselect", text="Deselect")
-
-
+        col.operator('emm.bone_face_map')
 
 class EMM_PT_模板资产(Panel):
     bl_idname = "EMM_VIEW3D_PT_SHUXING_PAN"
