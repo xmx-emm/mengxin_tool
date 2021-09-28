@@ -18,11 +18,11 @@ import bpy
 def get_path():
     return os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def get_emm_name():
+def get_addon_name():
     return os.path.basename(get_path())
 
 def get_prefs():
-    return bpy.context.preferences.addons[get_emm_name()].preferences
+    return bpy.context.preferences.addons[get_addon_name()].preferences
 
 def uprefs():
     return getattr(bpy.context, "user_preferences", None) or \

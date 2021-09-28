@@ -3,14 +3,14 @@ import os
 import addon_utils
 from bl_ui.space_userpref import USERPREF_PT_addons
 from ...utils.blender_class import  USERPREF
-from ...utils.registration import get_prefs, get_emm_name
+from ...utils.registration import get_prefs, get_addon_name
 from ...utils.addon import get_addon_user_dirs
 # from ...utils.folder_file import open_folder
 from bpy.props import BoolProperty
 
 a = False
 # module_name = 'mengxin_tool'        ###最大化插件名称
-module_name = get_emm_name()
+module_name = get_addon_name()
 
 addons = [
     (mod, addon_utils.module_bl_info(mod))

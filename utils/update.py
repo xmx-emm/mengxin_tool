@@ -93,11 +93,13 @@ def 视图层():
 def 切换翻译():
     print('切换翻译')
 
+顶点组 = 0
 def 顶点组活动项():
     if get_prefs().顶点组同步 and  bpy.context.object.mode =='EDIT':
         bpy.ops.mesh.select_all(action='DESELECT')
         bpy.ops.object.vertex_group_select()
-    print('顶点组活动项')
+    global 顶点组;顶点组 += 1
+    print(f'顶点组活动项 {顶点组}')
 
 # 渲染前
 @persistent
@@ -117,7 +119,7 @@ def 帧更改后_frame_change_post(self,context):
     pass
 
 
-        
+
 
 
 

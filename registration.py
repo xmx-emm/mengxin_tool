@@ -74,7 +74,7 @@ keys = {
     'CUSTOM_KEYMAP':        [{'keymap': 'Screen',      'idname': 'screen.userpref_show',         'type': 'U',            'value': 'PRESS',   'ctrl':True,'alt':True  },
                             {'keymap': 'Window',      'idname': 'wm.save_homefile',             'type': 'ACCENT_GRAVE', 'value': 'PRESS',   'ctrl':True,'alt':True  },
                             {'keymap': 'Text',        'idname': 'text.run_script',              'type': 'A',          'value': 'PRESS',   'alt':True },
-                            {'keymap': 'Screen',      'idname': 'screen.region_flip',           'type': 'RIGHTMOUSE',    'value': 'PRESS',   'shift':True            },
+                            {'keymap': 'Screen',      'idname': 'screen.region_flip',           'type': 'RIGHTMOUSE',    'value': 'PRESS',   'shift':True    ,'ctrl':True        },
                             {'keymap': 'Window',      'idname': 'wm.window_fullscreen_toggle',  'type': 'SPACE',        'value': 'PRESS',   'alt':True              },
                             # {'keymap': '3D View',     'idname': 'object.select_grouped',               'type': 'RIGHTMOUSE',    'value': 'DOUBLE_CLICK',   'shift':True ,'properties': [('type', 'COLLECTION'),('extend',True)]},
                             ]

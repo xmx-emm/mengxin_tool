@@ -2,6 +2,11 @@ import bpy
 from bpy.types import Operator
 from bpy.props import StringProperty
 from bpy.utils import register_class, unregister_class
+"""
+#TODO通过所选骨骼创建面映射
+#TODO通过顶点组权重大于多少添加顶点进面映射
+#TODO清除为0的面映射
+"""
 
 class 骨骼面映射工具啊(Operator):
     bl_idname = "emm.bone_face_map"
@@ -11,7 +16,7 @@ class 骨骼面映射工具啊(Operator):
 
     mode: StringProperty(name = '模式',default='face_map')
 
-    def execute(self, context):        
+    def execute(self, context):
         for A in bpy.data.objects:
             SeBolis = []
             if A.parent == bpy.context.object:    

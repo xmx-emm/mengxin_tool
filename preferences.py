@@ -10,7 +10,7 @@ from bpy.props import (StringProperty,
 
 from . import url
 
-from .utils.registration import activate, get_emm_name, keymaps, get_path,get_prefs
+from .utils.registration import activate, get_addon_name, keymaps, get_path,get_prefs
 from .utils.folder_file import BLT全局翻译
 from .utils.ui import draw_keymap_items
 from .utils.ui import get_icon
@@ -88,7 +88,7 @@ def 自定义一些快捷键_属性():
 
 class AddonPreferences(AP):
     path = get_path()
-    bl_idname = get_emm_name()
+    bl_idname = get_addon_name()
 
 
     #杂项属性

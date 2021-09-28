@@ -7,7 +7,7 @@ from bpy.utils import register_class, unregister_class
 # from bl_ui.properties_paint_common
 from .presets.node_渐变_presets import NODE_PT_ColorRamp_Presets
 from .tool.maximize_prefs import 插件面板
-from .. utils.registration import get_prefs,get_emm_name
+from .. utils.registration import get_prefs,get_addon_name
 from .. utils.blender_class import TIME_PT_PLAYBACK动画播放
 from .. utils.addon import *
 from bl_ui.space_time import TIME_PT_playback as TIME_PT_PLAYBACK
@@ -155,7 +155,7 @@ class EMM_WORKSPACE_PT_addons(Panel):
 
 
         跳过插件 = [
-            get_emm_name(),
+            get_addon_name(),
             'BM_WWYL'
         ]
 
@@ -349,8 +349,8 @@ class EMM_PT_网格_顶点组(Panel):
         )
     def draw_header_preset(self, _context):
         layout = self.layout
-
-        layout.prop(get_prefs(),'顶点组同步',icon='UV_SYNC_SELECT',icon_only=True)
+        if bpy.context.object.mode == 'EDIT':
+            layout.prop(get_prefs(),'顶点组同步',icon='UV_SYNC_SELECT',icon_only=True)
 
     def draw(self, context):
         layout = self.layout
