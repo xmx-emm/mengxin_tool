@@ -57,13 +57,19 @@ ANY
 """
 
 keys = {
-    'MODES_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'TAB', 'ctrl':False,    'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]}],
+    'MODES_PIE':   [{'keymap': 'Object Non-modal','idname': 'wm.call_menu_pie',    'type': 'TAB', 'ctrl':False,    'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},
+                    {'keymap': 'Image', 'space_type': 'IMAGE_EDITOR', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},
+                    {'keymap': 'Property Editor', 'space_type': 'PROPERTIES', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},
+                    {'keymap': 'Window', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},
+                    {'keymap': 'Outliner', 'space_type': 'OUTLINER', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},
+                    {'keymap': 'Node Generic', 'space_type': 'NODE_EDITOR',  'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_modes_pie')]},                    ],
+
     'VIEWS_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'Z',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_viewport_pie')]}],
     'SPACE_PIE':   [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'SPACE',   'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_space_pie')]}],
     'SELECT_PIE':  [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'A',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_select_pie')]}],
     'DELETE_PIE':  [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'X',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_delete_pie')]},
                     # {'keymap': 'Object Mode', 'space_type': 'VIEW_3D', 'idname': 'object.delete',    'type': 'X',       'value': 'RELEASE', 'properties': [('confirm', True)]}
-                    ],                    
+                    ],
     'C_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'C',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_c_pie')]}],
     'B_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'B',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_b_pie')]}],
     'V_PIE':       [{'keymap': '3D View', 'space_type': 'VIEW_3D', 'idname': 'wm.call_menu_pie',    'type': 'V',       'value': 'CLICK_DRAG', 'properties': [('name', 'EMMMMM_MT_v_pie')]}],
@@ -73,7 +79,7 @@ keys = {
     'CONSOLE_TOGGLE':       [{'keymap': 'Window',  'space_type': 'EMPTY',   'idname': 'wm.console_toggle',      'type': 'MIDDLEMOUSE',  'value': 'PRESS',  'ctrl':True,    'alt':True}],
     'CUSTOM_KEYMAP':        [{'keymap': 'Screen',      'idname': 'screen.userpref_show',         'type': 'U',            'value': 'PRESS',   'ctrl':True,'alt':True  },
                             {'keymap': 'Window',      'idname': 'wm.save_homefile',             'type': 'ACCENT_GRAVE', 'value': 'PRESS',   'ctrl':True,'alt':True  },
-                            {'keymap': 'Text',        'idname': 'text.run_script',              'type': 'A',          'value': 'PRESS',   'alt':True },
+                            # {'keymap': 'Text',        'idname': 'text.run_script',              'type': 'A',          'value': 'PRESS',   'alt':True },   ##自带了ALT P的快捷键 通过更新快捷键操作来更改
                             {'keymap': 'Screen',      'idname': 'screen.region_flip',           'type': 'RIGHTMOUSE',    'value': 'PRESS',   'shift':True    ,'ctrl':True        },
                             {'keymap': 'Window',      'idname': 'wm.window_fullscreen_toggle',  'type': 'SPACE',        'value': 'PRESS',   'alt':True              },
                             # {'keymap': '3D View',     'idname': 'object.select_grouped',               'type': 'RIGHTMOUSE',    'value': 'DOUBLE_CLICK',   'shift':True ,'properties': [('type', 'COLLECTION'),('extend',True)]},

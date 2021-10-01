@@ -41,7 +41,6 @@ def 创建物体(type,name):
 
 
 def create_mesh_face_hack(faces):
-    # FIXME, faces with duplicate vertices shouldn't be created in the first place.
     faces_copy = []
     for f in faces:
         f_copy = []

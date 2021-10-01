@@ -456,11 +456,11 @@ class EMM_NODE_PT_渐变预设(Panel):
     # bl_context = EMM_NODE_PT_N_Panel.bl_context
     bl_options = {'DEFAULT_CLOSED'}
 
-    # @classmethod
-    # def poll(self, context):
-            #     AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
+    @classmethod
+    def poll(self, context):
+        AC = bpy.context.active_object.active_material.node_tree.nodes[-1]
 
-    #     return AC.type == 'VALTORGB'
+        return (AC.type == 'VALTORGB')
 
 
     def draw(self, context):

@@ -1,5 +1,6 @@
 import os
 import sys
+import bpy
 
 def open_folder(path):
     import platform
@@ -13,7 +14,9 @@ def open_folder(path):
         os.system('xdg-open "%s" %s &' % (path, "> /dev/null 2> /dev/null"))  # > sends stdout,  2> sends stderr
 
 
- 
+def abspath(path):
+    return os.path.abspath(bpy.path.abspath(path))
+
 def Exit():
     print("程序退出测试")
     sys.exit()

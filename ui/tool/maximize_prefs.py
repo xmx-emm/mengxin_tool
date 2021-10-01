@@ -170,7 +170,6 @@ def draw_emm(self, context):
             sub.active = is_enabled
             sub.label(text="%s: %s" % (info["category"], info["name"]))
 
-            # WARNING: 2.8x exception, may be removed
             # use disabled state for old add-ons, chances are they are broken.
             if is_addon_27x:
                 sub.label(text="Upgrade to 2.8x required")

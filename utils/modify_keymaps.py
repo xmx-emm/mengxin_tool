@@ -55,10 +55,6 @@ class Updaet_Keymaps(OPS):
                         #     else:
                         #         kmi.active = True
 
-
-        # 'MODES_PIE': [{'label': '3D View', 'keymap': 'Object Non-modal', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]},
-        #               {'label': 'Image Editor', 'keymap': 'Image', 'space_type': 'IMAGE_EDITOR', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]}],
-
             km = kc.get('Window')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
                 if kmi.idname == 'wm.call_menu_pie':
@@ -109,10 +105,11 @@ class Updaet_Keymaps(OPS):
                         #     else:
                         #         kmi.active = True
 
-
-        # 'MODES_PIE': [{'label': '3D View', 'keymap': 'Object Non-modal', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]},
-        #               {'label': 'Image Editor', 'keymap': 'Image', 'space_type': 'IMAGE_EDITOR', 'idname': 'wm.call_menu_pie', 'type': 'TAB', 'value': 'PRESS', 'properties': [('name', 'MACHIN3_MT_modes_pie')]}],
-
+                if kmi.idname == 'object.mode_set':
+                        if get_prefs().activate_modes_pie and get_prefs().使用M3模式切换饼菜单:
+                            kmi.value = 'CLICK'
+                        else:
+                            kmi.value = 'PRESS'
 
 
             km = kc.get('3D View')  # get 属性keymap快捷键
@@ -188,19 +185,27 @@ class Updaet_Keymaps(OPS):
                     else:
                         kmi.value = 'PRESS'
 
+            km = kc.get('Text')  # get 属性keymap快捷键
+            for kmi in km.keymap_items:
+                if kmi.idname == 'text.run_script':
+                    if get_prefs().activate_custom_keymap:
+                        kmi.type = 'A'
+                    else:
+                        kmi.type = 'P'
+
                 # if kmi.idname == 'object.delete':
                 #     if get_prefs().activate_select_pie:
                 #         kmi.value = 'CLICK'
                 #     else:
                 #         kmi.value = 'PRESS'
             
-            # km = kc.get('Text')  # get 属性keymap快捷键
-            # for kmi in km.keymap_items:
-            #     if kmi.idname == 'text.run_script':
-            #         if get_prefs().activate_space_pie and preferences.spacebar_action == 'PLAY':
-            #             kmi.value = 'CLICK'
-            #         else:
-            #             kmi.value = 'PRESS'
+            km = kc.get('Node Editor')  # get 属性keymap快捷键
+            for kmi in km.keymap_items:
+                if kmi.idname == 'node.group_edit':
+                    if get_prefs().activate_modes_pie:
+                        kmi.value = 'CLICK'
+                    else:
+                        kmi.value = 'PRESS'
 
                 # if kmi.idname == 'object.delete':
                 #     if get_prefs().activate_select_pie:
@@ -227,4 +232,115 @@ class Updaet_Keymaps(OPS):
             return {'FINISHED'}
 
 def modify_keymaps(name):
+
+
     pass
+
+"""
+TypeError: KeyMaps.new(): error with keyword argument "space_type" -  enum "PROPERTY_EDITOR"
+ not found in ('EMPTY', 
+ 'VIEW_3D', 
+ 'IMAGE_EDITOR', 
+ 'NODE_EDITOR', 
+ 'SEQUENCE_EDITOR', 
+ 'CLIP_EDITOR', 
+ 'DOPESHEET_EDITOR', 
+ 'GRAPH_EDITOR',
+  'NLA_EDITOR', 
+  'TEXT_EDITOR', 
+  'CONSOLE', 
+  'INFO', 
+  'TOPBAR', 
+  'STATUSBAR', 
+  'OUTLINER', 
+  'PROPERTIES', 
+  'FILE_BROWSER', 
+  'SPREADSHEET', 
+  'PREFERENCES')
+"""
+""""
+Window
+Screen
+3D View Generic
+View2D
+Info
+Object Non-modal
+3D View
+
+Screen Editing
+User Interface
+Region Context Menu
+View2D Buttons List
+Text Generic
+Text
+Frames
+Property Editor
+Grease Pencil
+Paint Curve
+Weight Paint
+Vertex Paint
+Pose
+Object Mode
+Curve
+Image Paint
+Sculpt
+Mesh
+Armature
+Metaball
+Lattice
+Particle
+Font
+Console
+View3D Gesture Circle
+Gesture Box
+Gesture Zoom Border
+Gesture Straight Line
+Gesture Lasso
+Standard Modal Map
+Animation
+Animation Channels
+Knife Tool Modal Map
+Custom Normals Modal Map
+Bevel Modal Map
+UV Editor
+Paint Stroke Modal
+Sculpt Expand Modal
+Mask Editing
+Markers
+Eyedropper Modal Map
+Transform Modal Map
+Outliner
+View3D Fly Modal
+View3D Walk Modal
+View3D Rotate Modal
+View3D Move Modal
+View3D Zoom Modal
+View3D Dolly Modal
+View3D Placement Modal
+Graph Editor Generic
+Graph Editor
+Image Generic
+Image
+Node Generic
+Node Editor
+File Browser
+File Browser Main
+File Browser Buttons
+Dopesheet Generic
+Dopesheet
+NLA Generic
+NLA Channels
+NLA Editor
+SequencerCommon
+Sequencer
+SequencerPreview
+Clip
+Clip Editor
+Clip Graph Editor
+Clip Dopesheet Editor
+Time Scrub
+Clip Time Scrub
+Toolbar Popup
+
+
+"""

@@ -155,7 +155,6 @@ class AddonPreferences(AP):
     def update_activate_modes_pie(self,context):
         activate(self,register=self.activate_modes_pie,tool='modes_pie')
     def update_activate_views_pie(self, context):
-        
         activate(self, register=self.activate_views_pie, tool='views_pie')
     def update_activate_space_pie(self,context):
         
@@ -343,6 +342,7 @@ class AddonPreferences(AP):
         elif self.tabs == "ADDON":
             self.draw_addon(box,context)
 
+    使用M3模式切换饼菜单: BoolProperty(name="使用M3模式切换饼菜单", default=True)  #界面开关
     def draw_general(self, box):
         split = box.split(factor=0.5)
         column = split.column()
@@ -452,7 +452,8 @@ class AddonPreferences(AP):
             d = b.box()
             d = d.split(factor=gt)
             d.label(text="物体切换饼菜单")
-            # d.prop(self, 'activate_modify_keymaps_modes_pie', toggle=True,icon = dgicon)
+
+            d.prop(self, '使用M3模式切换饼菜单', toggle=True)
 
         if getattr(bpy.types, "EMMMMM_MT_space_pie", False):
             context = bpy.context

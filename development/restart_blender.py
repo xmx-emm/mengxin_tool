@@ -5,7 +5,7 @@ from bpy.types import Operator as OPS
 from bpy.utils import register_class, unregister_class
 from bpy.props import EnumProperty, IntProperty
 import platform  # 导入作为系统判断
-
+from .. import 开发者
 
 class Restart_Blender(OPS):
     """重启bl(mode = '操作执行方式'  forNum = '打开blender次数')
@@ -139,7 +139,10 @@ ctrl+alt+shift+左键 循环打开bl，爆炸专用"""
         # bpy.ops.wm.quit_blender
 
         os.system('start blender.exe')
-        bpy.ops.wm.quit_blender()
+        
+        bpy.ops.wm.quit_blender() if 开发者 else bpy.ops.wm.window_close()
+        
+
         return {"FINISHED"}
 
     def Double_open(self):
