@@ -28,10 +28,10 @@ class EMMUvProperty(PropertyGroup):
     name:StringProperty(name='EMMUvProperty',default='这是一个默认名称 EMMUvProperty')
 
 
-class EMMSceneProperty(PropertyGroup):
+class EMMSceneProperty(PropertyGroup):#场景属性
     name = '场景属性'
-
     active_object_index: IntProperty(name='活动物体编号(EMM)', default=0)
+
 
 class EMMObjectProperty(PropertyGroup):
     name = '物体属性'
@@ -66,6 +66,7 @@ def 注册属性_Property():
     # bpy.types.Scene.EMM_Sculpt = PointerProperty(type=EMMSculptProperty)
 
     bpy.types.Scene.EMM = PointerProperty(type=EMMSceneProperty,name='萌新工具箱场景属性')
+    bpy.types.Scene.active_object_index = IntProperty(name='活动物体编号(EMM)', default=0)
 
     bpy.types.Object.EMM = PointerProperty(type=EMMObjectProperty,name='萌新工具箱物体属性')
 
@@ -87,6 +88,7 @@ def 注销属性_Property():
     # del bpy.types.Scene.EMM_UV
     # del bpy.types.Scene.EMM_Sculpt
     del bpy.types.Scene.EMM
+    del bpy.types.Scene.active_object_index
 
     del bpy.types.Object.EMM
     del bpy.types.Screen.EMM

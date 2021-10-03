@@ -4,7 +4,7 @@
 #所有的面板类先注册
 classes = {
     'CORE': [
-        ('ui.template_list', [('OBJECT_UL_render_check_slow', '')]),  #
+        # ('ui.template_list', [('OBJECT_UL_render_check_slow', '')]),  #
         # ('ui.panel', [('EMM_Panel', ''),        ]),  #
         ('preferences', [
                                 # ('EMMUvProperty', ''),  #将属性都加到Property里面注册

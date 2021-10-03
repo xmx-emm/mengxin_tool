@@ -7,6 +7,51 @@ from ..utils.addon import get_addon
 from ..utils.addon import get_addon_prefs
 from ..utils.system import abspath
 decalmachine = None
+#左
+#右
+#底
+#顶
+#左上
+#右上
+#左下
+#右下
+
+def 空(self,context):
+    layout = self.layout
+    pie = layout.menu_pie()
+
+    p = pie.box()
+    p.label(text = '啥都还没写呢，快去找小萌新填充内容吧')
+    p = pie.box()
+    p.label(text = f'OBJmode_({context.mode})')
+    # p = pie.box()
+    p.label(text = f'area.ui_type({context.area.ui_type})')#context.area.ui_type
+    # p = pie.box()
+    p.label(text = f'活动物体({context.active_object})')
+    # p = pie.box()
+    p.label(text = f'context({context})')
+    # p = pie.box()
+    p.label(text = f'area.type({context.area.type})')
+    # p = pie.box()
+    # p.label(text = f'.mode_({context.mode})')
+    # p = pie.box()
+    # p.label(text = f'.mode_({context.mode})')
+
+    # pie.separator()
+
+    # pie.separator()
+
+    # pie.separator()
+
+    # pie.separator()
+
+    # pie.separator()
+
+    # pie.separator()
+
+    # pie.separator()       
+
+
 
 class PieModes_pie(Menu):
     bl_idname = "EMMMMM_MT_modes_pie"
@@ -62,7 +107,7 @@ class PieModes_pie(Menu):
 
 
     ####M3
-    def M3(self,context,active,pie,toolsettings):
+    def M3(self,context,active,toolsettings):
         layout = self.layout
         pie = layout.menu_pie()
         if context.mode in ['OBJECT', 'EDIT_MESH', 'EDIT_ARMATURE', 'POSE', 'EDIT_CURVE', 'EDIT_TEXT', 'EDIT_SURFACE', 'EDIT_METABALL', 'EDIT_LATTICE', 'EDIT_GPENCIL', 'PAINT_GPENCIL', 'SCULPT_GPENCIL', 'WEIGHT_GPENCIL']:
@@ -503,12 +548,12 @@ class PieModes_pie(Menu):
                 self.M3(context,active,toolsettings)
 
             else:
-                self.空(context)
+                空(self,context)
         
         else:
             self.萌新模式(context,area)
         
-        print(f"ui_tyep({area.ui_type})_context.mode({context.mode})")
+        # print(f"ui_tyep({area.ui_type})_context.mode({context.mode})")
 
     def 萌新模式(self,context,area):        
         layout = self.layout
@@ -516,7 +561,7 @@ class PieModes_pie(Menu):
         ui = area.type
         space = context.space_data
         if ui == 'VIEW_3D': #3D
-            self.空(context)
+            空(self,context)
 
         elif ui == 'NODE_EDITOR':#节点编辑
             self.节点编辑(area,context)
@@ -530,73 +575,92 @@ class PieModes_pie(Menu):
             pie.prop_enum(space, "display_mode",value = 'LIBRARY_OVERRIDES')
             pie.prop_enum(space, "display_mode",value = 'ORPHAN_DATA')
 
+            pie.prop_enum(context.area, "ui_type",value = 'PROPERTIES')
+
         elif ui == 'PROPERTIES':#属性
-            self.空(context)
+            空(self,context)
             # pie.prop(context.area,'ui_type')
 
         elif ui == 'FILE_BROWSER':#文件浏览
-            self.空(context)
+            空(self,context)
 
         else:
-            self.空(context)
+            空(self,context)
 
-    def 节点编辑(self,area,context):
-        ui = area.ui_type
-
-        if ui == 'ShaderNodeTree':#着色器
-            pass
-
-        if ui == 'CompositorNodeTree':
-            pass
-
-        if ui == 'GeometryNodeTree':
-            pass
-
-        if ui == 'TextureNodeTree':
-            pass
-
-        else:
-            self.空(context)
-
-
-
-    def 模式切换(self,context,pie):
-        self.空(context)
-
-    def 空(self,context):
+    def 节点编辑(self,area,context):     
         layout = self.layout
         pie = layout.menu_pie()
 
-        p = pie.box()
-        p.label(text = '啥都还没写呢，快去找小萌新填充内容吧')
-        p = pie.box()
-        p.label(text = f'OBJmode_({context.mode})')
-        p = pie.box()
-        p.label(text = f'area.ui_type({context.area.ui_type})')#context.area.ui_type
-        p = pie.box()
-        p.label(text = f'活动物体({context.active_object})')
-        p = pie.box()
-        p.label(text = f'context({context})')
-        p = pie.box()
-        p.label(text = f'area.type({context.area.type})')
-        # p = pie.box()
-        # p.label(text = f'.mode_({context.mode})')
-        # p = pie.box()
-        # p.label(text = f'.mode_({context.mode})')
 
-        # pie.separator()
+        ui = area.ui_type
+        snode = context.space_data
 
-        # pie.separator()
+        if ui in ('ShaderNodeTree','CompositorNodeTree','GeometryNodeTree','TextureNodeTree'):
+            Shader= (ui == 'ShaderNodeTree')#着色器
+            Compositor=(ui == 'CompositorNodeTree')
+            Geometry= (ui == 'GeometryNodeTree')
+            Texture = (ui == 'TextureNodeTree')
 
-        # pie.separator()
+            scene = context.scene
+            rd = scene.render
 
-        # pie.separator()
+            if Shader:
+                #左
+                pie.prop_enum(snode, "shader_type",value = 'OBJECT')
+                # pie.separator()
+                #右
+                pie.prop_enum(snode, "shader_type",value = 'WORLD')
+                # pie.separator()
+                #底
+                # pie.separator()
+                pie.prop_enum(snode, "shader_type",value = 'LINESTYLE')
+                #顶
+                if rd.has_multiple_engines:
+                    pie.props_enum(rd, "engine")
+                else:
+                    pie.separator()
 
-        # pie.separator()
+            else:
+                #左
+                pie.separator()
+                #右
+                pie.separator()
+                #底
+                pie.separator()
+                #顶
+                pie.separator()
 
-        # pie.separator()
+            #左上
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
 
-        # pie.separator()       
+            row = column.row(align=True)
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'TextureNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'CompositorNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'GeometryNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'ShaderNodeTree')
+
+            #右上
+            pie.separator()
+            #左下
+            pie.separator()
+            #右下
+            pie.separator()
+        else:
+            空(self,context)
+
+    def 模式切换(self,context,pie):
+        空(self,context)
 
 class PieViewport(Menu):
     bl_idname = "EMMMMM_MT_viewport_pie"

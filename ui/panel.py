@@ -70,21 +70,30 @@ class EM_PT_check_Slow(Panel):
     def draw(self, context):
         layout = self.layout
 
-        # sn = bpy.context.scene.name
-        # obj = bpy.data.scenes[sn].objects
+        sn = bpy.context.scene.name
+        obj = bpy.data.scenes[sn].objects
 
-        # acto = bpy.context.active_object
+        acto = bpy.context.active_object
+
         C = context
         S =C.scene
+
         # layout.template_list(
         #     "OBJECT_UL_render_check_slow",      #list type_name
-        #     "",                  #list_id
-        #     S,  # dataptr 获取集合属性的数据  
-        #     'objects',  # propname数据中集合属性的标识符 string
-        #     S.objects,  # active_dataptr 活动项数据中整数属性的标识符，活动项的索引AnyType
-        #     str(C.active_object.name)         # string active_propname            
+        #     "",             #list_id
+        #     S,                  # dataptr 获取集合属性的数据  
+        #     'objects',          # propname数据中集合属性的标识符 string
+        #     C.active_object,    #S.EMM.active_object_index,  # active_dataptr 活动项数据中整数属性的标识符，活动项的索引AnyType
+        #     C.active_object.name       # string active_propname   bpy.context.scene.EMM.active_object_index         
         # )
-        # layout.template_list("OBJECT_UL_render_check_slow",     "",     obj,    "vertex_groups",    obj.vertex_groups,  "active_index")
+
+        obj = bpy.context.active_object
+        # layout.template_list("OBJECT_UL_render_check_slow",     
+        # "",
+        # acto,
+        # "vertex_groups",
+        #  acto.vertex_groups,
+        #  "active_index")
         # layout.template_list("OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
 
