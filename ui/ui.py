@@ -1,7 +1,7 @@
 from ..utils.registration import get_prefs
 import bpy
 from bpy.props import EnumProperty, BoolProperty, StringProperty
-
+from .menu import *
 
 
 
@@ -24,7 +24,6 @@ def append_TOPBAR_MT_editor_menus(self, context):
                      emboss=False, icon='OUTLINER_DATA_FONT')
 
 #文本编辑器底栏
-
 def append_TEXT_HT_header(self, context):
     if get_prefs().scripting_tool:
         preference = get_prefs()
@@ -57,4 +56,14 @@ def append_TEXT_HT_header(self, context):
         # else:
         #     # print('不重载')
         #     pass
-# bpy.types.USERPREF_PT_addons.draw
+    # bpy.types.USERPREF_PT_addons.draw
+
+def 右键上下文菜单(self,context):
+    layout = self.layout
+
+    property_pointer = getattr(context, "button_pointer", None)
+    property_value = getattr(context, "button_prop", None)
+    button_value = getattr(context, "button_operator", None) 
+    layout.operator(
+        右键上下文菜单_cl.bl_idname, text="复制属性",
+        icon='RNA')

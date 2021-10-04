@@ -4,26 +4,11 @@
 #所有的面板类先注册
 classes = {
     'CORE': [
-        # ('ui.template_list', [('OBJECT_UL_render_check_slow', '')]),  #
-        # ('ui.panel', [('EMM_Panel', ''),        ]),  #
-        ('preferences', [
-                                # ('EMMUvProperty', ''),  #将属性都加到Property里面注册
-                                # ('EMMSculptProperty', ''),
-                                # ('EMMObjectProperty', ''),
-                                # ('EMMSceneProperty', ''),
-                                ('AddonPreferences', '')]),  # 插件预设面板
+        ('preferences', [('AddonPreferences', '')]),  # 插件预设面板
         ('utils.modify_keymaps', [('Updaet_Keymaps', '')]),  #
-        # ('ui.presets.cycles_passes_presets', [('CYCLES_PT_Passes_presets', ''), #cy通道预设类
-        #                                         ('AddPresetCycles_Passes', '')]),
-        # ('ui.presets.eevee_passes_presets', [('EEVEE_PT_Passes_presets', ''),  # ev通道预设类
-        #                                         ('AddPresetEEVEE_Passes', '')]),
-        # ('ui.presets.object_display_presets', [('OBJECT_PT_display_presets', ''),  # 物体显示预设类
-        #                                         ('AddPresetObjectDisplay', '')]),
         ('ui.tool.switch_translate', [('switch_translate', '')]),  # 切换翻译     
-        # ('ui.tool.render_resolution_switch', [('render_resolution_switch', '')]),  # 切换分辨率  CYX里面会因为无法导入类而报错   
         ('development.restart_blender', [('Restart_Blender', '')]),  # 重启Bl                                                
         ('development.scripting_tool', [('scripting_tool', '')]),  # 脚本工具                                                   
-
         ],
 
 'MODES_PIE': [('ui.pies', [('PieModes_pie', 'modes_pie')])],
