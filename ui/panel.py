@@ -24,6 +24,51 @@ EMMM
 依次注册
 """
 
+"""bl_space_type
+EMPTY
+VIEW_3D
+IMAGE_EDITOR
+NODE_EDITOR
+SEQUENCE_EDITOR
+CLIP_EDITOR
+DOPESHEET_EDITOR
+GRAPH_EDITOR
+NLA_EDITOR
+TEXT_EDITOR
+CONSOLE
+INFO
+TOPBAR
+STATUSBAR
+OUTLINER
+PROPERTIES
+FILE_BROWSER
+SPREADSHEET
+PREFERENCES"""
+
+"""bl_region_type
+WINDOW
+HEADER
+CHANNELS
+TEMPORARY
+UI
+TOOLS
+TOOL_PROPS
+PREVIEW
+HUD
+NAVIGATION_BAR
+EXECUTE
+FOOTER
+TOOL_HEADER
+"""
+
+"""bl_options
+DEFAULT_CLOSED
+HIDE_HEADER
+INSTANCED
+HEADER_LAYOUT_EXPAND
+DRAW_BOX
+"""
+
 #混合面板
 class EM_VIEW3D_PT_N_Panel(Panel):
     bl_idname = "EMMM_VIEW3D_PT_N_Panel"
@@ -107,6 +152,18 @@ class EM_PT_check_Slow(Panel):
         #  "active_index")
         # layout.template_list("EMM_OBJECT_UL_render_check_slow", "compact", obj,    "material_slots",   obj,                "active_material_index", type='COMPACT')
 
+
+class EM_UV_PT_N_Panel(Panel):
+    bl_idname = "EMMM_UV_PT_N_Panel"
+    bl_label = f"萌新工具箱_{bl_info['version'][0]}.{bl_info['version'][1]}.{bl_info['version'][2]}_{bl_info['version'][3]}"
+    bl_space_type = 'IMAGE_EDITOR'
+    bl_region_type = 'UI'
+    bl_category = "EMM"
+    bl_options = {'HIDE_HEADER'}
+
+    def draw(self, context):
+        layout = self.layout
+        layout.label(text = str(context.object.name))
 
 
 ##############################      3D视图
@@ -536,12 +593,15 @@ class EMM_NODE_PT_渐变(Panel):
 
 
 
+
 ## TODO 绘制调色盘
 # settings = self.paint_settings(context)
 
 # layout.template_ID(settings, "palette", new="palette.new")
 # if settings.palette:
 #     layout.template_palette(settings, "palette", color=True)
+
+
 
 # @classmethod
 def 动画添加项(self,context):    

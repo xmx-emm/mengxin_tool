@@ -16,6 +16,41 @@ decalmachine = None
 #左下
 #右下
 
+        # box = pie.split()
+        # column = box.column()
+        # column.scale_y = 1.5
+        # column.scale_x = 1.5
+
+        # row = column.row(align=True)
+
+        # r = row.row(align=True)
+        # r.active = False if context.mode == 'PAINT_GPENCIL' else True
+        # r.operator("machin3.surface_draw_mode", text="", icon="GREASEPENCIL")
+
+
+#  type
+#  ('EMPTY', , , 'NODE_EDITOR',
+#   'VIEW_3D'
+#  'IMAGE_EDITOR' 
+#  'GRAPH_EDITOR', 'NLA_EDITOR', , 
+#  'TOPBAR', 'STATUSBAR', 
+# 'OUTLINER', 'PROPERTIES', 'PREFERENCES'
+# 'FILE_BROWSER', 'SPREADSHEET', 电子表格)
+# 'SEQUENCE_EDITOR'序列, 'CLIP_EDITOR',剪辑 'DOPESHEET_EDITOR',摄影表
+# 'CONSOLE','INFO''TEXT_EDITOR'
+
+
+# ui_type
+# ('VIEW_3D', 
+# 'IMAGE_EDITOR', 'UV', 
+# 'CompositorNodeTree', 'TextureNodeTree',  'GeometryNodeTree', 'ShaderNodeTree','ScriptingNodesTree',
+# 'SEQUENCE_EDITOR', 'CLIP_EDITOR', 'DOPESHEET','NLA_EDITOR', 'DRIVERS', 
+# 'TIMELINE', 'FCURVES', 
+# 'TEXT_EDITOR', 'CONSOLE', 'INFO', 'SPREADSHEET',
+# 'FILES', 'ASSETS',  )
+# 'OUTLINER', 'PROPERTIES' 'PREFERENCES',
+
+
 def 空(self,context):
     layout = self.layout
     pie = layout.menu_pie()
@@ -524,6 +559,7 @@ class PieModes_pie(Menu):
         r.operator("object.mode_set", text="", icon="EDITMODE_HLT").mode = 'EDIT'
     ####M3
 
+
     def draw(self, context):
         layout = self.layout
         pie = layout.menu_pie()
@@ -566,22 +602,11 @@ class PieModes_pie(Menu):
         elif ui == 'NODE_EDITOR':#节点编辑
             self.节点编辑(area,context)
 
-        elif ui == 'OUTLINER':#大纲
-            pie.prop_enum(space, "display_mode",value = 'SCENES')
-            pie.prop_enum(space, "display_mode",value = 'VIEW_LAYER')
-            pie.prop_enum(space, "display_mode",value = 'SEQUENCE')
-            pie.prop_enum(space, "display_mode",value = 'LIBRARIES')
-            pie.prop_enum(space, "display_mode",value = 'DATA_API')
-            pie.prop_enum(space, "display_mode",value = 'LIBRARY_OVERRIDES')
-            pie.prop_enum(space, "display_mode",value = 'ORPHAN_DATA')
 
-            pie.prop_enum(context.area, "ui_type",value = 'PROPERTIES')
+        elif ui in  ('OUTLINER','PROPERTIES','PREFERENCES'):#属性
+            self.属性(area,context)
 
-        elif ui == 'PROPERTIES':#属性
-            空(self,context)
-            # pie.prop(context.area,'ui_type')
-
-        elif ui == 'FILE_BROWSER':#文件浏览
+        elif ui in  ('FILE_BROWSER','SPREADSHEET'):#文件
             空(self,context)
 
         else:
@@ -594,6 +619,27 @@ class PieModes_pie(Menu):
 
         ui = area.ui_type
         snode = context.space_data
+
+        def NODE_EDITOR():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'TextureNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'CompositorNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'GeometryNodeTree')
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'ShaderNodeTree')
 
         if ui in ('ShaderNodeTree','CompositorNodeTree','GeometryNodeTree','TextureNodeTree'):
             Shader= (ui == 'ShaderNodeTree')#着色器
@@ -631,24 +677,7 @@ class PieModes_pie(Menu):
                 pie.separator()
 
             #左上
-            box = pie.split()
-            column = box.column()
-            column.scale_y = 1.5
-            column.scale_x = 1.5
-
-            row = column.row(align=True)
-
-            r = row.row(align=True)
-            r.prop_enum(area, "ui_type",text="",value = 'TextureNodeTree')
-
-            r = row.row(align=True)
-            r.prop_enum(area, "ui_type",text="",value = 'CompositorNodeTree')
-
-            r = row.row(align=True)
-            r.prop_enum(area, "ui_type",text="",value = 'GeometryNodeTree')
-
-            r = row.row(align=True)
-            r.prop_enum(area, "ui_type",text="",value = 'ShaderNodeTree')
+            NODE_EDITOR()
 
             #右上
             pie.separator()
@@ -656,11 +685,205 @@ class PieModes_pie(Menu):
             pie.separator()
             #右下
             pie.separator()
+
         else:
             空(self,context)
 
+    def 动画(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+
+
+        ui = area.ui_type
+
+        def 动画_():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'TextureNodeTree')
+
+    def 属性(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+
+        space = context.space_data
+
+        ui = area.ui_type
+
+        def 属性_():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+        
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'OUTLINER')
+        
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'PREFERENCES')
+            
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'PROPERTIES')
+        
+
+        def 属性_OUTLINER():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+            r = row.row(align=True)
+            r.prop_enum(space, "display_mode",text='',value = 'SEQUENCE')
+        
+            r = row.row(align=True)
+            r.prop_enum(space, "display_mode",text='',value = 'LIBRARIES')
+        
+            r = row.row(align=True)
+            r.prop_enum(space, "display_mode",text='',value = 'LIBRARY_OVERRIDES')
+        
+
+        if ui in ('OUTLINER','PROPERTIES','PREFERENCES'):
+
+            OUTLINER= (ui == 'OUTLINER')
+            PROPERTIES=(ui == 'PROPERTIES')
+            PREFERENCES= (ui == 'PREFERENCES')
+
+            scene = context.scene
+            rd = scene.render
+
+            if OUTLINER:                
+                #左
+                pie.prop_enum(space, "display_mode",value = 'DATA_API')
+                #右
+                pie.prop_enum(space, "display_mode",value = 'VIEW_LAYER')
+                #底
+                pie.prop_enum(space, "display_mode",value = 'SCENES')
+                #顶
+                pie.prop_enum(space, "display_mode",value = 'ORPHAN_DATA')
+            else:
+                #左
+                pie.separator()
+                #右
+                pie.separator()
+                #底
+                pie.separator()
+                #顶
+                pie.separator()
+
+            #左上
+            属性_()
+
+            if OUTLINER:
+                #右上
+                属性_OUTLINER()
+                #左下
+                pie.separator()
+                #右下
+                pie.separator()
+
+            else:
+                #右上
+                pie.separator()
+                #左下
+                pie.separator()
+                #右下
+                pie.separator()
+
+
+
+        else:
+            空(self,context)
+
+    def 视频(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+
+        space = context.space_data
+
+        ui = area.ui_type
+
+    def 图像(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+
+        space = context.space_data
+
+        ui = area.ui_type
+
+    def 开发(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+            
+        def 开发_():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'SPREADSHEET')
+        
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'TEXT_EDITOR')
+
+        space = context.space_data
+
+        ui = area.ui_type
+
+            # r = row.row(align=True)
+            # r.prop_enum(area, "ui_type",text="",value = 'INFO')
+        
+            # r = row.row(align=True)
+            # r.prop_enum(area, "ui_type",text="",value = 'CONSOLE')
+        
+    def 文件(self,area,context):     
+        layout = self.layout
+        pie = layout.menu_pie()
+            
+        def 文件_():
+            box = pie.split()
+            column = box.column()
+            column.scale_y = 1.5
+            column.scale_x = 1.5
+
+            row = column.row(align=True)
+
+
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'FILE_BROWSER')
+        
+            r = row.row(align=True)
+            r.prop_enum(area, "ui_type",text="",value = 'TEXT_EDITOR')
+
+        space = context.space_data
+
+        ui = area.ui_type
+
+            # r = row.row(align=True)
+            # r.prop_enum(area, "ui_type",text="",value = 'INFO')
+        
+            # r = row.row(align=True)
+            # r.prop_enum(area, "ui_type",text="",value = 'CONSOLE')
+        
     def 模式切换(self,context,pie):
         空(self,context)
+
 
 class PieViewport(Menu):
     bl_idname = "EMMMMM_MT_viewport_pie"

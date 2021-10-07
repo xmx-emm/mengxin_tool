@@ -11,9 +11,20 @@ append_TEXT_HT_header,
 
 from .toolbar import register_注册工具栏,unregister_注销工具栏
 from .tool.render_resolution_switch import render_resolution_switch
+from ..utils.registration import get_prefs
+
+# def 开发功能(self, context):
+#     if get_prefs().开发模式:
+#         if hasattr(bpy.types, "WM_MT_button_context"):
+#             bpy.types.WM_MT_button_context.append(右键上下文菜单)
+#     else:
+#         if 右键上下文菜单 in bpy.types.WM_MT_button_context:
+#             bpy.types.WM_MT_button_context.remove(右键上下文菜单)
+#     # pass
+
 
 def rewrite_ui_更改UI():
-
+    context = bpy.context
 
 
     register_注册工具栏()
@@ -23,7 +34,6 @@ def rewrite_ui_更改UI():
     bpy.types.TEXT_HT_footer.prepend(append_TEXT_HT_header)                     #文本编辑器底栏
     ##添加菜单
     bpy.types.WM_MT_button_context.append(右键上下文菜单)
-
 
     from .presets.eevee_passes_presets import register as eevee_passes_presets
     from .presets.cycles_passes_presets import register as cycles_passes_presets
@@ -37,7 +47,7 @@ def rewrite_ui_更改UI():
 
     ##IF面板是不是一样的，如果不是一样的就改    通过导入Panel_Class
     for name,clas in Panel_Class:
-        if clas not in 排除类列表 and clas.bl_idname:            
+        if clas not in 排除类列表 and clas.bl_idname:
             if getattr(bpy.types, clas.bl_idname, False):
                 if hasattr(clas, 'bl_category') and clas.bl_category and clas.bl_category != 'Tool':
                     from .. utils.registration import get_prefs #包含在这里面就可以每次更新
@@ -55,6 +65,7 @@ def rewrite_ui_更改UI():
 def restore_ui_恢复UI():
     bpy.types.TOPBAR_MT_editor_menus.remove(append_TOPBAR_MT_editor_menus)
     bpy.types.TEXT_HT_footer.remove(append_TEXT_HT_header)
+
     bpy.types.WM_MT_button_context.remove(右键上下文菜单)
 
     unregister_注销工具栏()

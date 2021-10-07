@@ -58,12 +58,14 @@ def append_TEXT_HT_header(self, context):
         #     pass
     # bpy.types.USERPREF_PT_addons.draw
 
-def 右键上下文菜单(self,context):
+
+def 右键上下文菜单(self,context):# TODO 右键上下文菜单
     layout = self.layout
 
     property_pointer = getattr(context, "button_pointer", None)
     property_value = getattr(context, "button_prop", None)
     button_value = getattr(context, "button_operator", None) 
-    layout.operator(
-        右键上下文菜单_cl.bl_idname, text="复制属性",
-        icon='RNA')
+    if get_prefs().开发模式:
+        layout.operator(
+            右键上下文菜单_cl.bl_idname, text="复制属性",
+            icon='RNA')

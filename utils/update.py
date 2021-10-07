@@ -56,7 +56,11 @@ def 游标变换():
 def 模式切换():
     update_sculpt_switch_rotate_method()        # 更新雕刻旋转方式模块
     更新三键模拟()
+    print('模式切换')
+    
 
+def 顶点组():
+    print('顶点组')
     #:添加自动切换，但是不需要了
     # if bpy.context.active_object.mode == 'VERTEX_PAINT':
     #     A = bpy.context.screen.name_full
@@ -93,13 +97,13 @@ def 视图层():
 def 切换翻译():
     print('切换翻译')
 
-顶点组 = 0
+顶点组_count = 0
 def 顶点组活动项():
     if get_prefs().顶点组同步 and  bpy.context.object.mode =='EDIT':
         bpy.ops.mesh.select_all(action='DESELECT')
         bpy.ops.object.vertex_group_select()
-    global 顶点组;顶点组 += 1
-    print(f'顶点组活动项 {顶点组}')
+    global 顶点组_count;顶点组_count += 1
+    print(f'顶点组活动项 {顶点组_count}')
 
 # 渲染前
 @persistent
@@ -127,17 +131,23 @@ def 帧更改后_frame_change_post(self,context):
 #### msgbus
 owner = object()
 def register_msgbus():
+
+    #object
+    bpy.msgbus.subscribe_rna(key=(bpy.types.Object, 'vertex_groups'),owner=owner,args=(),notify=顶点组,)
+    
     bpy.msgbus.subscribe_rna(key=(bpy.types.Object, 'mode'),owner=owner,args=(),notify=模式切换,)
 
     bpy.msgbus.subscribe_rna(key=(bpy.types.Object, 'hide_render'),owner=owner,args=(),notify=渲染检查,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.Object, 'hide_viewport'),owner=owner,args=(),notify=渲染检查,)
+
     bpy.msgbus.subscribe_rna(key=(bpy.types.ObjectBase, 'hide_viewport'),owner=owner,args=(),notify=渲染检查,)
+    bpy.msgbus.subscribe_rna(key=(bpy.types.ObjectBase, 'object'),owner=owner,args=(),notify=物体变更,)
+
 
     bpy.msgbus.subscribe_rna(key=(bpy.types.Collection, 'hide_render'),owner=owner,args=(),notify=渲染检查,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.Collection, 'hide_viewport'),owner=owner,args=(),notify=渲染检查,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.LayerCollection, 'hide_viewport'),owner=owner,args=(),notify=渲染检查,)
 
-    bpy.msgbus.subscribe_rna(key=(bpy.types.ObjectBase, 'object'),owner=owner,args=(),notify=物体变更,)
     bpy.msgbus.subscribe_rna(key=(bpy.types.UnitSettings, 'length_unit'),owner=owner,args=(),notify=单位变更,)
 
 

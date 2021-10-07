@@ -9,6 +9,7 @@ from bpy.props import (StringProperty,
                        )
 
 from . import url
+# from .ui.restore_ui import 开发功能
 
 from .utils.registration import activate, get_addon_name, keymaps, get_path,get_prefs
 from .utils.folder_file import BLT全局翻译
@@ -205,6 +206,13 @@ class AddonPreferences(AP):
     console_toggle: BoolProperty(name="控制台切换", default=False)
     restart_blender: BoolProperty(name="重启Bl", default=True if 开发者 else False)
     development_options: BoolProperty(name="开发选项", default=True)
+    
+    开发模式: BoolProperty(name="开发模式", default=True if 开发者 else False,
+        # update=开发功能,
+        description='''
+        右键添加菜单功能
+        '''
+        )
 
     debug_keymaps: BoolProperty(name="快捷键", default=False)
     debug_modify_keymaps: BoolProperty(name="修改键", default=False)
@@ -517,6 +525,10 @@ class AddonPreferences(AP):
             d = c.split(factor=uit)
             d.prop(self, 'prefs_draw_emm', toggle=True)
             d.label(text="绘制插件界面打开文件功能")
+
+            d = c.split(factor=uit)
+            d.prop(self, '开发模式', toggle=True)
+            d.label(text="开发模式_会加一些开发功能")
 
             if self.debug:
                 b = c.box()
