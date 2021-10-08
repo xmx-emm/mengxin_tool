@@ -132,14 +132,27 @@ class EMM_VERTEX_GROUPS(Operator):
         def 改名():
             for i in context.selected_objects:
                 if i.type == 'MESH':
-                    em = get_infix(i.EMM.临时属性,前缀,后缀)
+                    print(i.EMM.临时属性,i.EMM.临时属性2)
+                    act = i.vertex_groups.active
+                    # em = get_infix(i.EMM.临时属性,前缀,后缀) if i.EMM.临时属性2 != "" else get_infix(i.EMM.临时属性2,前缀,后缀) 
+                    em = get_infix(act.name,前缀,后缀) 
                     i.name = em
                     i.data.name = em
 
+                    # i.EMM.临时属性 = ''
+                    # i.EMM.临时属性2 = ''
+
                     
             
-        def 清理顶点组():
-            pass
+        def 清理顶点组():            
+            for i in context.selected_objects:
+                if i.type == 'MESH':
+                    
+                    for vg in i.vertex_groups:
+                        if match_name(vg.name,前缀,后缀):
+                            i.vertex_groups.remove(vg)
+                            
+
 
         def separate():
             for obj in sel:                
@@ -152,10 +165,19 @@ class EMM_VERTEX_GROUPS(Operator):
                         if match_name(vg.name,前缀,后缀):#如果匹配前后缀
                             name = get_infix(vg.name,前缀,后缀)#获取中缀，就是原物体的名称
                             
-                            obj.EMM.临时属性 = vg.name
-                            # if name ==  obj.name:
-                            #     # print(f'保留一个物体不被分离，就是原本的物体{name}')
-                            #     continue
+                            
+
+                            if name ==  obj.name:
+                                print(f'保留一个物体不被分离，就是原本的物体{name}')
+                                # obj.EMM.临时属性2 = vg.name
+                                # obj.EMM.临时属性 = ''
+                                continue
+
+                            else:
+                                # obj.EMM.临时属性2 = ''
+                                # obj.EMM.临时属性3 = vg.name
+                                # obj.EMM.临时属性 = vg.name
+                                pass
                             
                             if context.mode != 'EDIT_MESH':
                                 bpy.ops.object.mode_set(mode='EDIT',toggle=True)                            
@@ -167,7 +189,7 @@ class EMM_VERTEX_GROUPS(Operator):
                             
                             print(f'vgname{vg.name},obj{obj}')
                             bpy.ops.mesh.separate(type='SELECTED')
-                            # TODO 分离的物体重命名，分离的物体删除顶点组
+                            bpy.context.object.vertex_groups.remove(vg)
 
 
 
@@ -179,13 +201,15 @@ class EMM_VERTEX_GROUPS(Operator):
                 bpy.ops.object.mode_set(mode='EDIT',toggle=True)
                 pass
             else:
-                print('2333')
+                # print('2333')
+                pass
             改名()
+            清理顶点组()
             return {'FINISHED'}
 
         def join():
             for obj in sel:
-                print(obj)
+                # print(obj)
                 # joinobjlist.append(obj)
                 if len(sel) <= 1:                
                     self.report({"ERROR"}, "请选择两个或两个以上物体")

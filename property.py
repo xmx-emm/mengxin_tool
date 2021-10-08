@@ -38,6 +38,9 @@ class EMMObjectProperty(PropertyGroup):
     object_index: IntProperty(name='物体编号(EMM)',)
     is_join_obj:BoolProperty(name='是合并物体',default=False,description='是子工具大师合并后的物体,顶点组不能丢啊')
     临时属性:StringProperty(name='临时属性',default='')
+    临时属性2:StringProperty(name='临时属性2',default='')
+    临时属性3:StringProperty(name='临时属性3',default='')
+
 
 class EMMObjectVertexGroupProperty(PropertyGroup):
     name = '顶点组属性'
@@ -73,8 +76,9 @@ def 注册属性_Property():
 
     bpy.types.Object.EMM = PointerProperty(type=EMMObjectProperty,name='萌新工具箱物体属性')
     
+    bpy.types.VertexGroupElement.emm = StringProperty(name='临时属性3',default='')
     bpy.types.VertexGroup.EMM = PointerProperty(type=EMMObjectVertexGroupProperty,name='顶点组属性')
-    bpy.types.VertexGroups.EMM = PointerProperty(type=EMMObjectVertexGroupProperty,name='顶点组属性')
+    bpy.types.VertexGroups.EMM = PointerProperty(type=bpy.types.VertexGroup.EMM,name='顶点组属性')
 
     bpy.types.Screen.EMM = PointerProperty(type=EMM_屏幕_Property,name='萌新工具箱屏幕属性')
      
