@@ -59,14 +59,14 @@ def 资产_register():
     if pr:
         print('re_assets')
 
-    # if path not in sys.path:
-    #     sys.path.append(path)
+    if path_ not in sys.path:
+        sys.path.append(path_)
 
 
 def 资产_unregister():
 
-    # if path  in sys.path:
-    #     sys.path.remove(path)
+    if path_  in sys.path:
+        sys.path.remove(path_)
     B.preset_paths = PRESET_PATHS
 
     # for i in reg:

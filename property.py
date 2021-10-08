@@ -35,10 +35,13 @@ class EMMSceneProperty(PropertyGroup):#场景属性
 
 class EMMObjectProperty(PropertyGroup):
     name = '物体属性'
-    object_index: IntProperty(
-        name='物体编号(EMM)', 
-        )
+    object_index: IntProperty(name='物体编号(EMM)',)
     is_join_obj:BoolProperty(name='是合并物体',default=False,description='是子工具大师合并后的物体,顶点组不能丢啊')
+    临时属性:StringProperty(name='临时属性',default='')
+
+class EMMObjectVertexGroupProperty(PropertyGroup):
+    name = '顶点组属性'
+    状态:StringProperty(name='顶点组状态',default='emm',description='是子工具大师合并后的物体,顶点组不能丢啊')
 
 class EMM_屏幕_Property(PropertyGroup):
 
@@ -69,6 +72,9 @@ def 注册属性_Property():
     bpy.types.Scene.active_object_index = IntProperty(name='活动物体编号(EMM)', default=0)
 
     bpy.types.Object.EMM = PointerProperty(type=EMMObjectProperty,name='萌新工具箱物体属性')
+    
+    bpy.types.VertexGroup.EMM = PointerProperty(type=EMMObjectVertexGroupProperty,name='顶点组属性')
+    bpy.types.VertexGroups.EMM = PointerProperty(type=EMMObjectVertexGroupProperty,name='顶点组属性')
 
     bpy.types.Screen.EMM = PointerProperty(type=EMM_屏幕_Property,name='萌新工具箱屏幕属性')
      
@@ -91,6 +97,8 @@ def 注销属性_Property():
     del bpy.types.Scene.active_object_index
 
     del bpy.types.Object.EMM
+    del bpy.types.VertexGroups.EMM
+    del bpy.types.VertexGroup.EMM
     del bpy.types.Screen.EMM
 
     # del bpy.EMM.仅过滤用户插件

@@ -352,9 +352,13 @@ class EMM_PT_网格工具(Panel):
         C = layout.column(align=True)
         R = C.row()
 
-        G = R.operator('emm.join_mesh')
-        if act.EMM.is_join_obj:G.mode = '拆分'
-        else:G.mode ='合并'
+        
+        if act.EMM.is_join_obj:
+            G = R.operator('emm.join_mesh',text='拆分')
+            G.mode = '拆分'
+        else:
+            G = R.operator('emm.join_mesh',text='合并')
+            G.mode ='合并'
 
 class EMM_PT_网格_面映射(Panel):
     bl_idname = "EMM_VIEW3D_PT_MESH_FACE_MAP_PANEL"

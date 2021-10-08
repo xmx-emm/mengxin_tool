@@ -69,30 +69,124 @@ def create_mesh_object(self, context, verts, edges, faces, name):
 
 
 class EMM_VERTEX_GROUPS(Operator):
+
     bl_idname = "emm.join_mesh"
     bl_label = "顶点组工具集"
-    bl_options = {'REGISTER', 'UNDO'}
-    bl_description = "顶点组操作集！！！"
+    bl_options = {'UNDO'}#'REGISTER', 
+    bl_description = """
+    合并以及拆分物体的工具，和ZB的子工具大师差不多
+    如果合并的物体有相同的顶点组名称会出现拆分错误的问题
+
+    shift 强制拆分
+    ctrl     强制合并"""
 
     mode: StringProperty(name='模式',default='合并')
+
+    前缀 = 'join_'
+    后缀 = '_萌新工具箱'
 
     @classmethod
     def poll(cls, context):
         sel = context.selected_objects
-        # len(sel) >= 1
         return context.active_object.type =='MESH'
 
+
+    def invoke(self, context, event):
+        if not event.alt and not event.shift and not event.ctrl and not event.oskey:
+            if pr:print('左键')
+            self.execute(context)
+            return {'FINISHED'}
+        if event.ctrl and not event.alt and not event.shift and not event.oskey:
+            if pr:print('ctrl+左键')
+            self.mode = '强制合并'
+            self.execute(context)
+            return {'FINISHED'}
+        if event.shift and not event.alt and not event.ctrl and not event.oskey:
+            if pr:print('shift+左键')
+            self.mode = '强制拆分'
+            self.execute(context)
+            return {'FINISHED'}
+        # if event.alt and not event.shift and not event.ctrl and not event.oskey:
+        #     if pr:print('alt+左键')
+        #     return {'FINISHED'}
+        # if event.alt and event.shift and event.ctrl and not event.oskey:
+        #     if pr:print('ctrl+alt+shift+左键')
+        #     return {'FINISHED'}
+        # elif event.oskey and not event.alt and not event.shift and not event.ctrl:
+        #     if pr:print('os+左键')
+        #     return {'FINISHED'}
+        else:
+            self.report({"INFO"}, self.bl_description)
+            return {'FINISHED'}
+
+
     def execute(self, context):
-        sel = context.selected_objects
-        act = context.active_object.copy()
         mode = self.mode
-        objlist = []
+        前缀 = self.前缀
+        后缀 = self.后缀
+        sel = context.selected_objects.copy()  #所选对像
+        act = context.active_object.copy()
+        joinobjlist = []
 
-        前缀 = 'join_'
-        后缀 = '_萌新工具箱'
 
-        if mode == '合并':
+        def 改名():
+            for i in context.selected_objects:
+                if i.type == 'MESH':
+                    em = get_infix(i.EMM.临时属性,前缀,后缀)
+                    i.name = em
+                    i.data.name = em
+
+                    
+            
+        def 清理顶点组():
+            pass
+
+        def separate():
+            for obj in sel:                
+                context.view_layer.objects.active = obj
+
+                if obj.EMM.is_join_obj:
+                    obj.EMM.is_join_obj = False
+                    for vg in obj.vertex_groups:
+
+                        if match_name(vg.name,前缀,后缀):#如果匹配前后缀
+                            name = get_infix(vg.name,前缀,后缀)#获取中缀，就是原物体的名称
+                            
+                            obj.EMM.临时属性 = vg.name
+                            # if name ==  obj.name:
+                            #     # print(f'保留一个物体不被分离，就是原本的物体{name}')
+                            #     continue
+                            
+                            if context.mode != 'EDIT_MESH':
+                                bpy.ops.object.mode_set(mode='EDIT',toggle=True)                            
+                                self.is_ObjectMode = True
+
+                            bpy.ops.mesh.select_all(action='DESELECT')
+                            obj.vertex_groups.active = vg
+                            bpy.ops.object.vertex_group_select()
+                            
+                            print(f'vgname{vg.name},obj{obj}')
+                            bpy.ops.mesh.separate(type='SELECTED')
+                            # TODO 分离的物体重命名，分离的物体删除顶点组
+
+
+
+                            # name = 创建物体('MESH',name = name)
+                    # print('拆_______')
+
+            # print(joinobjlist)
+            if  hasattr(self, 'is_ObjectMode'):
+                bpy.ops.object.mode_set(mode='EDIT',toggle=True)
+                pass
+            else:
+                print('2333')
+            改名()
+            return {'FINISHED'}
+
+        def join():
             for obj in sel:
+                print(obj)
+                # joinobjlist.append(obj)
                 if len(sel) <= 1:                
                     self.report({"ERROR"}, "请选择两个或两个以上物体")
                     # break
@@ -100,13 +194,18 @@ class EMM_VERTEX_GROUPS(Operator):
 
 
                 
-                if obj.EMM.is_join_obj:
-                    objlist.append(obj.name)
-                    self.report({"INFO"}, "此物体已是合并顶点组")
-
+                if obj.EMM.is_join_obj and mode != '强制合并':
+                    # joinobjlist.append(obj.name)
+                    # self.report({"INFO"}, "此物体已是合并顶点组")
+                    obj.select_set(False)
                     continue
+                # elif  mode != '强制合并':
+                #     pass
 
-                if obj.type !='MESH':continue
+
+                if obj.type != 'MESH':continue
+
+                print(obj.type)
 
 
                 name = generate_name(obj.name_full,前缀,后缀)
@@ -114,45 +213,30 @@ class EMM_VERTEX_GROUPS(Operator):
 
                 vg = obj.vertex_groups
                 
-                if name not in vg:   #如果没有这个顶点组就创建
+                if name not in vg and obj.EMM.is_join_obj ==False:   #如果没有这个顶点组就创建
                     vg.new(name =name)
-                    print(name)
-                
-                #向顶点组添加顶点
-                vgl = []    
-                for edge in obj.data.edges: #vertices
-                    vgl.append(edge.index)
-                vg[name].add(vgl,1,'ADD')#('REPLACE', 'ADD', 'SUBTRACT'
+                    #向顶点组添加顶点
+                    vgl = []
+                    for edge in obj.data.edges: #vertices
+                        vgl.append(edge.index)
+                    vg[name].add(vgl,1,'ADD')#('REPLACE', 'ADD', 'SUBTRACT'
 
-                vgl.clear()
+                    vgl.clear()
 
             bpy.ops.object.join()
 
             context.active_object.EMM.is_join_obj = True    #是合并过的物体
+            # print('合_______')
+        
             return {'FINISHED'}
-        if mode == '拆分':
-            for obj in sel:
-                for vg in obj.vertex_groups:
+    
+        if mode in ('拆分','强制拆分'):separate()
+        else:join()
+        print(mode,'emm')
+        
+        return {'FINISHED'}
 
-                    if match_name(vg.name,前缀,后缀):#如果匹配前后缀
-
-                        name = get_infix(vg.name,前缀,后缀)#获取中缀，就是原物体的名称
-
-                        if name ==  obj.name:
-                            print(f'保留一个物体不被分离，就是原本的物体{name}')
-
-                            continue   #保留一个物体不被分离，就是原本的物体
-
-                        # if name in  bpy.data.meshes:
-                        #     print(f'已有这个物体数据__{name}')
-                        #     continue
-
-                        name = 创建物体('MESH',name = name)
-                        print(name.name)
-
-            print('拆_______')
-            return {'FINISHED'}
-
+pr = True  # print_re_info True or False
 
 if __name__ == "__main__":
     register_class(EMM_VERTEX_GROUPS)

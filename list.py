@@ -10,3 +10,5 @@ from bpy.types import *
 # https://blendermarket.com/products/colorbox
 # https://blendermarket.com/products/hide-only-vertex
 # https://blendermarket.com/products/pivot-transform
+# https://thatimster.gumroad.com/l/auto-sprite
+# https://www.f12studio.fr/bagapie
