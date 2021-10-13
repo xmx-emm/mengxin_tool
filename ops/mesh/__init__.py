@@ -5,6 +5,7 @@ import sys
 from bpy.types import Operator
 from bpy.utils import register_class, unregister_class
 from .VERTEX_GROUPS import EMM_VERTEX_GROUPS
+from .face_map import 面映射工具
 
 
 排除类列表 = (

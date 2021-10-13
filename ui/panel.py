@@ -326,8 +326,10 @@ class EMM_PT_曲线(Panel):
     def draw(self, context):
         layout = self.layout
         C = layout.column(align=True)
-        R = C.row()
-        # R.operator('emm.separate_splines',text='按松散块').mode = '按松散块'
+        R = C
+        R.operator('emm.separate_splines',text='按松散块').mode = '按松散块'
+        # R.operator('emm.separate_splines',text='按样条类型').mode = '按样条类型'
+        # R.operator('emm.separate_splines',text='按材质').mode = '按材质'
         # 插件面板(self, context)
 #网格
 

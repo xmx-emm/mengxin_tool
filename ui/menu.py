@@ -10,18 +10,12 @@ class EMM_MESH_MT_FACE_MAP(Menu):
     
     def draw(self, _context):
         layout = self.layout
-        layout.operator("object.shape_key_add", icon='ADD', text="New Shape from Mix").from_mix = True
         layout.separator()
-        layout.operator("object.shape_key_mirror", icon='ARROW_LEFTRIGHT').use_topology = False
-        layout.operator("object.shape_key_mirror", text="Mirror Shape Key (Topology)").use_topology = True
         layout.separator()
-        layout.operator("object.join_shapes")
-        layout.operator("object.shape_key_transfer")
         layout.separator()
-        layout.operator("object.shape_key_remove", icon='X', text="Delete All Shape Keys").all = True
         layout.separator()
-        layout.operator("object.shape_key_move", icon='TRIA_UP_BAR', text="Move to Top").type = 'TOP'
-        layout.operator("object.shape_key_move", icon='TRIA_DOWN_BAR', text="Move to Bottom").type = 'BOTTOM'
+        layout.operator("emm.mesh_face_map", text="清理面映射").mode = '清理'
+        layout.operator("emm.mesh_face_map", text="Move to Bottom").mode = 'BOTTOM'
 
 
 

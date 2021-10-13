@@ -579,7 +579,7 @@ class PieModes_pie(Menu):
         #m3
 
         
-        if is_m3 and area.type in ('VIEW_3D','IMAGE_EDITOR'):
+        if is_m3 and area.type in ('VIEW_3D','IMAGE_EDITOR') and context.object.type =='MESH':
             if active:
                 self.M3(context,active,toolsettings)
 
@@ -597,7 +597,11 @@ class PieModes_pie(Menu):
         ui = area.type
         space = context.space_data
         if ui == 'VIEW_3D': #3D
-            空(self,context)
+            type = context.object.type
+            if type =='CURVE':
+                self.曲线(context)
+            else:
+                空(self,context)
 
         elif ui == 'NODE_EDITOR':#节点编辑
             self.节点编辑(area,context)
@@ -611,6 +615,40 @@ class PieModes_pie(Menu):
 
         else:
             空(self,context)
+
+
+    def 曲线(self,context):
+        layout = self.layout
+        pie = layout.menu_pie()
+        mode = context.object.mode
+
+        #左
+        pie.separator()
+        #右
+        if mode =='EDIT':
+            # box = pie.box()
+            c = pie.column(align=True)
+            c.operator('curve.spline_type_set',text='Poly').type='POLY'
+            c.operator('curve.spline_type_set',text='Bezier').type='BEZIER'
+            c.operator('curve.spline_type_set',text='NURBS').type='NURBS'
+        else:
+            pie.separator()
+        #底
+        pie.separator()
+        #顶
+        pie.separator()
+    
+        #左上
+        pie.separator()
+    
+        #右上
+        pie.separator()
+        #左下
+        pie.separator()
+        #右下
+        pie.separator()
+        
+        
 
     def 节点编辑(self,area,context):     
         layout = self.layout
@@ -1004,7 +1042,8 @@ class PieSelect_pie(Menu):
 
         if C.area.type == "VIEW_3D" and active:
             # #网格
-            # if Co.type == "MESH":
+            type=Co.type
+            if type == "MESH":
                 #物体模式
                 if Co.mode == "OBJECT":
                     # 左
@@ -1088,8 +1127,6 @@ class PieSelect_pie(Menu):
                     # b.alert = True
                     # b.operator('mesh.select_less', icon='REMOVE', text='')
 
-
-
                 #编辑模式
                 if Co.mode == "EDIT" and Co.type == "MESH":
                     # 左
@@ -1102,17 +1139,19 @@ class PieSelect_pie(Menu):
                     b.scale_x = 0.8
                     b.ui_units_y = 7
                     c = b.row(align=True)
-                    c.operator('mesh.select_linked')
-                    c.operator('mesh.faces_select_linked_flat')
+                    c.operator('mesh.select_linked',text='相连元素')
+                    c.operator('mesh.faces_select_linked_flat',text='平展面')
                     c = b.row(align=True)
                     c.operator('mesh.select_axis')
-                    c.operator('mesh.select_ungrouped')
+                    c.operator('mesh.select_ungrouped','未分组顶点')
                     c = b.row(align=True)
-                    c.operator('mesh.loop_to_region')
-                    c.operator('mesh.region_to_loop')
+                    c.operator('mesh.loop_to_region','内侧')
+                    c.operator('mesh.region_to_loop','轮廓')
                     c = b.row(align=True)
-                    c.operator('mesh.loop_multi_select').ring = False
-                    c.operator('mesh.edges_select_sharp')
+                    c.operator('mesh.loop_multi_select','循环边').ring = False
+                    c.operator('mesh.edges_select_sharp','锐边')                    
+                    c = b.row(align=True)
+                    c.operator('mesh.select_mirror')
 
                     # 底
                     b = pie.column(align=True)
@@ -1163,7 +1202,33 @@ class PieSelect_pie(Menu):
                     b.scale_x = 3
                     b.alert = True
                     b.operator('mesh.select_less', icon='REMOVE',text='')
+            # elif type == 'CURVE':
+            #         scene = context.scene
+            #         rd = scene.render
+                
+                
+            #         #左上
+            #         pie.separator()
 
+            #         if OUTLINER:
+            #             #右上
+            #             属性_OUTLINER()
+            #             #左下
+            #             pie.separator()
+            #             #右下
+            #             pie.separator()
+                
+            #         else:
+            #             #右上
+            #             pie.separator()
+            #             #左下
+            #             pie.separator()
+            #             #右下
+            #             pie.separator()
+                
+                
+            else:
+                空(self,context)
 class PieDelete_pie(Menu):
     bl_idname = "EMMMMM_MT_delete_pie"
     bl_label = "删除饼菜单"

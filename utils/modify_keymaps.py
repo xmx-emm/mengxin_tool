@@ -164,6 +164,32 @@ class Updaet_Keymaps(OPS):
                     else:
                         kmi.value = 'PRESS'
 
+            km = kc.get('Curve')  # get 属性keymap快捷键
+            for kmi in km.keymap_items:
+                if kmi.idname == 'wm.call_menu':
+                    for item in kmi.properties.items():     # 循环 properties的name项
+                        # 切片出来 快捷键 properties的name项.name
+                        name = item[1]
+
+                        # if name == 'VIEW3D_MT_edit_mesh_delete':
+
+                        #     if get_prefs().activate_delete_pie:
+                        #         kmi.value = 'CLICK'
+                        #     else:
+                        #         kmi.value = 'PRESS'
+
+                if kmi.idname == 'curve.select_all':
+                    if get_prefs().activate_select_pie:
+                        kmi.value = 'CLICK'
+                    else:
+                        kmi.value = 'PRESS'
+
+                # if kmi.idname == 'mesh.rip_move':
+                #     if get_prefs().activate_select_pie:
+                #         kmi.value = 'CLICK'
+                #     else:
+                #         kmi.value = 'PRESS'
+
             km = kc.get('Object Mode')  # get 属性keymap快捷键
             for kmi in km.keymap_items:
                 if kmi.idname == 'object.select_all':

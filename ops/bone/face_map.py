@@ -5,7 +5,6 @@ from bpy.utils import register_class, unregister_class
 """
 #TODO通过所选骨骼创建面映射
 #TODO通过顶点组权重大于多少添加顶点进面映射
-#TODO清除为0的面映射
 """
 
 class 骨骼面映射工具啊(Operator):
