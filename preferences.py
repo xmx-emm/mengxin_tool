@@ -8,7 +8,7 @@ from bpy.props import (StringProperty,
                        EnumProperty
                        )
 
-from . import url
+from . import list
 # from .ui.restore_ui import 开发功能
 
 from .utils.registration import activate, get_addon_name, keymaps, get_path,get_prefs
@@ -454,7 +454,7 @@ class AddonPreferences(AP):
         if BLT全局翻译() == False:
             row.operator(
                         "wm.url_open", text="使用BLT完善翻译", icon_value=get_icon('BLT'),
-                    ).url = url.get('BLT')
+                    ).url = list.url.get('BLT')
 
         if getattr(bpy.types, "EMMMMM_MT_modes_pie", False):
             d = b.box()
